@@ -1,0 +1,56 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <j:new className="java.text.DecimalFormat" var="format">
+    <j:arg type="java.lang.String" value="0%" />
+  </j:new>
+  <dp:decorate portlet="${it}" width="8">
+  <tr><td class="pane-header" rowspan="2" style="vertical-align: middle">${%Job}</td><td class="pane-header" colspan="2">${%Success}</td><td class="pane-header" colspan="2">${%Failed}</td><td class="pane-header" colspan="2">${%Skipped}</td><td class="pane-header">${%Total}</td></tr>
+  <tr><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td></tr>
+  <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
+  <j:forEach var="tr" items="${summary.testResults}">
+  	<tr style="border: 1px #bbb solid;">
+  	  <td><dp:jobLink job="${tr.job}"/></td>
+  	  <td>${tr.success}</td>
+  	  <td>${format.format(tr.successPct)}</td>
+  	  <td>${tr.failed}</td>
+  	  <td>${format.format(tr.failedPct)}</td>
+  	  <td>${tr.skipped}</td>
+  	  <td>${format.format(tr.skippedPct)}</td>
+  	  <td>${tr.tests}</td>
+  	</tr>
+  </j:forEach>
+  <tr>
+    <td>${%Total}</td>
+    <td>${summary.success}</td>
+    <td>${format.format(summary.successPct)}</td>
+    <td>${summary.failed}</td>
+    <td>${format.format(summary.failedPct)}</td>
+    <td>${summary.skipped}</td>
+    <td>${format.format(summary.skippedPct)}</td>
+    <td>${summary.tests}</td>
+  </tr>
+  </dp:decorate>
+</j:jelly>
