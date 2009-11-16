@@ -39,7 +39,7 @@ public class UnstableJobsPortlet extends DashboardPortlet {
 		ArrayList<Job> unstableJobs = new ArrayList<Job>();
 		
 		for (Job job : allJobs) {
-			Run run = job.getLastBuild();
+			Run run = job.getLastCompletedBuild();
 			
 			if (run != null && Result.UNSTABLE.isBetterOrEqualTo(run.getResult())) {
 				unstableJobs.add(job);

@@ -2,6 +2,7 @@ package hudson.plugins.view.dashboard;
 
 import hudson.Extension;
 import hudson.Util;
+import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.model.Item;
@@ -48,6 +49,11 @@ public class Dashboard extends View {
     private String includeRegex;
     
     /*
+     * If using regex, prevent disabled jobs from appearing in the list
+     */
+    private boolean excludeDisabledJobs = false;
+    
+    /*
      * Compiled include pattern from the includeRegex string.
      */
     private transient Pattern includePattern;
@@ -71,6 +77,10 @@ public class Dashboard extends View {
     
     public String getIncludeRegex() {
 		return includeRegex;
+	}
+    
+    public boolean isExcludeDisabledJobs() {
+		return excludeDisabledJobs;
 	}
     
     public List<DashboardPortlet> getLeftPortlets() {
@@ -136,9 +146,19 @@ public class Dashboard extends View {
         List<TopLevelItem> items = new ArrayList<TopLevelItem>(names.size());
         for (String n : names) {
             TopLevelItem item = Hudson.getInstance().getItem(n);
-            if(item!=null)
-                items.add(item);
+            if (item != null) {
+            	if (isExcludeDisabledJobs() && item instanceof AbstractProject) {
+            		AbstractProject project = (AbstractProject) item;
+            		
+            		if (!project.isDisabled()) {
+            			items.add(item);
+            		}
+            	} else {
+                    items.add(item);
+            	}
+            }
         }
+        
         return items;
     }
     
@@ -176,9 +196,14 @@ public class Dashboard extends View {
         if (req.getParameter("useincluderegex") != null) {
             includeRegex = Util.nullify(req.getParameter("includeRegex"));
             includePattern = Pattern.compile(includeRegex);
+            
+            String sExcludeDisabledJobs = Util.nullify(req.getParameter("excludeDisabledJobs"));
+            
+            excludeDisabledJobs = sExcludeDisabledJobs != null && "on".equals(sExcludeDisabledJobs);
         } else {
             includeRegex = null;
             includePattern = null;
+        	excludeDisabledJobs = false;
         }
 
         leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());

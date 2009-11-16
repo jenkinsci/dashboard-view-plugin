@@ -48,9 +48,30 @@ THE SOFTWARE.
     	<local:viewTabs/>
     	<j:set var="jobs" value="${it.items}"/>
     	
+    	<j:choose>
+    	  <j:when test="${empty(it.rightPortlets)}">
+    	  	<j:set var="leftWidth" value="100%" />
+    	  </j:when>
+    	  <j:otherwise>
+    	  	<j:set var="leftWidth" value="50%" />
+    	  </j:otherwise>
+    	</j:choose>
+    	
+    	<j:choose>
+    	  <j:when test="${empty(it.leftPortlets)}">
+    	  	<j:set var="rightWidth" value="100%" />
+    	  </j:when>
+    	  <j:otherwise>
+    	  	<j:set var="rightWidth" value="50%" />
+    	  </j:otherwise>
+    	</j:choose>
+    	
     	<!-- Table with 2 cells -->
     	<table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
-		<tbody><tr><td valign="top" width="50%"> <!-- Left column -->
+		<tbody><tr>
+		
+		<j:if test="${!empty(it.leftPortlets)}">
+		<td valign="top" width="${leftWidth}"> <!-- Left column -->
 			    	
 	    	<!-- For each left column portlet, display view -->
 		    <j:forEach var="p" items="${it.leftPortlets}">
@@ -59,8 +80,10 @@ THE SOFTWARE.
 		    </j:forEach>
 		
 		</td> <!-- End left column -->
+		</j:if>
 		
-		<td valign="top" width="50%"> <!-- Right Column -->
+		<j:if test="${!empty(it.rightPortlets)}">
+		<td valign="top" width="${rightWidth}"> <!-- Right Column -->
 	    	<!-- For each right column portlet, display view -->
 		    <j:forEach var="p" items="${it.rightPortlets}">
             <st:include it="${p}" page="portlet.jelly" />
@@ -68,6 +91,7 @@ THE SOFTWARE.
 		    </j:forEach>
 		
 		</td><!-- End right column -->
+		</j:if>
 		
 		</tr></tbody></table> <!-- End 2 cell table -->
     </j:otherwise>

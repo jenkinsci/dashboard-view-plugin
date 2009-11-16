@@ -38,6 +38,8 @@ THE SOFTWARE.
                    checked="${it.includeRegex != null}" help="/help/view-config/includeregex.html">
     <f:entry title="${%Regular expression}">
       <f:textbox name="includeRegex" field="includeRegex" />
+      <f:checkbox name="excludeDisabledJobs" field="excludeDisabledJobs" />
+      ${%Exclude disabled jobs}
     </f:entry>
   </f:optionalBlock>
 
