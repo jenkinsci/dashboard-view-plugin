@@ -63,6 +63,7 @@ public class Dashboard extends View {
      */
     private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
     private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
+    private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
 	
     @DataBoundConstructor
     public Dashboard(String name) {
@@ -82,7 +83,7 @@ public class Dashboard extends View {
     public boolean isExcludeDisabledJobs() {
 		return excludeDisabledJobs;
 	}
-    
+
     public List<DashboardPortlet> getLeftPortlets() {
 		return leftPortlets;
 	}
@@ -90,10 +91,15 @@ public class Dashboard extends View {
     public List<DashboardPortlet> getRightPortlets() {
 		return rightPortlets;
 	}
+
+    public List<DashboardPortlet> getTopPortlets() {
+		return topPortlets;
+	}
     
     public DashboardPortlet getPortlet(String name) {
     	ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(leftPortlets);
     	allPortlets.addAll(rightPortlets);
+        allPortlets.addAll(topPortlets);
     	for (DashboardPortlet portlet : allPortlets) {
     		if (name.equals(portlet.getName())) {
     			return portlet;
@@ -198,16 +204,16 @@ public class Dashboard extends View {
             includePattern = Pattern.compile(includeRegex);
             
             String sExcludeDisabledJobs = Util.nullify(req.getParameter("excludeDisabledJobs"));
-            
             excludeDisabledJobs = sExcludeDisabledJobs != null && "on".equals(sExcludeDisabledJobs);
         } else {
             includeRegex = null;
             includePattern = null;
-        	excludeDisabledJobs = false;
+            excludeDisabledJobs = false;
         }
 
         leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
         rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
+        topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
 	}
 	
 	@Extension

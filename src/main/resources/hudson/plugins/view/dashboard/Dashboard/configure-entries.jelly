@@ -45,6 +45,14 @@ THE SOFTWARE.
 
   <f:section title="${%Dashboard Portlets}">
     <f:block>
+      ${%Top portlets}
+      <f:hetero-list name="topPortlet" hasHeader="true"
+                     descriptors="${it.getDashboardPortletDescriptors()}"
+                     items="${it.topPortlets}"
+                     addCaption="${%Add Dashboard Portlet to top}"/>
+    </f:block>
+    <p/>
+    <f:block>
       ${%Left Column}
       <f:hetero-list name="leftPortlet" hasHeader="true"
                      descriptors="${it.getDashboardPortletDescriptors()}"

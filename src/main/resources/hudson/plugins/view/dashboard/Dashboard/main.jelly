@@ -47,7 +47,7 @@ THE SOFTWARE.
     <j:otherwise>
     	<local:viewTabs/>
     	<j:set var="jobs" value="${it.items}"/>
-    	
+
     	<j:choose>
     	  <j:when test="${empty(it.rightPortlets)}">
     	  	<j:set var="leftWidth" value="100%" />
@@ -65,11 +65,30 @@ THE SOFTWARE.
     	  	<j:set var="rightWidth" value="50%" />
     	  </j:otherwise>
     	</j:choose>
+
+        <!-- Table with 1 cells -->
+    	<table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
+		<tbody><tr>
+
+		<j:if test="${!empty(it.topPortlets)}">
+		<td valign="top" width="100%"> <!-- column -->
+
+	    	<!-- For each left column portlet, display view -->
+		    <j:forEach var="p" items="${it.topPortlets}">
+            <st:include it="${p}" page="portlet.jelly" />
+            <p/>
+		    </j:forEach>
+
+		</td> <!-- End column -->
+		</j:if>
+
+		</tr></tbody></table> <!-- End 1 cell table -->
+                <p/>
     	
     	<!-- Table with 2 cells -->
     	<table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
 		<tbody><tr>
-		
+
 		<j:if test="${!empty(it.leftPortlets)}">
 		<td valign="top" width="${leftWidth}"> <!-- Left column -->
 			    	

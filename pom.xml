@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.332</version>
+    <version>1.347</version>
   </parent>
   <artifactId>dashboard-view</artifactId>
   <packaging>hpi</packaging>
@@ -21,6 +21,13 @@
   		<timezone>-6</timezone>
   	</developer>
   </developers>
+  <contributors>
+    <contributor>
+      <name>Marco Ambu</name>
+      <email>marco.ambu@gmail.com</email>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
   <dependencies>
   	<dependency>
   		<groupId>joda-time</groupId>
