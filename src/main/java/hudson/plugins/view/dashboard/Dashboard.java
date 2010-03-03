@@ -57,6 +57,10 @@ public class Dashboard extends View {
      * Compiled include pattern from the includeRegex string.
      */
     private transient Pattern includePattern;
+   /*
+    * Show standard hudson jobs list at the top of the page
+    */
+    private boolean includeStdJobList = false;
     
     /*
      * The configured summarized reports for this summary view
@@ -84,6 +88,10 @@ public class Dashboard extends View {
 		return excludeDisabledJobs;
 	}
 
+    public boolean isIncludeStdJobList() {
+		return includeStdJobList;
+	}
+    
     public List<DashboardPortlet> getLeftPortlets() {
 		return leftPortlets;
 	}
@@ -210,6 +218,9 @@ public class Dashboard extends View {
             includePattern = null;
             excludeDisabledJobs = false;
         }
+
+        String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
+        includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
 
         leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
         rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());

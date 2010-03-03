@@ -45,6 +45,10 @@ THE SOFTWARE.
 
   <f:section title="${%Dashboard Portlets}">
     <f:block>
+      <f:checkbox name="includeStdJobList" field="includeStdJobList" />
+      ${%Show standard hudson list at the top of the page}
+    </f:block>
+    <f:block>
       ${%Top portlets}
       <f:hetero-list name="topPortlet" hasHeader="true"
                      descriptors="${it.getDashboardPortletDescriptors()}"
