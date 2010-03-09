@@ -115,8 +115,28 @@ THE SOFTWARE.
 		
 		</td><!-- End right column -->
 		</j:if>
-		
+
 		</tr></tbody></table> <!-- End 2 cell table -->
+
+    <!-- Table with 1 cells -->
+    	<table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
+		<tbody><tr>
+
+		<j:if test="${!empty(it.bottomPortlets)}">
+		<td valign="top" width="100%"> <!-- column -->
+
+	    	<!-- For each left column portlet, display view -->
+		    <j:forEach var="p" items="${it.bottomPortlets}">
+            <st:include it="${p}" page="portlet.jelly" />
+            <p/>
+		    </j:forEach>
+
+		</td> <!-- End column -->
+		</j:if>
+
+		</tr></tbody></table> <!-- End 1 cell table -->
+    <p/>
+
     </j:otherwise>
   </j:choose>
 </j:jelly>

@@ -43,82 +43,88 @@ public class Dashboard extends View {
 	 */
 	final SortedSet<String> jobNames = new TreeSet<String>(CaseInsensitiveComparator.INSTANCE);
 
-    /*
-     * Include regex string.
-     */
-    private String includeRegex;
-    
-    /*
-     * If using regex, prevent disabled jobs from appearing in the list
-     */
-    private boolean excludeDisabledJobs = false;
-    
-    /*
-     * Compiled include pattern from the includeRegex string.
-     */
-    private transient Pattern includePattern;
-   /*
-    * Show standard hudson jobs list at the top of the page
-    */
-    private boolean includeStdJobList = false;
-    
-    /*
-     * The configured summarized reports for this summary view
-     */
-    private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
-    private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
-    private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
-	
-    @DataBoundConstructor
-    public Dashboard(String name) {
-        super(name);
-    }
+  /*
+   * Include regex string.
+   */
+  private String includeRegex;
 
-    private Object readResolve() {
-        if(includeRegex!=null)
-            includePattern = Pattern.compile(includeRegex);
-        return this;
-    }
+  /*
+   * If using regex, prevent disabled jobs from appearing in the list
+   */
+  private boolean excludeDisabledJobs = false;
     
-    public String getIncludeRegex() {
+  /*
+   * Compiled include pattern from the includeRegex string.
+   */
+  private transient Pattern includePattern;
+ /*
+  * Show standard hudson jobs list at the top of the page
+  */
+  private boolean includeStdJobList = false;
+
+  /*
+   * The configured summarized reports for this summary view
+   */
+  private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
+  private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
+  private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
+  private List<DashboardPortlet> bottomPortlets = new ArrayList<DashboardPortlet>();
+
+  @DataBoundConstructor
+  public Dashboard(String name) {
+      super(name);
+  }
+
+  private Object readResolve() {
+      if(includeRegex!=null)
+          includePattern = Pattern.compile(includeRegex);
+      return this;
+  }
+
+  public String getIncludeRegex() {
 		return includeRegex;
 	}
     
-    public boolean isExcludeDisabledJobs() {
+  public boolean isExcludeDisabledJobs() {
 		return excludeDisabledJobs;
 	}
 
-    public boolean isIncludeStdJobList() {
+  public boolean isIncludeStdJobList() {
 		return includeStdJobList;
 	}
     
-    public List<DashboardPortlet> getLeftPortlets() {
+  public List<DashboardPortlet> getLeftPortlets() {
 		return leftPortlets;
 	}
     
-    public List<DashboardPortlet> getRightPortlets() {
+  public List<DashboardPortlet> getRightPortlets() {
 		return rightPortlets;
 	}
 
-    public List<DashboardPortlet> getTopPortlets() {
+  public List<DashboardPortlet> getTopPortlets() {
 		return topPortlets;
 	}
-    
-    public DashboardPortlet getPortlet(String name) {
-    	ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(leftPortlets);
-    	allPortlets.addAll(rightPortlets);
-        allPortlets.addAll(topPortlets);
-    	for (DashboardPortlet portlet : allPortlets) {
-    		if (name.equals(portlet.getName())) {
-    			return portlet;
-    		}
-    	}
-    	return null;
+
+  public List<DashboardPortlet> getBottomPortlets() {
+    return bottomPortlets;
+  }
+
+  public DashboardPortlet getPortlet(String name) {
+    ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(leftPortlets);
+    allPortlets.addAll(rightPortlets);
+    allPortlets.addAll(topPortlets);
+    allPortlets.addAll(bottomPortlets);
+    for (DashboardPortlet portlet : allPortlets) {
+      if (name.equals(portlet.getName())) {
+        return portlet;
+      }
     }
-    
-    public List<Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
-    	return DashboardPortlet.all();
-    }
+    return null;
+  }
+
+  public List<Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
+    return DashboardPortlet.all();
+  }
 
 	@Override
 	public synchronized boolean contains(TopLevelItem item) {
@@ -225,6 +231,7 @@ public class Dashboard extends View {
         leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
         rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
         topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
+        bottomPortlets = Descriptor.newInstancesFromHeteroList(req, json, "bottomPortlet", DashboardPortlet.all());
 	}
 	
 	@Extension
