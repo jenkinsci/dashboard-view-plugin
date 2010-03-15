@@ -66,9 +66,9 @@ THE SOFTWARE.
     	  </j:otherwise>
     	</j:choose>
 
-        <j:if test="${it.isIncludeStdJobList()}">
-          <t:projectView jobs="${it.jobs}" jobBaseUrl="" />
-        </j:if>
+      <j:if test="${it.isIncludeStdJobList()}">
+        <t:projectView jobs="${it.jobs}" jobBaseUrl="" showViewTabs="true" />
+      </j:if>
 
         <!-- Table with 1 cells -->
     	<table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
