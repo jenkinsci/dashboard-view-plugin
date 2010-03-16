@@ -47,16 +47,17 @@ public class Dashboard extends View {
    * Include regex string.
    */
   private String includeRegex;
-
-  /*
-   * If using regex, prevent disabled jobs from appearing in the list
-   */
-  private boolean excludeDisabledJobs = false;
     
   /*
    * Compiled include pattern from the includeRegex string.
    */
   private transient Pattern includePattern;
+
+  /*
+   * If using regex, prevent disabled jobs from appearing in the list
+   */
+  private boolean excludeDisabledJobs = false;
+
  /*
   * Show standard hudson jobs list at the top of the page
   */
@@ -144,55 +145,55 @@ public class Dashboard extends View {
         return item;
 	}
 	
-    /**
-     * Returns a read-only view of all {@link Job}s in this view.
-     *
-     * <p>
-     * This method returns a separate copy each time to avoid
-     * concurrent modification issue.
-     */
-    public synchronized List<TopLevelItem> getItems() {
-        SortedSet<String> names = new TreeSet<String>(jobNames);
+  /**
+   * Returns a read-only view of all {@link Job}s in this view.
+   *
+   * <p>
+   * This method returns a separate copy each time to avoid
+   * concurrent modification issue.
+   */
+  public synchronized List<TopLevelItem> getItems() {
+      SortedSet<String> names = new TreeSet<String>(jobNames);
 
-        if (includePattern != null) {
-            for (TopLevelItem item : Hudson.getInstance().getItems()) {
-                String itemName = item.getName();
-                if (includePattern.matcher(itemName).matches()) {
-                    names.add(itemName);
-                }
-            }
-        }
+      if (includePattern != null) {
+          for (TopLevelItem item : Hudson.getInstance().getItems()) {
+              String itemName = item.getName();
+              if (includePattern.matcher(itemName).matches()) {
+                  names.add(itemName);
+              }
+          }
+      }
 
-        List<TopLevelItem> items = new ArrayList<TopLevelItem>(names.size());
-        for (String n : names) {
-            TopLevelItem item = Hudson.getInstance().getItem(n);
-            if (item != null) {
-            	if (isExcludeDisabledJobs() && item instanceof AbstractProject) {
-            		AbstractProject project = (AbstractProject) item;
-            		
-            		if (!project.isDisabled()) {
-            			items.add(item);
-            		}
-            	} else {
-                    items.add(item);
-            	}
+      List<TopLevelItem> items = new ArrayList<TopLevelItem>(names.size());
+      for (String n : names) {
+          TopLevelItem item = Hudson.getInstance().getItem(n);
+          if (item != null) {
+            if (isExcludeDisabledJobs() && item instanceof AbstractProject) {
+              AbstractProject project = (AbstractProject) item;
+
+              if (!project.isDisabled()) {
+                items.add(item);
+              }
+            } else {
+                  items.add(item);
             }
-        }
-        
-        return items;
+          }
+      }
+
+      return items;
+  }
+
+  public synchronized List<Job> getJobs() {
+    List<Job> jobs = new ArrayList<Job>();
+
+    for (TopLevelItem item : getItems()) {
+      if (item instanceof Job) {
+        jobs.add((Job) item);
+      }
     }
-    
-    public synchronized List<Job> getJobs() {
-    	List<Job> jobs = new ArrayList<Job>();
-    	
-    	for (TopLevelItem item : getItems()) {
-    		if (item instanceof Job) {
-    			jobs.add((Job) item);
-    		}
-    	}
-    	
-    	return jobs;
-    }
+
+    return jobs;
+  }
 
 	@Override
 	public synchronized void onJobRenamed(Item item, String oldName, String newName) {

@@ -9,12 +9,6 @@ import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 
-import hudson.views.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
@@ -24,22 +18,9 @@ import org.kohsuke.stapler.DataBoundConstructor;
  */
 public class HudsonStdJobsPortlet extends DashboardPortlet {
 
-  private static final Collection<ListViewColumn> COLUMNS = Arrays.asList(
-                      new StatusColumn(),
-                      new WeatherColumn(),
-                      new JobColumn(),
-                      new LastSuccessColumn(),
-                      new LastFailureColumn(),
-                      new LastDurationColumn(),
-                      new BuildButtonColumn());
-
   @DataBoundConstructor
   public HudsonStdJobsPortlet(String name) {
     super(name);
-  }
-
-  public Collection<ListViewColumn> getColumns() {
-    return COLUMNS;
   }
 
   @Extension
