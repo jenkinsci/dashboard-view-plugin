@@ -37,11 +37,12 @@ THE SOFTWARE.
 				<j:forEach var="build" items="${builds}">
 					<tr>
 						<td style="border: 1px #bbb solid;">
+              <!-- This tag does not generate a job link relative to view for jobs included using regexp -->
+              <!--t:jobLink job="${build.parent}"/-->
               <dp:jobLink job="${build.parent}"/>
-              <!--a href="${jobBaseUrl}/${build.parent.shortUrl}">${build.parent.displayName}</a-->
             </td>
             <td>
-              <!-- This tag does not generate a build link relative to view -->
+              <!-- This tag does not generate a build link relative to view for jobs included using regexp -->
               <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
               <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}">
                 <img src="${imagesURL}/16x16/${build.buildStatusUrl}"

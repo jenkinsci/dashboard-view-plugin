@@ -156,7 +156,7 @@ public class Dashboard extends View {
     List<TopLevelItem> items = new ArrayList<TopLevelItem>();
     List<TopLevelItem> allItems = Hudson.getInstance().getItems();
     for (TopLevelItem item : allItems) {
-      if (item != null) {
+      if (item != null && item instanceof Job) {
         if (HasItem(item)) {
           items.add(item);
         }
@@ -167,6 +167,9 @@ public class Dashboard extends View {
   }
 
   public synchronized boolean HasItem(TopLevelItem item) {
+    if (!(item instanceof Job)) {
+      return false;
+    }
     boolean res = false;
     if (includePattern != null) {
       if (includePattern.matcher(item.getName()).matches()) {
@@ -175,7 +178,7 @@ public class Dashboard extends View {
     }
     res |= contains(item);
 
-    if (isExcludeDisabledJobs() && item instanceof AbstractProject) {
+    if (res && isExcludeDisabledJobs() && item instanceof AbstractProject) {
       AbstractProject project = (AbstractProject) item;
       res &= !project.isDisabled();
     }
