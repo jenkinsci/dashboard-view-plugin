@@ -219,14 +219,13 @@ public class Dashboard extends View {
         if (req.getParameter("useincluderegex") != null) {
             includeRegex = Util.nullify(req.getParameter("includeRegex"));
             includePattern = Pattern.compile(includeRegex);
-            
-            String sExcludeDisabledJobs = Util.nullify(req.getParameter("excludeDisabledJobs"));
-            excludeDisabledJobs = sExcludeDisabledJobs != null && "on".equals(sExcludeDisabledJobs);
         } else {
             includeRegex = null;
             includePattern = null;
-            excludeDisabledJobs = false;
+//            excludeDisabledJobs = false;
         }
+        String sExcludeDisabledJobs = Util.nullify(req.getParameter("excludeDisabledJobs"));
+        excludeDisabledJobs = sExcludeDisabledJobs != null && "on".equals(sExcludeDisabledJobs);
 
         String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
         includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);

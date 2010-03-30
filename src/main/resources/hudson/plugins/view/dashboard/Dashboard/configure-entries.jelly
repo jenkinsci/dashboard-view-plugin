@@ -33,13 +33,14 @@ THE SOFTWARE.
       <br/>
     </j:forEach>
   </f:entry>
+  <f:block>
+    <f:checkbox name="excludeDisabledJobs" field="excludeDisabledJobs" />${%Exclude disabled jobs}
+  </f:block>
 
   <f:optionalBlock name="useincluderegex" title="${%Use a regular expression to include jobs into the view}"
                    checked="${it.includeRegex != null}" help="/help/view-config/includeregex.html">
     <f:entry title="${%Regular expression}">
       <f:textbox name="includeRegex" field="includeRegex" />
-      <f:checkbox name="excludeDisabledJobs" field="excludeDisabledJobs" />
-      ${%Exclude disabled jobs}
     </f:entry>
   </f:optionalBlock>
 
