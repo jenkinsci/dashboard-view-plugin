@@ -31,13 +31,26 @@ THE SOFTWARE.
 				style="margin-top: 0px;">
 				<tr style="border-top: 0px;">
 					<th tooltip="${%Build name}" align="left">${%Build name}</th>
+          <th tooltip="${%Build name}" align="left">${%Build status}</th>
 					<th tooltip="${%Build time}" align="left">${%Build time}</th>
 				</tr>
 				<j:forEach var="build" items="${builds}">
 					<tr>
-						<td style="border: 1px #bbb solid;"><dp:jobLink job="${build.parent}"/> / <a href="${rootURL}/job/${build.parent.displayName}/${build.number}">${build.displayName}</a></td>
+						<td style="border: 1px #bbb solid;">
+              <t:jobLink job="${build.parent}"/>
+              <!--a href="${jobBaseUrl}/${build.parent.shortUrl}">${build.parent.displayName}</a-->
+            </td>
+            <td>
+              <!-- This tag does not generate a build link relative to view -->
+              <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
+              <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}">
+                <img src="${imagesURL}/16x16/${build.buildStatusUrl}"
+                  alt="${build.iconColor.description}"/>${build.displayName}
+              </a>
+            </td>
 						<td>${build.timestampString2}</td>
 					</tr>
 				</j:forEach>
 			</table>
+      <!--t:buildListTable builds="${builds}" jobBaseUrl="" /-->
 </j:jelly>
