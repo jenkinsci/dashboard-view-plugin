@@ -54,7 +54,7 @@ public class UnstableJobsPortlet extends DashboardPortlet {
 	}
 	
 	@Extension
-    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+  public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
 
 		@Override
 		public String getDisplayName() {

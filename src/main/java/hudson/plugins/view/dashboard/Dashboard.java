@@ -73,13 +73,13 @@ public class Dashboard extends View {
 
   @DataBoundConstructor
   public Dashboard(String name) {
-      super(name);
+    super(name);
   }
 
   private Object readResolve() {
-      if(includeRegex!=null)
-          includePattern = Pattern.compile(includeRegex);
-      return this;
+    if(includeRegex != null)
+      includePattern = Pattern.compile(includeRegex);
+    return this;
   }
 
   public String getIncludeRegex() {
@@ -111,9 +111,9 @@ public class Dashboard extends View {
   }
 
   public DashboardPortlet getPortlet(String name) {
-    ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(leftPortlets);
+    ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(topPortlets);
+    allPortlets.addAll(leftPortlets);
     allPortlets.addAll(rightPortlets);
-    allPortlets.addAll(topPortlets);
     allPortlets.addAll(bottomPortlets);
     for (DashboardPortlet portlet : allPortlets) {
       if (name.equals(portlet.getName())) {
@@ -129,20 +129,20 @@ public class Dashboard extends View {
 
 	@Override
 	public synchronized boolean contains(TopLevelItem item) {
-		return jobNames.contains(item.getName());
+    return jobNames.contains(item.getName());
 	}
 
 	@Override
 	public Item doCreateItem(StaplerRequest req, StaplerResponse rsp)
 			throws IOException, ServletException {
 		Item item = Hudson.getInstance().doCreateItem(req, rsp);
-        if (item != null) {
-        	synchronized (this) {
-        		jobNames.add(item.getName());
-        	}
-            owner.save();
-        }
-        return item;
+    if (item != null) {
+      synchronized (this) {
+        jobNames.add(item.getName());
+      }
+      owner.save();
+    }
+    return item;
 	}
 	
   /**
@@ -153,34 +153,33 @@ public class Dashboard extends View {
    * concurrent modification issue.
    */
   public synchronized List<TopLevelItem> getItems() {
-      SortedSet<String> names = new TreeSet<String>(jobNames);
-
-      if (includePattern != null) {
-          for (TopLevelItem item : Hudson.getInstance().getItems()) {
-              String itemName = item.getName();
-              if (includePattern.matcher(itemName).matches()) {
-                  names.add(itemName);
-              }
-          }
+    List<TopLevelItem> items = new ArrayList<TopLevelItem>();
+    List<TopLevelItem> allItems = Hudson.getInstance().getItems();
+    for (TopLevelItem item : allItems) {
+      if (item != null) {
+        if (HasItem(item)) {
+          items.add(item);
+        }
       }
+    }
 
-      List<TopLevelItem> items = new ArrayList<TopLevelItem>(names.size());
-      for (String n : names) {
-          TopLevelItem item = Hudson.getInstance().getItem(n);
-          if (item != null) {
-            if (isExcludeDisabledJobs() && item instanceof AbstractProject) {
-              AbstractProject project = (AbstractProject) item;
+    return items;
+  }
 
-              if (!project.isDisabled()) {
-                items.add(item);
-              }
-            } else {
-                  items.add(item);
-            }
-          }
+  public synchronized boolean HasItem(TopLevelItem item) {
+    boolean res = false;
+    if (includePattern != null) {
+      if (includePattern.matcher(item.getName()).matches()) {
+        res = true;
       }
+    }
+    res |= contains(item);
 
-      return items;
+    if (isExcludeDisabledJobs() && item instanceof AbstractProject) {
+      AbstractProject project = (AbstractProject) item;
+      res &= !project.isDisabled();
+    }
+    return res;
   }
 
   public synchronized List<Job> getJobs() {
@@ -236,7 +235,7 @@ public class Dashboard extends View {
 	}
 	
 	@Extension
-    public static final class DescriptorImpl extends ViewDescriptor {
+  public static final class DescriptorImpl extends ViewDescriptor {
 
         @Override
         public String getDisplayName() {

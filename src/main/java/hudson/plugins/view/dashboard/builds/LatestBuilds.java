@@ -36,9 +36,11 @@ public class LatestBuilds extends DashboardPortlet{
 		List<Run> allBuilds = new ArrayList<Run>();
 		for (TopLevelItem job : jobs) {
 			if (job instanceof Job) {
-				List<Run> builds = ((Job) job).getBuilds();
-				allBuilds.addAll(builds);
-			}
+        if (getDashboard().HasItem(job)) {
+          List<Run> builds = ((Job) job).getBuilds();
+          allBuilds.addAll(builds);
+        }
+      }
 		}
 		Collections.sort(allBuilds, Run.ORDER_BY_DATE);
 		List<Run> recentBuilds = new ArrayList<Run>();

@@ -39,9 +39,9 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
 		return getName();
 	}
 	
-    public String getUrl() {
-        return "portlet/"+getName()+'/';
-    }
+  public String getUrl() {
+      return "portlet/"+getName()+'/';
+  }
 	
 	/**
 	 * Support accessing jobs available via view through portlets
@@ -50,12 +50,12 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
 		return getDashboard().getJob(name);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public Descriptor<DashboardPortlet> getDescriptor() {
-        return (Descriptor<DashboardPortlet>) Hudson.getInstance().getDescriptor(getClass());
-    }
+  /**
+   * {@inheritDoc}
+   */
+  public Descriptor<DashboardPortlet> getDescriptor() {
+      return (Descriptor<DashboardPortlet>) Hudson.getInstance().getDescriptor(getClass());
+  }
 
 	/**
 	 * Returns all the registered {@link ParameterDefinition} descriptors.
