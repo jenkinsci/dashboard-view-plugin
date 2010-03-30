@@ -37,7 +37,7 @@ THE SOFTWARE.
 				<j:forEach var="build" items="${builds}">
 					<tr>
 						<td style="border: 1px #bbb solid;">
-              <t:jobLink job="${build.parent}"/>
+              <dp:jobLink job="${build.parent}"/>
               <!--a href="${jobBaseUrl}/${build.parent.shortUrl}">${build.parent.displayName}</a-->
             </td>
             <td>
