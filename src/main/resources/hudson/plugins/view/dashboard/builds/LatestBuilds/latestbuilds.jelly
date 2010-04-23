@@ -31,7 +31,7 @@ THE SOFTWARE.
 				style="margin-top: 0px;">
 				<tr style="border-top: 0px;">
 					<th tooltip="${%Build name}" align="left">${%Build name}</th>
-          <th tooltip="${%Build name}" align="left">${%Build status}</th>
+          <th tooltip="${%Build status}" align="left">${%Build status}</th>
 					<th tooltip="${%Build time}" align="left">${%Build time}</th>
 				</tr>
 				<j:forEach var="build" items="${builds}">
@@ -46,7 +46,8 @@ THE SOFTWARE.
               <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
               <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}">
                 <img src="${imagesURL}/16x16/${build.buildStatusUrl}"
-                  alt="${build.iconColor.description}"/>${build.displayName}
+                  alt="${build.iconColor.description}"
+                  title="${build.iconColor.description}" />${build.displayName}
               </a>
             </td>
 						<td>${build.timestampString2}</td>
