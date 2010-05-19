@@ -12,6 +12,8 @@ import hudson.model.TopLevelItem;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
+import java.util.Comparator;
+
 /**
  * Report that can summarize project data across multiple projects and display
  * the resulting data.
@@ -19,11 +21,19 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Peter Hayes
  */
 public abstract class DashboardPortlet implements ModelObject, Describable<DashboardPortlet>, ExtensionPoint {
+  private static int counter = 0;
+	private String id;
 	private String name;
 
 	public DashboardPortlet(String name) {
-		this.name = name;
+    counter++;
+		this.id = "dashboard_portlet_" + counter;
+    this.name = name;
 	}
+
+  public String getId() {
+    return id;
+  }
 
 	public String getName() {
 		return name;
@@ -40,7 +50,7 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
 	}
 	
   public String getUrl() {
-      return "portlet/"+getName()+'/';
+      return "portlet/"+getId()+'/';
   }
 	
 	/**
@@ -63,4 +73,12 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
 	public static DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> all() {
 		return Hudson.getInstance().getDescriptorList(DashboardPortlet.class);
 	}
+
+  public static Comparator getComparator() {
+    return new Comparator<Dashboard>() {
+      public int compare(Dashboard p1, Dashboard p2) {
+        return p1.getDescription().compareTo(p2.getDescription());
+      }
+    };
+  }
 }

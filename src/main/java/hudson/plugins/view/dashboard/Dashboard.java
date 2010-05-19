@@ -1,5 +1,6 @@
 package hudson.plugins.view.dashboard;
 
+import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.AbstractProject;
@@ -15,12 +16,9 @@ import hudson.util.CaseInsensitiveComparator;
 import hudson.util.FormValidation;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.*;
 
 import javax.servlet.ServletException;
 
@@ -116,15 +114,22 @@ public class Dashboard extends View {
     allPortlets.addAll(rightPortlets);
     allPortlets.addAll(bottomPortlets);
     for (DashboardPortlet portlet : allPortlets) {
-      if (name.equals(portlet.getName())) {
+      if (name.equals(portlet.getId())) {
         return portlet;
       }
     }
     return null;
   }
 
-  public List<Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
-    return DashboardPortlet.all();
+  public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
+    DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
+//    Collections.sort(list);
+//    Collections.sort(list, new Comparator<Descriptor<DashboardPortlet>>() {
+//      public int compare(Descriptor<DashboardPortlet> p1, Descriptor<DashboardPortlet> p2) {
+//        return p1.getDisplayName().compareTo(p2.getDisplayName());
+//      }
+//    });
+    return list;
   }
 
 	@Override
@@ -230,9 +235,9 @@ public class Dashboard extends View {
         String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
         includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
 
+        topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
         leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
         rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
-        topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
         bottomPortlets = Descriptor.newInstancesFromHeteroList(req, json, "bottomPortlet", DashboardPortlet.all());
 	}
 	
