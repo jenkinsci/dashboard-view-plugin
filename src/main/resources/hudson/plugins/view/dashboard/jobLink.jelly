@@ -32,11 +32,11 @@ THE SOFTWARE.
 
   <!--t:buildHealth job="${job}" td="false" style="${indenter.getRelativeShift(job)}" iconSize="16x16"
       link="${jobBaseUrl}${job.shortUrl}lastBuild" /-->
+  <img src="${imagesURL}/16x16/${job.buildStatusUrl}"
+    alt="${job.iconColor.description}"
+    title="${job.iconColor.description}"/>
   <img src="${rootURL}/images/16x16/${job.buildHealth.iconUrl}"
     alt="${job.buildHealth.description}"
     title="${job.buildHealth.description}" />
   <a href="${job.shortUrl}">${job.displayName}</a>
-  <img src="${imagesURL}/16x16/${job.buildStatusUrl}"
-    alt="${job.iconColor.description}"
-    title="${job.iconColor.description}"/>
 </j:jelly>
