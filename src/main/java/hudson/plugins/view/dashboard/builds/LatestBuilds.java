@@ -17,15 +17,21 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class LatestBuilds extends DashboardPortlet{
 
-	@DataBoundConstructor
-	public LatestBuilds(String name) {
-		super(name);
-	}
-	
-	/**
+  /**
 	 * Number of latest builds which will be displayed on the screen
-	 */
-	private static final int N_LATEST_BUILDS = 10;
+	 */  
+  private int numBuilds = 10;
+
+	@DataBoundConstructor
+	public LatestBuilds(String name, int numBuilds) {
+		super(name);
+    this.numBuilds = numBuilds;
+	}
+
+  public int getNumBuilds() {
+    return numBuilds <= 0 ? 10 : numBuilds;
+  }
+
 	
 	/**
 	 * Last <code>N_LATEST_BUILDS</code> builds
@@ -44,10 +50,10 @@ public class LatestBuilds extends DashboardPortlet{
 		}
 		Collections.sort(allBuilds, Run.ORDER_BY_DATE);
 		List<Run> recentBuilds = new ArrayList<Run>();
-		if(allBuilds.size() < N_LATEST_BUILDS)
+		if(allBuilds.size() < getNumBuilds())
 			recentBuilds = allBuilds;
 		else
-			recentBuilds = allBuilds.subList(0,N_LATEST_BUILDS);
+			recentBuilds = allBuilds.subList(0,getNumBuilds());
 			
 		return recentBuilds;
 	}		
@@ -57,8 +63,9 @@ public class LatestBuilds extends DashboardPortlet{
 
 		@Override
 		public String getDisplayName() {
-			return "Last " + N_LATEST_BUILDS + " builds";
+			return "Last builds";
 		}
+
 	}
 	
 }
