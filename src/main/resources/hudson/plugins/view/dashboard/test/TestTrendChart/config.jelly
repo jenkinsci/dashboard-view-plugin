@@ -22,12 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <dp:decorate portlet="${it}">
-    <tr><td>
-      <div align="center">
-        <img id="graph" src="${it.url}summaryGraph/png?width=${it.graphWidth}&amp;height=${it.graphHeight}" lazymap="${it.url}summaryGraph/map" alt="[Test Summary graph]"/>
-       </div>
-     </td></tr>
-  </dp:decorate>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:entry title="${%Display name}">
+    <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
+  </f:entry>
+  <f:entry title="${%Graph width}">
+    <f:textbox name="portlet.graphWidth" field="graphWidth" default="300" />
+  </f:entry>
+  <f:entry title="${%Graph height}">
+    <f:textbox name="portlet.graphHeight" field="graphHeight" default="220" />
+  </f:entry>
 </j:jelly>

@@ -31,11 +31,24 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class TestTrendChart extends DashboardPortlet {
 
+  private int graphWidth = 300;
+  private int graphHeight = 220;
+
 	@DataBoundConstructor
-	public TestTrendChart(String name) {
+	public TestTrendChart(String name, int graphWidth, int graphHeight) {
 		super(name);
+    this.graphWidth = graphWidth;
+    this.graphHeight = graphHeight;
 	}
-	
+
+  public int getGraphWidth() {
+    return graphWidth <= 0 ? 300 : graphWidth;
+  }
+
+  public int getGraphHeight() {
+    return graphHeight <= 0 ? 220 : graphHeight;
+  }
+
 	/**
 	 * Graph of duration of tests over time.
 	 */
@@ -84,7 +97,7 @@ public class TestTrendChart extends DashboardPortlet {
 			}
 		}
 		
-		return new Graph(-1, 300, 220) {
+		return new Graph(-1, getGraphWidth(), getGraphHeight()) {
 
 			@Override
 			protected JFreeChart createGraph() {
