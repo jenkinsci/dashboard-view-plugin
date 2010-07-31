@@ -44,7 +44,7 @@ THE SOFTWARE.
             <td>
               <!-- This tag does not generate a build link relative to view for jobs included using regexp -->
               <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
-              <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}">
+              <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}" tooltip="${build.description}">
                 <img src="${imagesURL}/16x16/${build.buildStatusUrl}"
                   alt="${build.iconColor.description}"
                   title="${build.iconColor.description}" />${build.displayName}
