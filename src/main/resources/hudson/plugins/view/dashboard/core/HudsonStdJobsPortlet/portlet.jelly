@@ -24,11 +24,14 @@ THE SOFTWARE.
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <dp:decorate portlet="${it}" width="1">
-  <j:set var="iconSize" value="16x16" />
-    <tr><td>
-      <div align="center">
+    <!-- Cannot set iconSize for this projectView (it is read from a cookie and it
+         is the same for all projectViews -->
+  <!--j:set var="iconSize" value="16x16" />
+  <j:set var="subIconSize" value="16x16" /-->
+    <tr>
+      <td>
         <t:projectView jobs="${jobs}" jobBaseUrl="" />
-      </div>
-    </td></tr>
+      </td>
+    </tr>
   </dp:decorate>
 </j:jelly>
