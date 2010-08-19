@@ -63,7 +63,7 @@ public class LatestBuilds extends DashboardPortlet{
 
 		@Override
 		public String getDisplayName() {
-			return "Last builds";
+			return "Latest builds";
 		}
 
 	}
