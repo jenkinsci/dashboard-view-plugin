@@ -3,21 +3,17 @@ package hudson.plugins.view.dashboard;
 import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.Util;
-import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
-import hudson.model.Item;
 import hudson.model.Job;
 import hudson.model.TopLevelItem;
-import hudson.model.View;
 import hudson.model.ViewDescriptor;
 import hudson.model.Descriptor.FormException;
-import hudson.util.CaseInsensitiveComparator;
-import hudson.util.FormValidation;
+import hudson.model.ListView;
 
-import java.io.IOException;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.*;
 
 import javax.servlet.ServletException;
@@ -25,9 +21,7 @@ import javax.servlet.ServletException;
 import net.sf.json.JSONObject;
 
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * View that can be customized with portlets to show the selected jobs information
@@ -35,35 +29,12 @@ import org.kohsuke.stapler.StaplerResponse;
  * 
  * @author Peter Hayes
  */
-public class Dashboard extends View {
-	/*
-	 * List of job names to be included in this view
-	 */
-	final SortedSet<String> jobNames = new TreeSet<String>(CaseInsensitiveComparator.INSTANCE);
-
-  /*
-   * Include regex string.
-   */
-  private String includeRegex;
-    
-  /*
-   * Compiled include pattern from the includeRegex string.
-   */
-  private transient Pattern includePattern;
-
-  /*
-   * If using regex, prevent disabled jobs from appearing in the list
-   */
-  private boolean excludeDisabledJobs = false;
-
+public class Dashboard extends ListView {
  /*
   * Show standard hudson jobs list at the top of the page
   */
   private boolean includeStdJobList = false;
 
-  /*
-   * The configured summarized reports for this summary view
-   */
   private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
   private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
   private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
@@ -73,20 +44,6 @@ public class Dashboard extends View {
   public Dashboard(String name) {
     super(name);
   }
-
-  private Object readResolve() {
-    if(includeRegex != null)
-      includePattern = Pattern.compile(includeRegex);
-    return this;
-  }
-
-  public String getIncludeRegex() {
-		return includeRegex;
-	}
-    
-  public boolean isExcludeDisabledJobs() {
-		return excludeDisabledJobs;
-	}
 
   public boolean isIncludeStdJobList() {
 		return includeStdJobList;
@@ -123,7 +80,7 @@ public class Dashboard extends View {
 
   public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
     DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
-//    Collections.sort(list);
+    //Collections.sort(list);
 //    Collections.sort(list, new Comparator<Descriptor<DashboardPortlet>>() {
 //      public int compare(Descriptor<DashboardPortlet> p1, Descriptor<DashboardPortlet> p2) {
 //        return p1.getDisplayName().compareTo(p2.getDisplayName());
@@ -132,64 +89,16 @@ public class Dashboard extends View {
     return list;
   }
 
-	@Override
-	public synchronized boolean contains(TopLevelItem item) {
-    return jobNames.contains(item.getName());
-	}
-
-	@Override
-	public Item doCreateItem(StaplerRequest req, StaplerResponse rsp)
-			throws IOException, ServletException {
-		Item item = Hudson.getInstance().doCreateItem(req, rsp);
-    if (item != null) {
-      synchronized (this) {
-        jobNames.add(item.getName());
-      }
-      owner.save();
-    }
-    return item;
-	}
-	
-  /**
-   * Returns a read-only view of all {@link Job}s in this view.
-   *
-   * <p>
-   * This method returns a separate copy each time to avoid
-   * concurrent modification issue.
-   */
-  public synchronized List<TopLevelItem> getItems() {
-    List<TopLevelItem> items = new ArrayList<TopLevelItem>();
-    List<TopLevelItem> allItems = Hudson.getInstance().getItems();
-    for (TopLevelItem item : allItems) {
-      if (item != null && item instanceof Job) {
-        if (HasItem(item)) {
-          items.add(item);
-        }
-      }
-    }
-
-    return items;
-  }
-
+  /* Use contains */
+  //@Deprecated
   public synchronized boolean HasItem(TopLevelItem item) {
-    if (!(item instanceof Job)) {
-      return false;
-    }
-    boolean res = false;
-    if (includePattern != null) {
-      if (includePattern.matcher(item.getName()).matches()) {
-        res = true;
-      }
-    }
-    res |= contains(item);
-
-    if (res && isExcludeDisabledJobs() && item instanceof AbstractProject) {
-      AbstractProject project = (AbstractProject) item;
-      res &= !project.isDisabled();
-    }
-    return res;
+    List<TopLevelItem> items = getItems();
+    return items.contains(item);
+//    return this.contains(item);
   }
 
+  /* Use getItems */
+  //@Deprecated
   public synchronized List<Job> getJobs() {
     List<Job> jobs = new ArrayList<Job>();
 
@@ -203,34 +112,16 @@ public class Dashboard extends View {
   }
 
 	@Override
-	public synchronized void onJobRenamed(Item item, String oldName, String newName) {
-		if (jobNames.remove(oldName) && newName != null) {
-			jobNames.add(newName);
-		}
-	}
-
-	@Override
-	protected synchronized void submit(StaplerRequest req) throws IOException,
+	protected synchronized void submit(StaplerRequest req) throws //IOException,
 			ServletException, FormException {
-        req.setCharacterEncoding("UTF-8");
-        JSONObject json = req.getSubmittedForm();
-        
-        jobNames.clear();
-        for (TopLevelItem item : Hudson.getInstance().getItems()) {
-            if(req.getParameter(item.getName())!=null)
-                jobNames.add(item.getName());
-        }
+        super.submit(req);
 
-        if (req.getParameter("useincluderegex") != null) {
-            includeRegex = Util.nullify(req.getParameter("includeRegex"));
-            includePattern = Pattern.compile(includeRegex);
-        } else {
-            includeRegex = null;
-            includePattern = null;
-//            excludeDisabledJobs = false;
+        try {
+          req.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+          Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String sExcludeDisabledJobs = Util.nullify(req.getParameter("excludeDisabledJobs"));
-        excludeDisabledJobs = sExcludeDisabledJobs != null && "on".equals(sExcludeDisabledJobs);
+        JSONObject json = req.getSubmittedForm();
 
         String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
         includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
@@ -240,6 +131,13 @@ public class Dashboard extends View {
         rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
         bottomPortlets = Descriptor.newInstancesFromHeteroList(req, json, "bottomPortlet", DashboardPortlet.all());
 	}
+
+  @Override
+  public void rename(String newName) throws FormException {
+    super.rename(newName);
+    // Bug 6689 <http://issues.hudson-ci.org/browse/HUDSON-6689>
+    // TODO: if this view is the default view configured in Hudson, the we must keep it after renaming
+  }
 	
 	@Extension
   public static final class DescriptorImpl extends ViewDescriptor {
@@ -249,19 +147,5 @@ public class Dashboard extends View {
             return "Dashboard";
         }
 
-        /**
-         * Checks if the include regular expression is valid.
-         */
-        public FormValidation doCheckIncludeRegex( @QueryParameter String value ) throws IOException, ServletException, InterruptedException  {
-            String v = Util.fixEmpty(value);
-            if (v != null) {
-                try {
-                    Pattern.compile(v);
-                } catch (PatternSyntaxException pse) {
-                    return FormValidation.error(pse.getMessage());
-                }
-            }
-            return FormValidation.ok();
-        }
     }
 }
