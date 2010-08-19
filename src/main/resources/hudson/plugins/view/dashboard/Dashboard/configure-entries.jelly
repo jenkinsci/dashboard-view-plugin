@@ -49,32 +49,33 @@ THE SOFTWARE.
       <f:checkbox name="includeStdJobList" field="includeStdJobList" />
       ${%Show standard hudson list at the top of the page}
     </f:block>
+  </f:section>
+  <f:section title="${%Portlets at the top of the page}">
     <f:block>
-      ${%Top portlets}
       <f:hetero-list name="topPortlet" hasHeader="true"
                      descriptors="${it.getDashboardPortletDescriptors()}"
                      items="${it.topPortlets}"
                      addCaption="${%Add Dashboard Portlet to the top of the view}"/>
     </f:block>
-    <p/>
+  </f:section>
+  <f:section title="${%Portlets in the left column}">
     <f:block>
-      ${%Left Column}
       <f:hetero-list name="leftPortlet" hasHeader="true"
                      descriptors="${it.getDashboardPortletDescriptors()}"
                      items="${it.leftPortlets}"
                      addCaption="${%Add Dashboard Portlet to left column}"/>
     </f:block>
-    <p/>
+  </f:section>
+  <f:section title="${%Portlets in the right column}">
     <f:block>
-      ${%Right Column}
       <f:hetero-list name="rightPortlet" hasHeader="true"
                      descriptors="${it.getDashboardPortletDescriptors()}"
                      items="${it.rightPortlets}"
                      addCaption="${%Add Dashboard Portlet to right column}"/>
     </f:block>
-    <p/>
+  </f:section>
+  <f:section title="${%Portlets at the bottom of the page}">
     <f:block>
-      ${%Bottom portlets}
       <f:hetero-list name="bottomPortlet" hasHeader="true"
                      descriptors="${it.getDashboardPortletDescriptors()}"
                      items="${it.bottomPortlets}"
