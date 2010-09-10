@@ -11,7 +11,7 @@ import hudson.model.Descriptor.FormException;
 import hudson.model.ListView;
 
 import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
+//import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
@@ -30,10 +30,22 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Peter Hayes
  */
 public class Dashboard extends ListView {
- /*
-  * Show standard hudson jobs list at the top of the page
-  */
+  /*
+   * Use custom CSS style provided by the user
+   */
+  private boolean useCssStyle = false;
+  /*
+   * Show standard hudson jobs list at the top of the page
+   */
   private boolean includeStdJobList = false;
+  /*
+   * The width of the left portlets
+   */
+  private String leftPortletWidth = "50%";
+  /*
+   * The width of the right portlets
+   */
+  private String rightPortletWidth = "50%";
 
   private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
   private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
@@ -43,6 +55,10 @@ public class Dashboard extends ListView {
   @DataBoundConstructor
   public Dashboard(String name) {
     super(name);
+  }
+
+  public boolean isUseCssStyle() {
+    return useCssStyle;
   }
 
   public boolean isIncludeStdJobList() {
@@ -63,6 +79,14 @@ public class Dashboard extends ListView {
 
   public List<DashboardPortlet> getBottomPortlets() {
     return bottomPortlets;
+  }
+
+  public String getLeftPortletWidth() {
+    return leftPortletWidth;
+  }
+
+  public String getRightPortletWidth() {
+    return rightPortletWidth;
   }
 
   public DashboardPortlet getPortlet(String name) {
@@ -125,6 +149,22 @@ public class Dashboard extends ListView {
 
         String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
         includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
+
+        String sUseCssStyle = Util.nullify(req.getParameter("useCssStyle"));
+        useCssStyle = sUseCssStyle != null && "on".equals(sUseCssStyle);
+
+        if (useCssStyle) {
+          if (req.getParameter("leftPortletWidth") != null) {
+            leftPortletWidth = req.getParameter("leftPortletWidth");
+          }
+
+          if (req.getParameter("rightPortletWidth") != null) {
+            rightPortletWidth = req.getParameter("rightPortletWidth");
+          }
+        }
+        else {
+          leftPortletWidth = rightPortletWidth = "50%";
+        }
 
         topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
         leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());

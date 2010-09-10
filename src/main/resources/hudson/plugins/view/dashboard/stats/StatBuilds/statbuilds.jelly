@@ -33,8 +33,7 @@ THE SOFTWARE.
 					<th tooltip="${%Status of the build}" align="left">${%Status
 					of the build}</th>
 					<th tooltip="${%Description}" align="left">${%Description}</th>
-					<th tooltip="${%Number of builds with status}" align="left">${%Number
-					of builds with status}</th>
+					<th tooltip="${%Number of builds with status}" align="left">${%Number of builds with status}</th>
 				</tr>
 				<j:forEach var="col" items="${statsBuild}">
 					<tr>

@@ -53,16 +53,16 @@ THE SOFTWARE.
     	  	<j:set var="leftWidth" value="100%" />
     	  </j:when>
     	  <j:otherwise>
-    	  	<j:set var="leftWidth" value="50%" />
+    	  	<j:set var="leftWidth" value="${it.leftPortletWidth}" />
     	  </j:otherwise>
     	</j:choose>
-    	
+
     	<j:choose>
     	  <j:when test="${empty(it.leftPortlets)}">
     	  	<j:set var="rightWidth" value="100%" />
     	  </j:when>
     	  <j:otherwise>
-    	  	<j:set var="rightWidth" value="50%" />
+    	  	<j:set var="rightWidth" value="${it.rightPortletWidth}" />
     	  </j:otherwise>
     	</j:choose>
 

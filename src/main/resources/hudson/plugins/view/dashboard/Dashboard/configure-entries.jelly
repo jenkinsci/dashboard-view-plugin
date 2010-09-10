@@ -72,14 +72,23 @@ THE SOFTWARE.
     </f:block>
   </f:section>
 
-
-
   <f:section title="${%Dashboard Portlets}">
     <f:block>
       <f:checkbox name="includeStdJobList" field="includeStdJobList" />
       ${%Show standard hudson list at the top of the page}
     </f:block>
+    <f:optionalBlock name="useCssStyle" title="${%Set CSS custom parameters}"
+                   checked="${it.useCssStyle}">
+      <f:entry title="${%Left portlet width}" help="/plugin/dashboard-view/help/help-configPortletWidth.html">
+        <f:textbox name="leftPortletWidth" field="leftPortletWidth" />
+      </f:entry>
+
+      <f:entry title="${%Right portlet width}" help="/plugin/dashboard-view/help/help-configPortletWidth.html">
+        <f:textbox name="rightPortletWidth" field="rightPortletWidth" />
+      </f:entry>
+    </f:optionalBlock>
   </f:section>
+
   <f:section title="${%Portlets at the top of the page}">
     <f:block>
       <f:hetero-list name="topPortlet" hasHeader="true"
