@@ -9,7 +9,7 @@
   <artifactId>dashboard-view</artifactId>
   <packaging>hpi</packaging>
   <name>Dashboard View</name>
-  <version>1.8-SNAPSHOT</version>
+  <version>1.8</version>
   <description>Hudson view that shows various cuts of build information via configured portlets.</description>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Dashboard+View</url>
   <developers>
@@ -34,4 +34,10 @@
   		<version>1.6</version>
   	</dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/dashboard-view-1.8</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/dashboard-view-1.8</developerConnection>
+    <url>https://hudson.dev.java.net/source/browse/hudson/tags/dashboard-view-1.8</url>
+  </scm>
 </project>
