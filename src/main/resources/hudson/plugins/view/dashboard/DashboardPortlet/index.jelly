@@ -26,7 +26,7 @@ THE SOFTWARE.
   <j:set var="items" value="${it.dashboard.items}"/>
   <j:set var="jobs" value="${it.dashboard.items}"/>
   <l:layout title="${it.dashboard.displayName} - ${it.displayName}">
-    <st:include page="sidepanel.jelly" />
+    <!--st:include page="sidepanel.jelly" /-->
     <l:main-panel>
       <st:include page="main.jelly" optional="true" />
     </l:main-panel>
