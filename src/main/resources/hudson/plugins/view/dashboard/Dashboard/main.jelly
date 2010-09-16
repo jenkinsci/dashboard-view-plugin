@@ -67,7 +67,7 @@ THE SOFTWARE.
     	</j:choose>
 
       <j:if test="${it.isIncludeStdJobList()}">
-        <t:projectView jobs="${it.jobs}" jobBaseUrl="" showViewTabs="true" />
+        <t:projectView jobs="${it.jobs}" jobBaseUrl="" showViewTabs="true" columnExtensions="${it.columns}"/>
       </j:if>
 
         <!-- Table with 1 cell -->

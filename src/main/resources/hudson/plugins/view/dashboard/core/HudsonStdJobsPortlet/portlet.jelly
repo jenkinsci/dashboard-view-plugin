@@ -30,7 +30,7 @@ THE SOFTWARE.
   <j:set var="subIconSize" value="16x16" /-->
     <tr>
       <td>
-        <t:projectView jobs="${jobs}" jobBaseUrl="" />
+        <t:projectView jobs="${jobs}" jobBaseUrl="" columnExtensions="${it.getDashboard().columns}"/>
       </td>
     </tr>
   </dp:decorate>
