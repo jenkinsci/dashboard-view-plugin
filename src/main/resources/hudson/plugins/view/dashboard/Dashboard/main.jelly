@@ -137,6 +137,8 @@ THE SOFTWARE.
 		</tr></tbody></table> <!-- End 1 cell table -->
     <p/>
 
+    <script type="text/javascript" src="${rootURL}/plugin/dashboard-view/js/dashboard-view.js"></script>
+
     </j:otherwise>
   </j:choose>
 </j:jelly>
