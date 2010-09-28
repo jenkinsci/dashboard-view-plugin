@@ -5,9 +5,11 @@ import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.model.Run;
 import hudson.plugins.view.dashboard.DashboardPortlet;
+import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -29,6 +31,9 @@ public class LatestBuilds extends DashboardPortlet{
     return numBuilds <= 0 ? 10 : numBuilds;
   }
 
+  public String getTimestampString(Run run) {
+    return DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM).format(new Date(run.getTimeInMillis()));
+  }
 	
 	/**
 	 * Last <code>N_LATEST_BUILDS</code> builds
@@ -36,15 +41,10 @@ public class LatestBuilds extends DashboardPortlet{
 	 */
 	public List<Run> getFinishedBuilds() {
     List<Job> jobs = getDashboard().getJobs();
-//		Collection<TopLevelItem> jobs = Hudson.getInstance().getItems();
 		List<Run> allBuilds = new ArrayList<Run>();
 		for (Job job : jobs) {
-//			if (job instanceof Job) {
-//        if (getDashboard().HasItem((TopLevelItem)job)) {
-          List<Run> builds = job.getBuilds();
-          allBuilds.addAll(builds);
-//        }
-//      }
+      List<Run> builds = job.getBuilds();
+      allBuilds.addAll(builds);
 		}
 		Collections.sort(allBuilds, Run.ORDER_BY_DATE);
 		List<Run> recentBuilds = new ArrayList<Run>();
@@ -54,7 +54,7 @@ public class LatestBuilds extends DashboardPortlet{
 			recentBuilds = allBuilds.subList(0,getNumBuilds());
 			
 		return recentBuilds;
-	}		
+	}
 
 	@Extension
     public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
