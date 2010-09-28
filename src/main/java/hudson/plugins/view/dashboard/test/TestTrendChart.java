@@ -52,49 +52,52 @@ public class TestTrendChart extends DashboardPortlet {
 	/**
 	 * Graph of duration of tests over time.
 	 */
-	public Graph getSummaryGraph() {		
-		// find the first test execution
-		DateTime first = new DateTime();
-		
-		for (Job job : getDashboard().getJobs()) {
-			Run firstRun = job.getFirstBuild();
-			
-			if (firstRun != null) {
-				DateTime date = new DateTime(firstRun.getTimestamp());
-				
-				if (date.isBefore(first)) {
-					first = date;
-				}
-			}
-		}
+	public Graph getSummaryGraph() {
+    // TODO: ask user to provide first as a lower bound
+		// find the first build execution
+//		DateTime first = new DateTime();
+//
+//		for (Job job : getDashboard().getJobs()) {
+//			Run firstRun = job.getFirstBuild();
+//
+//			if (firstRun != null) {
+//				DateTime date = new DateTime(firstRun.getTimestamp());
+//
+//				if (date.isBefore(first)) {
+//					first = date;
+//				}
+//			}
+//		}
 		
 		// hold onto summaries
 		final Map<LocalDate, TestResultSummary> summaries = new HashMap<LocalDate, TestResultSummary>();
-		LocalDate firstDay = new LocalDate(first);
+//		LocalDate firstDay = new LocalDate(first);
 		LocalDate today = new LocalDate();
 		
-		// for each job, for each day, add to summary
+		// for each job, for each day, add last build of the day to summary
 		for (Job job : getDashboard().getJobs()) {
 			Run run = job.getFirstBuild();
-			LocalDate lastRunDay = firstDay;
-			
-			while (run != null) {
-				Run nextRun = run.getNextBuild();
-				
-				if (nextRun != null) {
-					LocalDate runDay = new LocalDate(run.getTimestamp());
-					// if next run is the next day, use this test to summarize
-					if (new LocalDate(nextRun.getTimestamp()).isAfter(runDay)) {
-						summarize(summaries, run, lastRunDay, runDay);
-						lastRunDay = runDay.plusDays(1);
-					}
-				} else {
-					// use this run's test result from last run to today
-					summarize(summaries, run, lastRunDay, today);
-				}
-				
-				run = nextRun;
-			}
+      if (run != null) { // execute only if job has builds
+        LocalDate lastRunDay = new LocalDate(run.getTimestamp());
+
+        while (run != null) {
+          Run nextRun = run.getNextBuild();
+
+          if (nextRun != null) {
+            LocalDate runDay = new LocalDate(run.getTimestamp());
+            // if next run is the next day, use this test to summarize
+            if (new LocalDate(nextRun.getTimestamp()).isAfter(runDay)) {
+              summarize(summaries, run, lastRunDay, runDay);
+              lastRunDay = runDay.plusDays(1);
+            }
+          } else {
+            // use this run's test result from last run to today
+            summarize(summaries, run, lastRunDay, today);
+          }
+
+          run = nextRun;
+        }
+      }
 		}
 		
 		return new Graph(-1, getGraphWidth(), getGraphHeight()) {
@@ -164,14 +167,15 @@ public class TestTrendChart extends DashboardPortlet {
 		
 		// for every day between first day and last day inclusive
 		for (LocalDate curr = firstDay; curr.compareTo(lastDay) <= 0; curr = curr.plusDays(1)) {
-			TestResultSummary trs = summaries.get(curr);
-			
-			if (trs == null) {
-				trs = new TestResultSummary();
-				summaries.put(curr, trs);
-			}
-			
-			trs.addTestResult(testResult);
+      if (testResult.getTests() != 0) {
+        TestResultSummary trs = summaries.get(curr);
+        if (trs == null) {
+          trs = new TestResultSummary();
+          summaries.put(curr, trs);
+        }
+
+        trs.addTestResult(testResult);
+      }
 		}
 	}
 
