@@ -32,4 +32,9 @@ THE SOFTWARE.
   <f:entry title="${%Graph height}">
     <f:textbox name="portlet.graphHeight" field="graphHeight" default="220" />
   </f:entry>
+  <!--<f:optionalBlock name="dynamic" title="Specify a date range">-->
+    <f:entry title="Number of (latest) days to display">
+      <f:textbox name="dateRange" field="dateRange" value="${it.dateRange}"/>
+    </f:entry>
+  <!--</f:optionalBlock>-->
 </j:jelly>

@@ -12,8 +12,9 @@ import hudson.util.ShiftedCategoryAxis;
 import hudson.util.StackedAreaRenderer2;
 
 import java.awt.Color;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -25,7 +26,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.StackedAreaRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.ui.RectangleInsets;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -33,13 +33,19 @@ public class TestTrendChart extends DashboardPortlet {
 
   private int graphWidth = 300;
   private int graphHeight = 220;
+  private int dateRange = 365;
 
 	@DataBoundConstructor
-	public TestTrendChart(String name, int graphWidth, int graphHeight) {
+	public TestTrendChart(String name, int graphWidth, int graphHeight, int dateRange) {
 		super(name);
     this.graphWidth = graphWidth;
     this.graphHeight = graphHeight;
+    this.dateRange = dateRange;
 	}
+
+  public int getDateRange() {
+    return dateRange;
+  }
 
   public int getGraphWidth() {
     return graphWidth <= 0 ? 300 : graphWidth;
@@ -53,47 +59,51 @@ public class TestTrendChart extends DashboardPortlet {
 	 * Graph of duration of tests over time.
 	 */
 	public Graph getSummaryGraph() {
-    // TODO: ask user to provide first as a lower bound
-		// find the first build execution
-//		DateTime first = new DateTime();
-//
-//		for (Job job : getDashboard().getJobs()) {
-//			Run firstRun = job.getFirstBuild();
-//
-//			if (firstRun != null) {
-//				DateTime date = new DateTime(firstRun.getTimestamp());
-//
-//				if (date.isBefore(first)) {
-//					first = date;
-//				}
-//			}
-//		}
-		
-		// hold onto summaries
-		final Map<LocalDate, TestResultSummary> summaries = new HashMap<LocalDate, TestResultSummary>();
-//		LocalDate firstDay = new LocalDate(first);
+    // The standard equals doesn't work because two LocalDate objects can
+    // be differente even if the date is the same (different internal timestamp)
+    Comparator<LocalDate> localDateComparator = new Comparator<LocalDate>() {
+        @Override public int compare(LocalDate d1, LocalDate d2) {
+            if(d1.isEqual(d2))
+              return 0;
+            if(d1.isAfter(d2))
+              return 1;
+            return -1;
+        }
+    };
+
+		// We need a custom comparator for LocalDate objects
+		final Map<LocalDate, TestResultSummary> summaries = //new HashMap<LocalDate, TestResultSummary>();
+            new TreeMap<LocalDate, TestResultSummary>(localDateComparator);
 		LocalDate today = new LocalDate();
+ 		LocalDate firstDay = new LocalDate().minusDays(dateRange);
 		
 		// for each job, for each day, add last build of the day to summary
 		for (Job job : getDashboard().getJobs()) {
 			Run run = job.getFirstBuild();
+
+//      job.getBuildsByTimestamp(dateRange, dateRange);
       if (run != null) { // execute only if job has builds
         LocalDate lastRunDay = new LocalDate(run.getTimestamp());
+        if (dateRange > 0 && firstDay.isAfter(lastRunDay)) {
+          lastRunDay = new LocalDate().minusDays(dateRange);
+        }
 
         while (run != null) {
           Run nextRun = run.getNextBuild();
+          LocalDate runDay = new LocalDate(run.getTimestamp());
 
-          if (nextRun != null) {
-            LocalDate runDay = new LocalDate(run.getTimestamp());
-            // if next run is the next day, use this test to summarize
-            if (new LocalDate(nextRun.getTimestamp()).isAfter(runDay)) {
-              summarize(summaries, run, lastRunDay, runDay);
-              lastRunDay = runDay.plusDays(1);
+            if (nextRun != null) {
+              if (runDay.isAfter(firstDay)) { // skip run before firstDay
+                // if next run is the next day, use this test to summarize
+                if (new LocalDate(nextRun.getTimestamp()).isAfter(runDay)) {
+                  summarize(summaries, run, lastRunDay, runDay);
+                  lastRunDay = runDay.plusDays(1);
+                }
+              }
+            } else {
+              // use this run's test result from last run to today
+              summarize(summaries, run, lastRunDay, today);
             }
-          } else {
-            // use this run's test result from last run to today
-            summarize(summaries, run, lastRunDay, today);
-          }
 
           run = nextRun;
         }
