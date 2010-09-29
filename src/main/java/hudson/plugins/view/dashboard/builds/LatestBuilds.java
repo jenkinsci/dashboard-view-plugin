@@ -32,7 +32,7 @@ public class LatestBuilds extends DashboardPortlet{
   }
 
   public String getTimestampString(Run run) {
-    return DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM).format(new Date(run.getTimeInMillis()));
+    return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date(run.getTimeInMillis()));
   }
 	
 	/**
