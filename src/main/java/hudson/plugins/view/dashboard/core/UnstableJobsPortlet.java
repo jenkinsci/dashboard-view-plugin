@@ -17,6 +17,8 @@ import java.util.Collection;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 /**
  * Portlet display a list of unstable (or worse) jobs in a simple
  * tabular format.
@@ -58,7 +60,7 @@ public class UnstableJobsPortlet extends DashboardPortlet {
 
 		@Override
 		public String getDisplayName() {
-			return "Unstable Jobs";
+			return Messages.Dashboard_UnstableJobs();
 		}
 	}
 }

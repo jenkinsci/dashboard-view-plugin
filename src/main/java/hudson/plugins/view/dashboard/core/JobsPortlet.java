@@ -6,6 +6,8 @@ import hudson.plugins.view.dashboard.DashboardPortlet;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 /**
  * Portlet displays a grid of job names with status and links to jobs.
  * 
@@ -23,7 +25,7 @@ public class JobsPortlet extends DashboardPortlet {
 
 		@Override
 		public String getDisplayName() {
-			return "Jobs Grid";
+			return Messages.Dashboard_JobsGrid();
 		}
 	}
 }

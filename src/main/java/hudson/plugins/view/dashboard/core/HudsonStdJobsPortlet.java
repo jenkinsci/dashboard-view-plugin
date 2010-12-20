@@ -11,6 +11,8 @@ import hudson.plugins.view.dashboard.DashboardPortlet;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 /**
  * Portlet displays standard hudson job list
  *
@@ -28,7 +30,7 @@ public class HudsonStdJobsPortlet extends DashboardPortlet {
 
     @Override
     public String getDisplayName() {
-            return "Hudson jobs list";
+            return Messages.Dashboard_HudsonJobsList();
     }
   }
 }

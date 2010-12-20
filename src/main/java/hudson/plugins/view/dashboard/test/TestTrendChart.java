@@ -29,6 +29,8 @@ import org.jfree.ui.RectangleInsets;
 import org.joda.time.LocalDate;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 public class TestTrendChart extends DashboardPortlet {
 
   private int graphWidth = 300;
@@ -116,8 +118,8 @@ public class TestTrendChart extends DashboardPortlet {
 			protected JFreeChart createGraph() {
 				final JFreeChart chart = ChartFactory.createStackedAreaChart(
 		            null,                   // chart title
-		            "date",                   // unused
-		            "count",                  // range axis label
+		            Messages.Dashboard_Date(),                   // unused
+		            Messages.Dashboard_Count(),                  // range axis label
 		            buildDataSet(summaries), // data
 		            PlotOrientation.VERTICAL, // orientation
 		            false,                     // include legend
@@ -164,9 +166,9 @@ public class TestTrendChart extends DashboardPortlet {
         DataSetBuilder<String,LocalDate> dsb = new DataSetBuilder<String,LocalDate>();
 
         for (Map.Entry<LocalDate, TestResultSummary> entry : summaries.entrySet()) {
-            dsb.add( entry.getValue().getFailed(), "failed", entry.getKey());
-            dsb.add( entry.getValue().getSkipped(), "skipped", entry.getKey());
-            dsb.add( entry.getValue().getSuccess(), "total", entry.getKey());
+            dsb.add( entry.getValue().getFailed(), Messages.Dashboard_Failed(), entry.getKey());
+            dsb.add( entry.getValue().getSkipped(), Messages.Dashboard_Skipped(), entry.getKey());
+            dsb.add( entry.getValue().getSuccess(), Messages.Dashboard_Total(), entry.getKey());
         }
         return dsb.build();
     }
@@ -194,7 +196,7 @@ public class TestTrendChart extends DashboardPortlet {
 
 		@Override
 		public String getDisplayName() {
-			return "Test Trend Chart";
+			return Messages.Dashboard_TestTrendChart();
 		}
 	}
 }

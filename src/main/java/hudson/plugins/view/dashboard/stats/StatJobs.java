@@ -15,6 +15,8 @@ import java.util.TreeMap;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 /**
  * Job statistics - number of jobs with given health status
  * 
@@ -32,12 +34,12 @@ public class StatJobs extends DashboardPortlet{
 	 */
 	public enum HealthStatus{
 		
-		HEALTH_OVER_80("health-80plus.gif","No recent builds failed"),
-	    HEALTH_60_TO_79("health-60to79.gif","20-40% of recent builds failed"),
-	    HEALTH_40_TO_59("health-40to59.gif","40-60% of recent builds failed"),
-	    HEALTH_20_TO_39("health-20to39.gif","60-80% of recent builds failed"),
-	    HEALTH_0_TO_19("health-00to19.gif","All recent builds failed"),
-	    HEALTH_UNKNOWN("empty.gif","Unknown status");
+		HEALTH_OVER_80("health-80plus.gif",Messages.Dashboard_NoRecentBuildsFailed()),
+	    HEALTH_60_TO_79("health-60to79.gif",Messages.Dashboard_RecentBuildsFailed("20","40")),
+	    HEALTH_40_TO_59("health-40to59.gif",Messages.Dashboard_RecentBuildsFailed("40","60")),
+	    HEALTH_20_TO_39("health-20to39.gif",Messages.Dashboard_RecentBuildsFailed("60","80")),
+	    HEALTH_0_TO_19("health-00to19.gif",Messages.Dashboard_AllRecentBuildsFailed()),
+	    HEALTH_UNKNOWN("empty.gif",Messages.Dashboard_UnknownStatus());
 		
 		private HealthReport healthReport;
 		private String iconUrl;
@@ -112,7 +114,7 @@ public class StatJobs extends DashboardPortlet{
 
 		@Override
 		public String getDisplayName() {
-			return "Job statistics";
+			return Messages.Dashboard_JobStatistics();
 		}
 	}
 	

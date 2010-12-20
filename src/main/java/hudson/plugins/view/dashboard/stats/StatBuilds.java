@@ -17,6 +17,7 @@ import java.util.TreeMap;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
 
 /**
  * Build statistics - number of builds with given build status
@@ -66,7 +67,7 @@ public class StatBuilds extends DashboardPortlet{
 
 		@Override
 		public String getDisplayName() {
-			return "Build statistics";
+			return Messages.Dashboard_BuildStatistics();
 		}
 	}
 

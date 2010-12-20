@@ -184,7 +184,7 @@ public class Dashboard extends ListView {
 
         @Override
         public String getDisplayName() {
-            return "Dashboard";
+            return Messages.Dashboard_DisplayName();
         }
 
     }
