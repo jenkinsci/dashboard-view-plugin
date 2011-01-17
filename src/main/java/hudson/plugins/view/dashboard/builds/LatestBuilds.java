@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 public class LatestBuilds extends DashboardPortlet{
 
   /**
@@ -61,7 +63,7 @@ public class LatestBuilds extends DashboardPortlet{
 
 		@Override
 		public String getDisplayName() {
-			return "Latest builds";
+			return Messages.Dashboard_LatestBuilds();
 		}
 
 	}

@@ -35,7 +35,7 @@ THE SOFTWARE.
   <img src="${imagesURL}/16x16/${job.buildStatusUrl}"
     alt="${job.iconColor.description}"
     title="${job.iconColor.description}"/>
-  <img src="${rootURL}/images/16x16/${job.buildHealth.iconUrl}"
+  <img src="${imagesURL}/16x16/${job.buildHealth.iconUrl}"
     alt="${job.buildHealth.description}"
     title="${job.buildHealth.description}" />
   <a href="${job.shortUrl}" tooltip="${job.description}">${job.displayName}</a>

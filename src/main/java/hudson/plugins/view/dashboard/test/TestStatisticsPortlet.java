@@ -9,6 +9,8 @@ import java.util.Collection;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 /**
  * Portlet that presents a grid of test result data with summation
  * 
@@ -30,7 +32,7 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 
 		@Override
 		public String getDisplayName() {
-			return "Test Statistics Grid";
+			return Messages.Dashboard_TestStatisticsGrid();
 		}
 	}
 }

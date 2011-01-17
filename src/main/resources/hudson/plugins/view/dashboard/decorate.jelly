@@ -42,8 +42,8 @@ THE SOFTWARE.
   <div align="center">
     <div id="title-${attrs.portlet.id}" align="left" style="border: 1px solid #999999; background-color: #F0F0F0; padding: 4px; font-weight: bold;">
       <a href="${attrs.portlet.url}">${attrs.portlet.displayName}</a>
-      <img id="cmdCol-${attrs.portlet.id}" src="${rootUrl}/images/16x16/document_delete.gif" align="right" alt="Click to collapse portlet" tooltip="Click to collapse portlet" />
-      <img id="cmdExp-${attrs.portlet.id}" src="${rootUrl}/images/16x16/document_add.gif" align="right" alt="Click to expand portlet" tooltip="Click to expand portlet" />
+      <img id="cmdCol-${attrs.portlet.id}" src="${imagesURL}/16x16/document_delete.gif" align="right" alt="${%Click to collapse portlet}" tooltip="${%Click to collapse portlet}" />
+      <img id="cmdExp-${attrs.portlet.id}" src="${imagesURL}/16x16/document_add.gif" align="right" alt="${%Click to expand portlet}" tooltip="${%Click to expand portlet}" />
     </div>
   <table class="pane" id="${attrs.portlet.id}" style="margin-top: 0px; border-top: none;">
     <!--tr><td class="pane-header" colspan="${attrs.width}">

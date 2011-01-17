@@ -20,6 +20,8 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import hudson.plugins.view.dashboard.Messages;
+
 public class TestStatisticsChart extends DashboardPortlet {
 
 	@DataBoundConstructor
@@ -38,9 +40,9 @@ public class TestStatisticsChart extends DashboardPortlet {
 			@Override
 			protected JFreeChart createGraph() {
 				DefaultPieDataset dataset = new DefaultPieDataset();
-				dataset.setValue("success", summary.getSuccess());
-				dataset.setValue("skipped", summary.getSkipped());
-				dataset.setValue("failed", summary.getFailed());
+				dataset.setValue(Messages.Dashboard_Success(), summary.getSuccess());
+				dataset.setValue(Messages.Dashboard_Skipped(), summary.getSkipped());
+				dataset.setValue(Messages.Dashboard_Failed(), summary.getFailed());
 				JFreeChart chart = ChartFactory.createPieChart(null, dataset, false, false, false);
 
 	            chart.setBackgroundPaint(Color.white);
@@ -76,7 +78,7 @@ public class TestStatisticsChart extends DashboardPortlet {
 	            plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
 	                    "{0} = {1} ({2})", NumberFormat.getNumberInstance(), NumberFormat.getPercentInstance()
 	                ));
-	            plot.setNoDataMessage("No data available");
+	            plot.setNoDataMessage(Messages.Dashboard_NoDataAvailable());
 	            
 				return chart;
 			}
@@ -89,7 +91,7 @@ public class TestStatisticsChart extends DashboardPortlet {
 
 		@Override
 		public String getDisplayName() {
-			return "Test Statistics Chart";
+			return Messages.Dashboard_TestStatisticsChart();
 		}
 	}
 }
