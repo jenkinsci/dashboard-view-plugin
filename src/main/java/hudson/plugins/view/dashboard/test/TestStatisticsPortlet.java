@@ -10,6 +10,7 @@ import java.util.Collection;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import hudson.plugins.view.dashboard.Messages;
+import java.text.DecimalFormat;
 
 /**
  * Portlet that presents a grid of test result data with summation
@@ -26,6 +27,16 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 	public TestResultSummary getTestResultSummary(Collection<Job> jobs) {
 		return TestUtil.getTestResultSummary(jobs);
 	}
+
+        public String format(DecimalFormat df, double val) {
+            if (val < 1d && val > .99d) {
+                return "<100%";
+            } else if (val > 0d && val < .01d) {
+                return ">0%";
+            } else {
+                return df.format(val);
+            }
+        }
 	
 	@Extension
     public static class DescriptorImpl extends Descriptor<DashboardPortlet> {

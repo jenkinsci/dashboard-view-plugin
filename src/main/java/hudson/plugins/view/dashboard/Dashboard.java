@@ -9,6 +9,7 @@ import hudson.model.TopLevelItem;
 import hudson.model.ViewDescriptor;
 import hudson.model.Descriptor.FormException;
 import hudson.model.ListView;
+import java.io.IOException;
 
 import java.io.UnsupportedEncodingException;
 //import java.text.ParseException;
@@ -136,7 +137,7 @@ public class Dashboard extends ListView {
   }
 
 	@Override
-	protected synchronized void submit(StaplerRequest req) throws //IOException,
+	protected synchronized void submit(StaplerRequest req) throws IOException,
 			ServletException, FormException {
         super.submit(req);
 
