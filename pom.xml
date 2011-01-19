@@ -9,7 +9,7 @@
   <artifactId>dashboard-view</artifactId>
   <packaging>hpi</packaging>
   <name>Dashboard View</name>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.8.2</version>
   <description>Hudson view that shows various cuts of build information via configured portlets.</description>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Dashboard+View</url>
   <developers>
@@ -34,4 +34,25 @@
   		<version>1.6</version>
   	</dependency>
   </dependencies>
+<repositories>
+
+    <repository>
+      <id>m.g.o-public</id>
+      <url>http://maven.glassfish.org/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+
+  <scm>
+    <connection>scm:svn:https://guest@svn.java.net/svn/hudson~svn/tags/dashboard-view-1.8.2</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/hudson~svn/tags/dashboard-view-1.8.2</developerConnection>
+    <url>https://svn.java.net/svn/hudson~svn/tags/dashboard-view-1.8.2</url>
+  </scm>
 </project>
