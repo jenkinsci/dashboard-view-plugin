@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.363</version>
+    <version>1.394</version>
   </parent>
   <artifactId>dashboard-view</artifactId>
   <packaging>hpi</packaging>
@@ -12,6 +12,12 @@
   <version>1.9-SNAPSHOT</version>
   <description>Hudson view that shows various cuts of build information via configured portlets.</description>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Dashboard+View</url>
+
+  <scm>
+   <connection>scm:git:git://github.com/hudson/dashboard-view-plugin.git</connection>
+   <developerConnection>scm:git:git@github.com:hudson/dashboard-view-plugin.git</developerConnection>
+  </scm>
+
   <developers>
   	<developer>
   		<id>petehayes</id>
