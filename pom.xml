@@ -10,12 +10,19 @@
   <packaging>hpi</packaging>
   <name>Dashboard View</name>
   <version>1.9-SNAPSHOT</version>
-  <description>Hudson view that shows various cuts of build information via configured portlets.</description>
-  <url>http://wiki.hudson-ci.org/display/HUDSON/Dashboard+View</url>
+  <description>Jenkins view that shows various cuts of build information via configured portlets.</description>
+  <url>http://wiki.jenkins-ci.org/display/JENKINS/Dashboard+View</url>
+
+  <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+    </repository>
+  </distributionManagement>
 
   <scm>
-   <connection>scm:git:git://github.com/hudson/dashboard-view-plugin.git</connection>
-   <developerConnection>scm:git:git@github.com:hudson/dashboard-view-plugin.git</developerConnection>
+   <connection>scm:git:git://github.com/jenkinsci/dashboard-view-plugin.git</connection>
+   <developerConnection>scm:git:git@github.com:jenkinsci/dashboard-view-plugin.git</developerConnection>
   </scm>
 
   <developers>
@@ -29,8 +36,8 @@
     <developer>
       <id>mambu</id>
       <name>Marco Ambu</name>
-      <email>mambu@dev.java.net</email>
-      <timezone>+1</timezone>
+      <email>marco.ambu@gmail.com</email>
+      <timezone>0</timezone>
     </developer>
   </developers>
   <dependencies>
