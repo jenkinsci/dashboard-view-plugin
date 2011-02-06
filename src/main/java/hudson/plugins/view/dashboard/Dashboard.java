@@ -36,7 +36,7 @@ public class Dashboard extends ListView {
    */
   private boolean useCssStyle = false;
   /*
-   * Show standard hudson jobs list at the top of the page
+   * Show standard jobs list at the top of the page
    */
   private boolean includeStdJobList = false;
   /*
