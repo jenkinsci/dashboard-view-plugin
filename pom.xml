@@ -40,6 +40,7 @@
       <timezone>0</timezone>
     </developer>
   </developers>
+
   <dependencies>
   	<dependency>
   		<groupId>joda-time</groupId>
@@ -47,4 +48,12 @@
   		<version>1.6</version>
   	</dependency>
   </dependencies>
+
+  <repositories>
+      <repository>
+          <id>jenkins-ci</id>
+          <url>http://maven.jenkins-ci.org/content/repositories/releases</url>
+      </repository>
+  </repositories>
+
 </project>
