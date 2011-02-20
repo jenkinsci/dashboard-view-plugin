@@ -59,9 +59,14 @@ for (var cmdIndex in cmds) {
   cmd = cmds[cmdIndex];
   if (cmd.id && startsWith(cmd.id, 'cmdExp-dashboard_portlet_')) {
     cmd.onclick = myshow;
-    cmd.style.visibility = 'hidden';
-    cmd.style.display = 'none';
+//    cmd.style.visibility = 'hidden';
+//    cmd.style.display = 'none';
   } else if (cmd.id && startsWith(cmd.id, 'cmdCol-dashboard_portlet_')) {
     cmd.onclick = myhide;
+    cmd.style.visibility = 'visible';
+    cmd.style.display = '';
+  } else if (cmd.id && startsWith(cmd.id, 'cmdMax-dashboard_portlet_')) {
+    cmd.style.visibility = 'visible';
+    cmd.style.display = '';
   }
 }
