@@ -34,22 +34,22 @@ THE SOFTWARE.
   	<tr style="border: 1px #bbb solid;">
   	  <td><dp:jobLink job="${tr.job}"/></td>
   	  <td>${tr.success}</td>
-  	  <td>${format.format(tr.successPct)}</td>
+  	  <td>${it.format(format, tr.successPct)}</td>
   	  <td>${tr.failed}</td>
-  	  <td>${format.format(tr.failedPct)}</td>
+  	  <td>${it.format(format, tr.failedPct)}</td>
   	  <td>${tr.skipped}</td>
-  	  <td>${format.format(tr.skippedPct)}</td>
+  	  <td>${it.format(format, tr.skippedPct)}</td>
   	  <td>${tr.tests}</td>
   	</tr>
   </j:forEach>
   <tr>
     <td>${%Total}</td>
     <td>${summary.success}</td>
-    <td>${format.format(summary.successPct)}</td>
+    <td>${it.format(format, summary.successPct)}</td>
     <td>${summary.failed}</td>
-    <td>${format.format(summary.failedPct)}</td>
+    <td>${it.format(format, summary.failedPct)}</td>
     <td>${summary.skipped}</td>
-    <td>${format.format(summary.skippedPct)}</td>
+    <td>${it.format(format, summary.skippedPct)}</td>
     <td>${summary.tests}</td>
   </tr>
   </dp:decorate>
