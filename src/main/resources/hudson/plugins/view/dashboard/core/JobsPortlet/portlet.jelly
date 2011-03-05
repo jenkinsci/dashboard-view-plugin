@@ -27,14 +27,26 @@ THE SOFTWARE.
 	  <j:set var="i" value="${1 - 1}"/>
 	  <j:while test="${i &lt; jobs.size()}">
 	  	<tr>
-	  	    <j:set var="j" value="${1 - 1}"/>
+        <j:set var="j" value="${1 - 1}"/>
 	  		<j:while test="${i &lt; jobs.size() &amp;&amp; j &lt; 3}">
-	  			<td style="border: 1px #bbb solid;"><dp:jobLink job="${jobs.get(i)}"/></td>
+          <j:set var="job" value="${jobs.get(i)}" />
+	  			<td style="border: 1px solid #bbb;">
+            <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
+              <a href="${job.shortUrl}build?delay=0sec">
+                <img src="${imagesURL}/16x16/clock.png"
+                     title="${%Schedule a build}" alt="${%Schedule a build}"
+                     border="0"
+                     align="middle"
+                     style="float: right; clear: none;" />
+              </a>
+            </j:if>
+            <dp:jobLink job="${job}"/>
+          </td>
 	    		<j:set var="i" value="${i + 1}"/>
 	    		<j:set var="j" value="${j + 1}"/>
 	  		</j:while>
 	  		<j:while test="${j &lt; 3}">
-	  			<td style="border: 1px #bbb solid;"></td>
+	  			<td style="border: 1px solid #bbb;"></td>
 	    		<j:set var="j" value="${j + 1}"/>
 	  		</j:while>
 	  	</tr>

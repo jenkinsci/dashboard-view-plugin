@@ -29,11 +29,24 @@ THE SOFTWARE.
   <j:set var="unstableJobs" value="${it.getUnstableJobs(jobs)}"/>
   <j:choose>
     <j:when test="${empty(unstableJobs)}">
-      <tr><td colspan="4">${%No unstable jobs}</td></tr>
+      <tr><td>
+      ${%No unstable jobs}
+      </td></tr>
     </j:when>
     <j:otherwise>
-      <j:forEach var="j" items="${unstableJobs}">
-        <t:projectViewRow job="${j}" />
+      <j:forEach var="job" items="${unstableJobs}">
+        <tr><td style="${indenter.getCss(j)}; border: 1px solid #BBBBBB">
+          <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
+            <a href="${job.shortUrl}build?delay=0sec">
+              <img src="${imagesURL}/16x16/clock.png"
+                   title="${%Schedule a build}" alt="${%Schedule a build}"
+                   border="0"
+                   align="middle"
+                   style="float: right; clear: none;" />
+            </a>
+          </j:if>
+          <dp:jobLink job="${job}" />
+        </td></tr>
       </j:forEach>
     </j:otherwise>
   </j:choose>
