@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package hudson.plugins.view.dashboard.core;
 
 import hudson.Extension;
@@ -14,7 +9,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import hudson.plugins.view.dashboard.Messages;
 
 /**
- * Portlet displays standard hudson job list
+ * Portlet displays standard Jenkins job list
  *
  * @author marco.ambu
  */
@@ -30,7 +25,7 @@ public class HudsonStdJobsPortlet extends DashboardPortlet {
 
     @Override
     public String getDisplayName() {
-            return Messages.Dashboard_HudsonJobsList();
+            return Messages.Dashboard_JenkinsJobsList();
     }
   }
 }

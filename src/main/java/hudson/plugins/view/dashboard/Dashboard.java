@@ -176,8 +176,8 @@ public class Dashboard extends ListView {
   @Override
   public void rename(String newName) throws FormException {
     super.rename(newName);
-    // Bug 6689 <http://issues.hudson-ci.org/browse/HUDSON-6689>
-    // TODO: if this view is the default view configured in Hudson, the we must keep it after renaming
+    // Bug 6689 <http://issues.jenkins-ci.org/browse/JENKINS-6689>
+    // TODO: if this view is the default view configured in Jenkins, the we must keep it after renaming
   }
 	
 	@Extension
