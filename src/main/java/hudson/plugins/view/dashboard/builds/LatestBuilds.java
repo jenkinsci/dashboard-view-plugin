@@ -58,6 +58,10 @@ public class LatestBuilds extends DashboardPortlet{
 		return recentBuilds;
 	}
 
+  public String getBuildColumnSortData(Run<?, ?> build) {
+    return String.valueOf(build.getNumber());
+  }
+
 	@Extension
     public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
 

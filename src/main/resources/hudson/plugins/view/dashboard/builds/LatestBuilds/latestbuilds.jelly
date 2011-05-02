@@ -41,7 +41,7 @@ THE SOFTWARE.
               <!--t:jobLink job="${build.parent}"/-->
               <dp:jobLink job="${build.parent}"/>
             </td>
-            <td>
+            <td data="${it.getBuildColumnSortData(build)}">
               <!-- This tag does not generate a build link relative to view for jobs included using regexp -->
               <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
               <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}" tooltip="${build.description}">
