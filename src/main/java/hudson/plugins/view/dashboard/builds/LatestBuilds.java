@@ -33,6 +33,10 @@ public class LatestBuilds extends DashboardPortlet{
     return numBuilds <= 0 ? 10 : numBuilds;
   }
 
+  public String getTimestampSortData(Run run) {
+    return String.valueOf(run.getTimeInMillis());
+  }
+
   public String getTimestampString(Run run) {
     return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(new Date(run.getTimeInMillis()));
   }

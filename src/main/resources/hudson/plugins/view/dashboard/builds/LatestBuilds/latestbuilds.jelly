@@ -50,7 +50,7 @@ THE SOFTWARE.
                   title="${build.iconColor.description}" />${build.displayName}
               </a>
             </td>
-						<td>${it.getTimestampString(build)}</td>
+						<td data="${it.getTimestampSortData(build)}">${it.getTimestampString(build)}</td>
 					</tr>
 				</j:forEach>
 			</table>
