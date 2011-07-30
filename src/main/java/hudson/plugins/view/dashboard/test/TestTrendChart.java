@@ -91,16 +91,18 @@ public class TestTrendChart extends DashboardPortlet {
           Run nextRun = run.getNextBuild();
 
           if (nextRun != null) {
-            if (!runDay.isBefore(firstDay)) { // skip run before firstDay
+            LocalDate nextRunDay = new LocalDate(nextRun.getTimestamp());
+            // skip run before firstDay, but keep if next build is after start date
+            if (!runDay.isBefore(firstDay)
+                  || runDay.isBefore(firstDay) && !nextRunDay.isBefore(firstDay)) {
               // if next run is not the same day, use this test to summarize
-              LocalDate nextRunDay = new LocalDate(nextRun.getTimestamp());
               if (nextRunDay.isAfter(runDay)) {
-                summarize(summaries, run, runDay, nextRunDay.minusDays(1));
+                summarize(summaries, run, (runDay.isBefore(firstDay) ? firstDay : runDay), nextRunDay.minusDays(1));
               }
             }
           } else {
             // use this run's test result from last run to today
-            summarize(summaries, run, runDay, today);
+            summarize(summaries, run, (runDay.isBefore(firstDay) ? firstDay : runDay), today);
           }
 
           run = nextRun;
