@@ -77,35 +77,31 @@ public class TestTrendChart extends DashboardPortlet {
 		final Map<LocalDate, TestResultSummary> summaries = //new HashMap<LocalDate, TestResultSummary>();
             new TreeMap<LocalDate, TestResultSummary>(localDateComparator);
 		LocalDate today = new LocalDate();
- 		LocalDate firstDay = new LocalDate().minusDays(dateRange);
 		
 		// for each job, for each day, add last build of the day to summary
 		for (Job job : getDashboard().getJobs()) {
 			Run run = job.getFirstBuild();
 
-//      job.getBuildsByTimestamp(dateRange, dateRange);
       if (run != null) { // execute only if job has builds
-        LocalDate lastRunDay = new LocalDate(run.getTimestamp());
-        if (dateRange > 0 && firstDay.isAfter(lastRunDay)) {
-          lastRunDay = new LocalDate().minusDays(dateRange);
-        }
+        LocalDate runDay = new LocalDate(run.getTimestamp());
+        LocalDate firstDay = (dateRange != 0) ? new LocalDate().minusDays(dateRange) : runDay;
 
         while (run != null) {
+          runDay = new LocalDate(run.getTimestamp());
           Run nextRun = run.getNextBuild();
-          LocalDate runDay = new LocalDate(run.getTimestamp());
 
-            if (nextRun != null) {
-              if (runDay.isAfter(firstDay)) { // skip run before firstDay
-                // if next run is the next day, use this test to summarize
-                if (new LocalDate(nextRun.getTimestamp()).isAfter(runDay)) {
-                  summarize(summaries, run, lastRunDay, runDay);
-                  lastRunDay = runDay.plusDays(1);
-                }
+          if (nextRun != null) {
+            if (!runDay.isBefore(firstDay)) { // skip run before firstDay
+              // if next run is not the same day, use this test to summarize
+              LocalDate nextRunDay = new LocalDate(nextRun.getTimestamp());
+              if (nextRunDay.isAfter(runDay)) {
+                summarize(summaries, run, runDay, nextRunDay.minusDays(1));
               }
-            } else {
-              // use this run's test result from last run to today
-              summarize(summaries, run, lastRunDay, today);
             }
+          } else {
+            // use this run's test result from last run to today
+            summarize(summaries, run, runDay, today);
+          }
 
           run = nextRun;
         }
