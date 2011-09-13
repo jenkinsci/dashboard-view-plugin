@@ -33,7 +33,7 @@ public class StatCommon extends DashboardPortlet {
     @JavaScriptMethod
     public int getWorkingSlaves() {
         Hudson hudson = Hudson.getInstance();
-        return hudson.getNodes().size();
+        return hudson.getComputers().length;
     }
 
     @JavaScriptMethod
