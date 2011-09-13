@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.398</version>
+    <version>1.403</version>
   </parent>
   <artifactId>dashboard-view</artifactId>
   <packaging>hpi</packaging>
@@ -43,6 +43,27 @@
   </developers>
 
   <dependencies>
+       <!-- javamelody-core -->
+        <!-- itext, option to add PDF export -->
+        <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
+                <version>2.1.7</version>
+                <exclusions>
+                        <exclusion>
+                                <artifactId>bcmail-jdk14</artifactId>
+                                <groupId>bouncycastle</groupId>
+                        </exclusion>
+                        <exclusion>
+                                <artifactId>bcprov-jdk14</artifactId>
+                                <groupId>bouncycastle</groupId>
+                        </exclusion>
+                        <exclusion>
+                                <artifactId>bctsp-jdk14</artifactId>
+                                <groupId>bouncycastle</groupId>
+                        </exclusion>
+                </exclusions>
+        </dependency>
     <dependency>
   		<groupId>joda-time</groupId>
   		<artifactId>joda-time</artifactId>
