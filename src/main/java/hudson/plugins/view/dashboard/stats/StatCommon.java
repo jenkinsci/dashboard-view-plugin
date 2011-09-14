@@ -53,7 +53,7 @@ public class StatCommon extends DashboardPortlet {
         Computer[] computers = hudson.getComputers();
         int countOfflineSlaves = 0;
         for(Computer computer : computers){
-            if(computer.isOffline()){
+            if(computer.isOffline() && computer.getConnectTime()!=0){
                 countOfflineSlaves ++;
             }
         }
