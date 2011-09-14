@@ -42,10 +42,7 @@
     </developer>
   </developers>
 
-  <dependencies>
-       <!-- javamelody-core -->
-        <!-- itext, option to add PDF export -->
-        
+  <dependencies>       
     <dependency>
   		<groupId>joda-time</groupId>
   		<artifactId>joda-time</artifactId>
