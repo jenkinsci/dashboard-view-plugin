@@ -48,6 +48,11 @@
   		<artifactId>joda-time</artifactId>
   		<version>1.6</version>
     </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.main</groupId>
+      <artifactId>maven-plugin</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
   </dependencies>
 
   <repositories>

@@ -1,5 +1,6 @@
 package hudson.plugins.view.dashboard.test;
 
+import hudson.maven.reporters.SurefireAggregatedReport;
 import hudson.model.Job;
 import hudson.model.Run;
 import hudson.tasks.junit.TestResultAction;
@@ -23,7 +24,7 @@ public class TestUtil {
 		for (Job job : jobs) {
 			boolean addBlank = true;
 			TestResultProjectAction testResults = job.getAction(TestResultProjectAction.class);
-			
+            
 			if (testResults != null) {
 				AbstractTestResultAction tra = testResults.getLastTestResultAction();
 				
@@ -31,7 +32,13 @@ public class TestUtil {
 					addBlank = false;
 					summary.addTestResult(new TestResult(job, tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount()));
 				}
-			}
+			} else {
+                SurefireAggregatedReport surefireTestResults = job.getAction(SurefireAggregatedReport.class);
+                if(surefireTestResults != null) {
+                    addBlank = false;
+                    summary.addTestResult(new TestResult(job, surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount()));
+                }
+            }
 			
 			if (addBlank) {
 				summary.addTestResult(new TestResult(job, 0, 0, 0));
@@ -47,7 +54,12 @@ public class TestUtil {
 		if (tra != null) {
 			return new TestResult(run.getParent(), tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount());
 		} else {
-			return new TestResult(run.getParent(), 0, 0, 0);
+            SurefireAggregatedReport surefireTestResults = run.getAction(SurefireAggregatedReport.class);
+            if(surefireTestResults != null) {
+                return new TestResult(run.getParent(), surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount());
+            } else {
+			    return new TestResult(run.getParent(), 0, 0, 0);
+            }
 		}
 	}
 }
