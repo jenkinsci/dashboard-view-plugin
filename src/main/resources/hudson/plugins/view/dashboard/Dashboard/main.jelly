@@ -23,29 +23,17 @@ THE SOFTWARE.
 -->
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
-  <j:choose xmlns:local="local">
-    <d:taglib uri="local">
-      <d:tag name="viewTabs">
-        <!-- view tab bar -->
-        <l:tabBar>
-          <j:forEach var="v" items="${it.owner.views}">
-            <l:tab name="${v.viewName}" active="${v==it}" href="${rootURL}/${v.url}" />
-          </j:forEach>
-          <j:if test="${it.hasPermission(it.CREATE)}">
-            <l:tab name="+" href="${rootURL}/${it.owner.url}newView" active="false" />
-          </j:if>
-        </l:tabBar>
-      </d:tag>
-    </d:taglib>
+  <j:set var="views" value="${it.owner.views}" />
+  <j:set var="currentView" value="${it}" />
+  <j:choose>
     <j:when test="${empty(it.items)}">
       <j:if test="${!empty(app.items)}">
-        <local:viewTabs/>
-        <br/>
+        <st:include page="viewTabs.jelly" it="${it.owner.viewsTabBar}" />
       </j:if>
       <st:include page="noJob.jelly" />
     </j:when>
     <j:otherwise>
-    	<local:viewTabs/>
+      	<st:include page="viewTabs.jelly" it="${it.owner.viewsTabBar}" />
     	<j:set var="jobs" value="${it.items}"/>
 
     	<j:choose>
