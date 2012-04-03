@@ -161,12 +161,13 @@ public class TestTrendChart extends DashboardPortlet {
 	}
 	
 	private CategoryDataset buildDataSet(Map<LocalDate, TestResultSummary> summaries) {
-        DataSetBuilder<String,LocalDate> dsb = new DataSetBuilder<String,LocalDate>();
+        DataSetBuilder<String,LocalDateLabel> dsb = new DataSetBuilder<String,LocalDateLabel>();
 
         for (Map.Entry<LocalDate, TestResultSummary> entry : summaries.entrySet()) {
-            dsb.add( entry.getValue().getFailed(), Messages.Dashboard_Failed(), entry.getKey());
-            dsb.add( entry.getValue().getSkipped(), Messages.Dashboard_Skipped(), entry.getKey());
-            dsb.add( entry.getValue().getSuccess(), Messages.Dashboard_Total(), entry.getKey());
+            LocalDateLabel label = new LocalDateLabel(entry.getKey());
+            dsb.add( entry.getValue().getFailed(), Messages.Dashboard_Failed(), label);
+            dsb.add( entry.getValue().getSkipped(), Messages.Dashboard_Skipped(), label);
+            dsb.add( entry.getValue().getSuccess(), Messages.Dashboard_Total(), label);
         }
         return dsb.build();
     }
