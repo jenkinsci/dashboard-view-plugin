@@ -3,4 +3,6 @@ work
 .classpath
 .project
 .settings
+.idea
+dashboard-view.iml
 nb-configuration.xml
