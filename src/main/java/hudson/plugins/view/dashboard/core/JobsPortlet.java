@@ -15,17 +15,17 @@ import hudson.plugins.view.dashboard.Messages;
  */
 public class JobsPortlet extends DashboardPortlet {
 
-	@DataBoundConstructor
-	public JobsPortlet(String name) {
-		super(name);
-	}
-	
-	@Extension
-    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+   @DataBoundConstructor
+   public JobsPortlet(String name) {
+      super(name);
+   }
 
-		@Override
-		public String getDisplayName() {
-			return Messages.Dashboard_JobsGrid();
-		}
-	}
+   @Extension
+   public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+
+      @Override
+      public String getDisplayName() {
+         return Messages.Dashboard_JobsGrid();
+      }
+   }
 }

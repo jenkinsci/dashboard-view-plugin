@@ -18,32 +18,32 @@ import java.text.DecimalFormat;
  * @author Peter Hayes
  */
 public class TestStatisticsPortlet extends DashboardPortlet {
-	
-	@DataBoundConstructor
-	public TestStatisticsPortlet(String name) {
-		super(name);
-	}
-	
-	public TestResultSummary getTestResultSummary(Collection<Job> jobs) {
-		return TestUtil.getTestResultSummary(jobs);
-	}
 
-        public String format(DecimalFormat df, double val) {
-            if (val < 1d && val > .99d) {
-                return "<100%";
-            } else if (val > 0d && val < .01d) {
-                return ">0%";
-            } else {
-                return df.format(val);
-            }
-        }
-	
-	@Extension
-    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+   @DataBoundConstructor
+   public TestStatisticsPortlet(String name) {
+      super(name);
+   }
 
-		@Override
-		public String getDisplayName() {
-			return Messages.Dashboard_TestStatisticsGrid();
-		}
-	}
+   public TestResultSummary getTestResultSummary(Collection<Job> jobs) {
+      return TestUtil.getTestResultSummary(jobs);
+   }
+
+   public String format(DecimalFormat df, double val) {
+      if (val < 1d && val > .99d) {
+         return "<100%";
+      } 
+      if (val > 0d && val < .01d) {
+         return ">0%";
+      } 
+      return df.format(val);
+   }
+
+   @Extension
+   public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+
+      @Override
+      public String getDisplayName() {
+         return Messages.Dashboard_TestStatisticsGrid();
+      }
+   }
 }

@@ -3,13 +3,11 @@ package hudson.plugins.view.dashboard.stats;
 import hudson.Extension;
 import hudson.model.BallColor;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.model.Job;
 import hudson.model.Run;
 import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;

@@ -26,41 +26,42 @@ import hudson.plugins.view.dashboard.Messages;
  * @author Peter Hayes
  */
 public class UnstableJobsPortlet extends DashboardPortlet {
-	private static final Collection<ListViewColumn> COLUMNS =
-		Arrays.asList(new StatusColumn(), new WeatherColumn(), new JobColumn());
 
-	@DataBoundConstructor
-	public UnstableJobsPortlet(String name) {
-		super(name);
-	}
-	
-	/**
-	 * Given a list of all jobs, return just those that are unstable or worse.
-	 */
-	public Collection<Job> getUnstableJobs(Collection<Job> allJobs) {
-		ArrayList<Job> unstableJobs = new ArrayList<Job>();
-		
-		for (Job job : allJobs) {
-			Run run = job.getLastCompletedBuild();
-			
-			if (run != null && Result.UNSTABLE.isBetterOrEqualTo(run.getResult())) {
-				unstableJobs.add(job);
-			}
-		}
-		
-		return unstableJobs;
-	}
-	
-	public Collection<ListViewColumn> getColumns() {
-		return COLUMNS;
-	}
-	
-	@Extension
-  public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+   private static final Collection<ListViewColumn> COLUMNS =
+           Arrays.asList(new StatusColumn(), new WeatherColumn(), new JobColumn());
 
-		@Override
-		public String getDisplayName() {
-			return Messages.Dashboard_UnstableJobs();
-		}
-	}
+   @DataBoundConstructor
+   public UnstableJobsPortlet(String name) {
+      super(name);
+   }
+
+   /**
+    * Given a list of all jobs, return just those that are unstable or worse.
+    */
+   public Collection<Job> getUnstableJobs(Collection<Job> allJobs) {
+      ArrayList<Job> unstableJobs = new ArrayList<Job>();
+
+      for (Job job : allJobs) {
+         Run run = job.getLastCompletedBuild();
+
+         if (run != null && Result.UNSTABLE.isBetterOrEqualTo(run.getResult())) {
+            unstableJobs.add(job);
+         }
+      }
+
+      return unstableJobs;
+   }
+
+   public Collection<ListViewColumn> getColumns() {
+      return COLUMNS;
+   }
+
+   @Extension
+   public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+
+      @Override
+      public String getDisplayName() {
+         return Messages.Dashboard_UnstableJobs();
+      }
+   }
 }

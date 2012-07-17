@@ -15,17 +15,17 @@ import hudson.plugins.view.dashboard.Messages;
  */
 public class HudsonStdJobsPortlet extends DashboardPortlet {
 
-  @DataBoundConstructor
-  public HudsonStdJobsPortlet(String name) {
-    super(name);
-  }
+   @DataBoundConstructor
+   public HudsonStdJobsPortlet(String name) {
+      super(name);
+   }
 
-  @Extension
-  public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+   @Extension
+   public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
 
-    @Override
-    public String getDisplayName() {
-            return Messages.Dashboard_JenkinsJobsList();
-    }
-  }
+      @Override
+      public String getDisplayName() {
+         return Messages.Dashboard_JenkinsJobsList();
+      }
+   }
 }
