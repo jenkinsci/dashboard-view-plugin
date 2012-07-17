@@ -12,9 +12,6 @@ import hudson.model.ListView;
 import java.io.IOException;
 
 import java.io.UnsupportedEncodingException;
-//import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.*;
 
 import javax.servlet.ServletException;
@@ -31,162 +28,162 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Peter Hayes
  */
 public class Dashboard extends ListView {
-  /*
-   * Use custom CSS style provided by the user
-   */
-  private boolean useCssStyle = false;
-  /*
-   * Show standard jobs list at the top of the page
-   */
-  private boolean includeStdJobList = false;
-  /*
-   * The width of the left portlets
-   */
-  private String leftPortletWidth = "50%";
-  /*
-   * The width of the right portlets
-   */
-  private String rightPortletWidth = "50%";
+   /*
+    * Use custom CSS style provided by the user
+    */
 
-  private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
-  private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
-  private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
-  private List<DashboardPortlet> bottomPortlets = new ArrayList<DashboardPortlet>();
+   private boolean useCssStyle = false;
+   /*
+    * Show standard jobs list at the top of the page
+    */
+   private boolean includeStdJobList = false;
+   /*
+    * The width of the left portlets
+    */
+   private String leftPortletWidth = "50%";
+   /*
+    * The width of the right portlets
+    */
+   private String rightPortletWidth = "50%";
+   private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
+   private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
+   private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
+   private List<DashboardPortlet> bottomPortlets = new ArrayList<DashboardPortlet>();
 
-  @DataBoundConstructor
-  public Dashboard(String name) {
-    super(name);
-  }
+   @DataBoundConstructor
+   public Dashboard(String name) {
+      super(name);
+   }
 
-  public boolean isUseCssStyle() {
-    return useCssStyle;
-  }
+   public boolean isUseCssStyle() {
+      return useCssStyle;
+   }
 
-  public boolean isIncludeStdJobList() {
-		return includeStdJobList;
-	}
-    
-  public List<DashboardPortlet> getLeftPortlets() {
-		return leftPortlets;
-	}
-    
-  public List<DashboardPortlet> getRightPortlets() {
-		return rightPortlets;
-	}
+   public boolean isIncludeStdJobList() {
+      return includeStdJobList;
+   }
 
-  public List<DashboardPortlet> getTopPortlets() {
-		return topPortlets;
-	}
+   public List<DashboardPortlet> getLeftPortlets() {
+      return leftPortlets;
+   }
 
-  public List<DashboardPortlet> getBottomPortlets() {
-    return bottomPortlets;
-  }
+   public List<DashboardPortlet> getRightPortlets() {
+      return rightPortlets;
+   }
 
-  public String getLeftPortletWidth() {
-    return leftPortletWidth;
-  }
+   public List<DashboardPortlet> getTopPortlets() {
+      return topPortlets;
+   }
 
-  public String getRightPortletWidth() {
-    return rightPortletWidth;
-  }
+   public List<DashboardPortlet> getBottomPortlets() {
+      return bottomPortlets;
+   }
 
-  public DashboardPortlet getPortlet(String name) {
-    ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(topPortlets);
-    allPortlets.addAll(leftPortlets);
-    allPortlets.addAll(rightPortlets);
-    allPortlets.addAll(bottomPortlets);
-    for (DashboardPortlet portlet : allPortlets) {
-      if (name.equals(portlet.getId())) {
-        return portlet;
+   public String getLeftPortletWidth() {
+      return leftPortletWidth;
+   }
+
+   public String getRightPortletWidth() {
+      return rightPortletWidth;
+   }
+
+   public DashboardPortlet getPortlet(String name) {
+      ArrayList<DashboardPortlet> allPortlets = new ArrayList<DashboardPortlet>(topPortlets);
+      allPortlets.addAll(leftPortlets);
+      allPortlets.addAll(rightPortlets);
+      allPortlets.addAll(bottomPortlets);
+      for (DashboardPortlet portlet : allPortlets) {
+         if (name.equals(portlet.getId())) {
+            return portlet;
+         }
       }
-    }
-    return null;
-  }
+      return null;
+   }
 
-  public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
-    DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
-    //Collections.sort(list);
+   public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
+      DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
+      //Collections.sort(list);
 //    Collections.sort(list, new Comparator<Descriptor<DashboardPortlet>>() {
 //      public int compare(Descriptor<DashboardPortlet> p1, Descriptor<DashboardPortlet> p2) {
 //        return p1.getDisplayName().compareTo(p2.getDisplayName());
 //      }
 //    });
-    return list;
-  }
+      return list;
+   }
 
-  /* Use contains */
-  //@Deprecated
-  public synchronized boolean HasItem(TopLevelItem item) {
-    List<TopLevelItem> items = getItems();
-    return items.contains(item);
+   /* Use contains */
+   //@Deprecated
+   public synchronized boolean HasItem(TopLevelItem item) {
+      List<TopLevelItem> items = getItems();
+      return items.contains(item);
 //    return this.contains(item);
-  }
+   }
 
-  /* Use getItems */
-  //@Deprecated
-  public synchronized List<Job> getJobs() {
-    List<Job> jobs = new ArrayList<Job>();
+   /* Use getItems */
+   //@Deprecated
+   public synchronized List<Job> getJobs() {
+      List<Job> jobs = new ArrayList<Job>();
+      
+      DashboardLog.debug(Dashboard.class.getName() + ": getJobs");
 
-    for (TopLevelItem item : getItems()) {
-      if (item instanceof Job) {
-        jobs.add((Job) item);
+      for (TopLevelItem item : getItems()) {
+         if (item instanceof Job) {
+            jobs.add((Job) item);
+         }
       }
-    }
 
-    return jobs;
-  }
+      return jobs;
+   }
 
-	@Override
-	protected synchronized void submit(StaplerRequest req) throws IOException,
-			ServletException, FormException {
-        super.submit(req);
+   @Override
+   protected synchronized void submit(StaplerRequest req)
+           throws IOException, ServletException, FormException {
+      super.submit(req);
 
-        try {
-          req.setCharacterEncoding("UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-          Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JSONObject json = req.getSubmittedForm();
+      try {
+         req.setCharacterEncoding("UTF-8");
+      } catch (UnsupportedEncodingException ex) {
+         DashboardLog.error(ex.getLocalizedMessage());
+      }
+      JSONObject json = req.getSubmittedForm();
 
-        String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
-        includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
+      String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
+      includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
 
-        String sUseCssStyle = Util.nullify(req.getParameter("useCssStyle"));
-        useCssStyle = sUseCssStyle != null && "on".equals(sUseCssStyle);
+      String sUseCssStyle = Util.nullify(req.getParameter("useCssStyle"));
+      useCssStyle = sUseCssStyle != null && "on".equals(sUseCssStyle);
 
-        if (useCssStyle) {
-          if (req.getParameter("leftPortletWidth") != null) {
+      if (useCssStyle) {
+         if (req.getParameter("leftPortletWidth") != null) {
             leftPortletWidth = req.getParameter("leftPortletWidth");
-          }
+         }
 
-          if (req.getParameter("rightPortletWidth") != null) {
+         if (req.getParameter("rightPortletWidth") != null) {
             rightPortletWidth = req.getParameter("rightPortletWidth");
-          }
-        }
-        else {
-          leftPortletWidth = rightPortletWidth = "50%";
-        }
+         }
+      } else {
+         leftPortletWidth = rightPortletWidth = "50%";
+      }
 
-        topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
-        leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
-        rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
-        bottomPortlets = Descriptor.newInstancesFromHeteroList(req, json, "bottomPortlet", DashboardPortlet.all());
-	}
+      topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
+      leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
+      rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
+      bottomPortlets = Descriptor.newInstancesFromHeteroList(req, json, "bottomPortlet", DashboardPortlet.all());
+   }
 
-  @Override
-  public void rename(String newName) throws FormException {
-    super.rename(newName);
-    // Bug 6689 <http://issues.jenkins-ci.org/browse/JENKINS-6689>
-    // TODO: if this view is the default view configured in Jenkins, the we must keep it after renaming
-  }
-	
-	@Extension
-  public static final class DescriptorImpl extends ViewDescriptor {
+   @Override
+   public void rename(String newName) throws FormException {
+      super.rename(newName);
+      // Bug 6689 <http://issues.jenkins-ci.org/browse/JENKINS-6689>
+      // TODO: if this view is the default view configured in Jenkins, the we must keep it after renaming
+   }
 
-        @Override
-        public String getDisplayName() {
-            return Messages.Dashboard_DisplayName();
-        }
+   @Extension
+   public static final class DescriptorImpl extends ViewDescriptor {
 
-    }
+      @Override
+      public String getDisplayName() {
+         return Messages.Dashboard_DisplayName();
+      }
+   }
 }
