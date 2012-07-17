@@ -124,8 +124,6 @@ public class Dashboard extends ListView {
    public synchronized List<Job> getJobs() {
       List<Job> jobs = new ArrayList<Job>();
       
-      DashboardLog.debug(Dashboard.class.getName() + ": getJobs");
-
       for (TopLevelItem item : getItems()) {
          if (item instanceof Job) {
             jobs.add((Job) item);

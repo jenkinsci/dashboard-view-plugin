@@ -30,7 +30,7 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
       counter++;
       this.id = "dashboard_portlet_" + counter;
       this.name = name;
-      DashboardLog.debug("DashboardPortlet: " + id + " " + name);
+      DashboardLog.debug("DashboardPortlet: " + name + " - " + id);
    }
 
    public String getId() {
