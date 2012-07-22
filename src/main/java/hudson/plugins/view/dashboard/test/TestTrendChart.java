@@ -4,6 +4,7 @@ import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.model.Run;
+import hudson.plugins.view.dashboard.DashboardLog;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.util.ColorPalette;
 import hudson.util.DataSetBuilder;
@@ -34,7 +35,6 @@ import hudson.plugins.view.dashboard.Messages;
 public class TestTrendChart extends DashboardPortlet {
 
    public enum DisplayStatus {
-
       ALL, SUCCESS, SKIPPED, FAILED
    }
    private int graphWidth = 300;
@@ -49,8 +49,10 @@ public class TestTrendChart extends DashboardPortlet {
       this.graphWidth = graphWidth;
       this.graphHeight = graphHeight;
       this.dateRange = dateRange;
-
-      this.display = DisplayStatus.valueOf(display.toUpperCase());
+      this.display = (display == null)
+              ? DisplayStatus.ALL
+              : DisplayStatus.valueOf(display.toUpperCase());
+      DashboardLog.debug("TestTrendChart", "ctor");
    }
 
    public int getDateRange() {
@@ -65,8 +67,13 @@ public class TestTrendChart extends DashboardPortlet {
       return graphHeight <= 0 ? 220 : graphHeight;
    }
 
-   public String getDisplay() {
-      return display.toString();
+   public DisplayStatus getDisplay() {
+      if (display == null)
+      {
+         display = DisplayStatus.ALL;
+         DashboardLog.info("TestTrendChart", "display is null - setting to ALL");
+      }
+      return display;
    }
 
    /**
@@ -178,7 +185,7 @@ public class TestTrendChart extends DashboardPortlet {
             StackedAreaRenderer ar = new StackedAreaRenderer2();
             plot.setRenderer(ar);
 
-            switch (display) {
+            switch (getDisplay()) {
                case SUCCESS:
                   ar.setSeriesPaint(0, ColorPalette.BLUE);
                   break;
@@ -209,7 +216,7 @@ public class TestTrendChart extends DashboardPortlet {
       for (Map.Entry<LocalDate, TestResultSummary> entry : summaries.entrySet()) {
          LocalDateLabel label = new LocalDateLabel(entry.getKey());
 
-         switch (display) {
+         switch (getDisplay()) {
             case SUCCESS:
                dsb.add(entry.getValue().getSuccess(),
                        Messages.Dashboard_Total(), label);

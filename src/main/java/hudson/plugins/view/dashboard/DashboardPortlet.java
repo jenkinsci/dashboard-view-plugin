@@ -13,6 +13,7 @@ import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
 import java.util.Comparator;
+import java.util.Random;
 
 /**
  * Report that can summarize project data across multiple projects and display
@@ -22,15 +23,17 @@ import java.util.Comparator;
  */
 public abstract class DashboardPortlet implements ModelObject, Describable<DashboardPortlet>, ExtensionPoint {
 
-   private static int counter = 0;
-   private String id;
+   private static Random generator = new Random();
+   private String id = null;
    private String name;
 
    public DashboardPortlet(String name) {
-      counter++;
-      this.id = "dashboard_portlet_" + counter;
+      if (this.id == null)
+      {
+         this.id = "dashboard_portlet_" + generator.nextInt(32000);
+      }
       this.name = name;
-      DashboardLog.debug("DashboardPortlet: " + name + " - " + id);
+      DashboardLog.debug("DashboardPortlet", name + " - " + id);
    }
 
    public String getId() {

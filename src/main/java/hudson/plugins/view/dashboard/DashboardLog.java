@@ -11,23 +11,24 @@ public class DashboardLog {
    
    private static String loggerName = "DashboardView";
    
-   public static void debug(String msg) {
+   public static void debug(String component, String msg) {
       Logger l = Logger.getLogger(loggerName);
-      l.log(Level.FINEST, msg);
+      l.log(Level.FINEST, "[" + component + "] " + msg);
    }
    
-   public static void info(String msg) {
+   public static void info(String component, String msg) {
       Logger l = Logger.getLogger(loggerName);
-      l.log(Level.INFO, msg);
+      l.log(Level.INFO, "[" + component + "] " + msg);
    }
    
-   public static void warning(String msg) {
+   public static void warning(String component, String msg) {
       Logger l = Logger.getLogger(loggerName);
-      l.log(Level.WARNING, msg);
+      l.log(Level.WARNING, "[" + component + "] " + msg);
    }
    
-   public static void error(String msg) {
+   public static void error(String component, String msg) {
       Logger l = Logger.getLogger(loggerName);
-      l.log(Level.SEVERE, msg);
+      l.log(Level.SEVERE, "[" + component + "] " + msg);
    }
+
 }

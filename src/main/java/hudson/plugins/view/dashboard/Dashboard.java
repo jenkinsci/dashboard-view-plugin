@@ -141,7 +141,7 @@ public class Dashboard extends ListView {
       try {
          req.setCharacterEncoding("UTF-8");
       } catch (UnsupportedEncodingException ex) {
-         DashboardLog.error(ex.getLocalizedMessage());
+         DashboardLog.error("Dashboard", ex.getLocalizedMessage());
       }
       JSONObject json = req.getSubmittedForm();
 
@@ -165,7 +165,15 @@ public class Dashboard extends ListView {
 
       topPortlets = Descriptor.newInstancesFromHeteroList(req, json, "topPortlet", DashboardPortlet.all());
       leftPortlets = Descriptor.newInstancesFromHeteroList(req, json, "leftPortlet", DashboardPortlet.all());
+//      for (DashboardPortlet p: leftPortlets)
+//      {
+//         DashboardLog.debug("Dashboard", p.getDisplayName() + " " + p.getId());
+//      }
       rightPortlets = Descriptor.newInstancesFromHeteroList(req, json, "rightPortlet", DashboardPortlet.all());
+//      for (DashboardPortlet p: rightPortlets)
+//      {
+//         DashboardLog.debug("Dashboard", p.getDisplayName() + " " + p.getId());
+//      }
       bottomPortlets = Descriptor.newInstancesFromHeteroList(req, json, "bottomPortlet", DashboardPortlet.all());
    }
 
