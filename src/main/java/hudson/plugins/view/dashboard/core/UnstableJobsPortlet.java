@@ -5,6 +5,7 @@ import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.model.Run;
+import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.views.JobColumn;
 import hudson.views.ListViewColumn;
@@ -38,14 +39,17 @@ public class UnstableJobsPortlet extends DashboardPortlet {
    /**
     * Given a list of all jobs, return just those that are unstable or worse.
     */
-   public Collection<Job> getUnstableJobs(Collection<Job> allJobs) {
+   public Collection<Job> getUnstableJobs(Collection<TopLevelItem> allJobs) {
       ArrayList<Job> unstableJobs = new ArrayList<Job>();
 
-      for (Job job : allJobs) {
-         Run run = job.getLastCompletedBuild();
+       for (TopLevelItem item : allJobs) {
+         if (item instanceof Job) {
+             Job job = (Job) item;
+             Run run = job.getLastCompletedBuild();
 
-         if (run != null && Result.UNSTABLE.isBetterOrEqualTo(run.getResult())) {
-            unstableJobs.add(job);
+             if (run != null && Result.UNSTABLE.isBetterOrEqualTo(run.getResult())) {
+                unstableJobs.add(job);
+             }
          }
       }
 

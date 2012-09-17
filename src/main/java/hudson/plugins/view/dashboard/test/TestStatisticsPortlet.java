@@ -3,6 +3,7 @@ package hudson.plugins.view.dashboard.test;
 import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Job;
+import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 
 import java.util.Collection;
@@ -24,7 +25,7 @@ public class TestStatisticsPortlet extends DashboardPortlet {
       super(name);
    }
 
-   public TestResultSummary getTestResultSummary(Collection<Job> jobs) {
+   public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
       return TestUtil.getTestResultSummary(jobs);
    }
 
