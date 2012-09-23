@@ -120,7 +120,6 @@ public class Dashboard extends ListView {
    }
 
    /* Use getItems */
-   //@Deprecated
    public synchronized List<Job> getJobs() {
       List<Job> jobs = new ArrayList<Job>();
       
