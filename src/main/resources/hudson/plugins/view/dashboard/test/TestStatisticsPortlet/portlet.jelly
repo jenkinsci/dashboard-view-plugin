@@ -30,27 +30,53 @@ THE SOFTWARE.
   <tr><td class="pane-header" rowspan="2" style="vertical-align: middle">${%Job}</td><td class="pane-header" colspan="2">${%Success}</td><td class="pane-header" colspan="2">${%Failed}</td><td class="pane-header" colspan="2">${%Skipped}</td><td class="pane-header">${%Total}</td></tr>
   <tr><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td><td class="pane-header">%</td><td class="pane-header">#</td></tr>
   <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
-  <j:forEach var="tr" items="${summary.testResults}">
-  	<tr style="border: 1px #bbb solid;">
-  	  <td bgcolor="#71e66d"><dp:jobLink job="${tr.job}"/></td>
-  	  <td bgcolor="#71e66d">${tr.success}</td>
-  	  <td bgcolor="#71e66d">${it.format(format, tr.successPct)}</td>
-  	  <td bgcolor="#e86850">${tr.failed}</td>
-  	  <td bgcolor="#e86850">${it.format(format, tr.failedPct)}</td>
-  	  <td bgcolor="#FDB813">${tr.skipped}</td>
-  	  <td bgcolor="#FDB813">${it.format(format, tr.skippedPct)}</td>
-  	  <td bgcolor="#71e66d">${tr.tests}</td>
-  	</tr>
-  </j:forEach>
-  <tr>
-    <td bgcolor="#71e66d">${%Total}</td>
-    <td bgcolor="#71e66d">${summary.success}</td>
-    <td bgcolor="#71e66d">${it.format(format, summary.successPct)}</td>
-    <td bgcolor="#e86850">${summary.failed}</td>
-    <td bgcolor="#e86850">${it.format(format, summary.failedPct)}</td>
-    <td bgcolor="#FDB813">${summary.skipped}</td>
-    <td bgcolor="#FDB813">${it.format(format, summary.skippedPct)}</td>
-    <td bgcolor="#71e66d">${summary.tests}</td>
-  </tr>
+  <j:if test="${it.useBackgroundColors}">
+	  <j:forEach var="tr" items="${summary.testResults}">
+	  	<tr style="border: 1px #bbb solid;">
+	  	  <td bgcolor="#${it.getRowColor(tr)}"><dp:jobLink job="${tr.job}"/></td>
+	  	  <td bgcolor="#${it.successColor}">${tr.success}</td>
+	  	  <td bgcolor="#${it.successColor}">${it.format(format, tr.successPct)}</td>
+	  	  <td bgcolor="#${it.failureColor}">${tr.failed}</td>
+	  	  <td bgcolor="#${it.failureColor}">${it.format(format, tr.failedPct)}</td>
+	  	  <td bgcolor="#${it.skippedColor}">${tr.skipped}</td>
+	  	  <td bgcolor="#${it.skippedColor}">${it.format(format, tr.skippedPct)}</td>
+	  	  <td bgcolor="#${it.getRowColor(tr)}">${tr.tests}</td>
+	  	</tr>
+	  </j:forEach>
+	  <tr>
+	    <td bgcolor="#${it.getTotalRowColor(summary.testResults)}">${%Total}</td>
+	    <td bgcolor="#${it.successColor}">${summary.success}</td>
+	    <td bgcolor="#${it.successColor}">${it.format(format, summary.successPct)}</td>
+	    <td bgcolor="#${it.failureColor}">${summary.failed}</td>
+	    <td bgcolor="#${it.failureColor}">${it.format(format, summary.failedPct)}</td>
+	    <td bgcolor="#${it.skippedColor}">${summary.skipped}</td>
+	    <td bgcolor="#${it.skippedColor}">${it.format(format, summary.skippedPct)}</td>
+	    <td bgcolor="#${it.getTotalRowColor(summary.testResults)}">${summary.tests}</td>
+	  </tr>
+  </j:if>
+  <j:if test="${!it.useBackgroundColors}">
+	  <j:forEach var="tr" items="${summary.testResults}">
+	  	<tr style="border: 1px #bbb solid;">
+	  	  <td><dp:jobLink job="${tr.job}"/></td>
+	  	  <td>${tr.success}</td>
+	  	  <td>${it.format(format, tr.successPct)}</td>
+	  	  <td>${tr.failed}</td>
+	  	  <td>${it.format(format, tr.failedPct)}</td>
+	  	  <td>${tr.skipped}</td>
+	  	  <td>${it.format(format, tr.skippedPct)}</td>
+	  	  <td>${tr.tests}</td>
+	  	</tr>
+	  </j:forEach>
+	  <tr>
+	    <td>${%Total}</td>
+	    <td>${summary.success}</td>
+	    <td>${it.format(format, summary.successPct)}</td>
+	    <td>${summary.failed}</td>
+	    <td>${it.format(format, summary.failedPct)}</td>
+	    <td>${summary.skipped}</td>
+	    <td>${it.format(format, summary.skippedPct)}</td>
+	    <td>${summary.tests}</td>
+	  </tr>
+  </j:if>
   </dp:decorate>
 </j:jelly>
