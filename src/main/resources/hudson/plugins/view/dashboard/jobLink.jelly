@@ -38,5 +38,10 @@ THE SOFTWARE.
   <img src="${imagesURL}/16x16/${job.buildHealth.iconUrl}"
     alt="${job.buildHealth.description}"
     title="${job.buildHealth.description}" />
-  <a href="${job.shortUrl}" tooltip="${job.description}">${job.displayName}</a>
+    <j:if test="${job.description != ''}">
+  		<a href="${job.shortUrl}" tooltip="${job.description}">${job.displayName}</a>
+  	</j:if>
+    <j:if test="${job.description == ''}">
+  		<a href="${job.shortUrl}">${job.displayName}</a>
+  	</j:if>
 </j:jelly>
