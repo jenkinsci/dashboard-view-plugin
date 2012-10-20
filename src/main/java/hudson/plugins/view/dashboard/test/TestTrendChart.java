@@ -31,16 +31,37 @@ import org.joda.time.LocalDate;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import hudson.plugins.view.dashboard.Messages;
+import hudson.util.EnumConverter;
+import org.kohsuke.stapler.Stapler;
 
 public class TestTrendChart extends DashboardPortlet {
 
    public enum DisplayStatus {
-      ALL, SUCCESS, SKIPPED, FAILED
+      ALL("All"), SUCCESS("Success"), SKIPPED("Skipped"), FAILED("Failed");
+      
+      private final String description;
+
+      public String getDescription() {
+         return description;
+      }
+
+      public String getName() {
+         return name();
+      }
+
+      DisplayStatus(String description) {
+         this.description = description;
+      }
+
+      static {
+         Stapler.CONVERT_UTILS.register(new EnumConverter(), DisplayStatus.class);
+      }
    }
+
    private int graphWidth = 300;
    private int graphHeight = 220;
    private int dateRange = 365;
-   private DisplayStatus display = DisplayStatus.ALL;
+   private DisplayStatus displayStatus = DisplayStatus.ALL;
 
    @DataBoundConstructor
    public TestTrendChart(String name, int graphWidth, int graphHeight,
@@ -49,9 +70,7 @@ public class TestTrendChart extends DashboardPortlet {
       this.graphWidth = graphWidth;
       this.graphHeight = graphHeight;
       this.dateRange = dateRange;
-      this.display = (display == null)
-              ? DisplayStatus.ALL
-              : DisplayStatus.valueOf(display.toUpperCase());
+      this.displayStatus = DisplayStatus.valueOf(display);
       DashboardLog.debug("TestTrendChart", "ctor");
    }
 
@@ -67,13 +86,17 @@ public class TestTrendChart extends DashboardPortlet {
       return graphHeight <= 0 ? 220 : graphHeight;
    }
 
-   public DisplayStatus getDisplay() {
-      if (display == null)
+   public String getDisplayStatus() {
+      if (displayStatus == null)
       {
-         display = DisplayStatus.ALL;
+         displayStatus = DisplayStatus.ALL;
          DashboardLog.info("TestTrendChart", "display is null - setting to ALL");
       }
-      return display;
+      return displayStatus.getDescription();
+   }
+   
+   public void setDisplayStatus(String s) {
+      displayStatus = DisplayStatus.valueOf(s);
    }
 
    /**
@@ -185,7 +208,7 @@ public class TestTrendChart extends DashboardPortlet {
             StackedAreaRenderer ar = new StackedAreaRenderer2();
             plot.setRenderer(ar);
 
-            switch (getDisplay()) {
+            switch (displayStatus) {
                case SUCCESS:
                   ar.setSeriesPaint(0, ColorPalette.BLUE);
                   break;
@@ -216,7 +239,7 @@ public class TestTrendChart extends DashboardPortlet {
       for (Map.Entry<LocalDate, TestResultSummary> entry : summaries.entrySet()) {
          LocalDateLabel label = new LocalDateLabel(entry.getKey());
 
-         switch (getDisplay()) {
+         switch (displayStatus) {
             case SUCCESS:
                dsb.add(entry.getValue().getSuccess(),
                        Messages.Dashboard_Total(), label);

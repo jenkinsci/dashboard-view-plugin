@@ -32,29 +32,30 @@ THE SOFTWARE.
   <f:entry title="${%Graph height}">
     <f:textbox name="portlet.graphHeight" field="graphHeight" default="220" />
   </f:entry>
+  <!-- This does not set the variable -->
+  <!--f:entry title="Display" field="displayStatus">
+     <f:enum>${it.description}</f:enum>
+  </f:entry-->
   <f:entry name="display" title="Display" field="display">
     <select name="portlet.display">
-	    <j:choose>
-   			<j:when test="${instance.getDisplay()==TestTrendChart.DisplayStatus.ALL}"><option value="ALL" selected="true">All tests</option></j:when>
-	   		<j:otherwise><option value="ALL">All tests</option></j:otherwise>
+      <j:choose>
+         <j:when test="${instance.getDisplayStatus().compareTo('All')==0}"><option value="ALL" selected="true">All tests</option></j:when>
+         <j:otherwise><option value="ALL">All tests</option></j:otherwise>
 		</j:choose>
-	
 	  	<j:choose>
-   			<j:when test="${instance.getDisplay()==TestTrendChart.DisplayStatus.SUCCESS}"><option value="SUCCESS" selected="true">Only successful tests</option></j:when>
-	   		<j:otherwise><option value="SUCCESS">Only successful tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('Success')==0}"><option value="SUCCESS" selected="true">Only successful tests</option></j:when>
+         <j:otherwise><option value="SUCCESS">Only successful tests</option></j:otherwise>
 		</j:choose>
-        
 		<j:choose>
-   			<j:when test="${instance.getDisplay()==TestTrendChart.DisplayStatus.FAILED}"><option value="FAILED" selected="true">Only failed tests</option></j:when>
-	   		<j:otherwise><option value="FAILED">Only failed tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('Failed')==0}"><option value="FAILED" selected="true">Only failed tests</option></j:when>
+         <j:otherwise><option value="FAILED">Only failed tests</option></j:otherwise>
 		</j:choose>
-		
 		<j:choose>
-   			<j:when test="${instance.getDisplay()==TestTrendChart.DisplayStatus.SKIPPED}"><option value="SKIPPED" selected="true">Only skipped tests</option></j:when>
-	   		<j:otherwise><option value="SKIPPED">Only skipped tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('Skipped')==0}"><option value="SKIPPED" selected="true">Only skipped tests</option></j:when>
+         <j:otherwise><option value="SKIPPED">Only skipped tests</option></j:otherwise>
 		</j:choose>
     </select>
-  </f:entry> 
+  </f:entry>
   <!--<f:optionalBlock name="dynamic" title="Specify a date range">-->
     <f:entry title="${%Number of latest days to display}">
       <f:textbox name="dateRange" field="dateRange" value="${it.dateRange}"/>
