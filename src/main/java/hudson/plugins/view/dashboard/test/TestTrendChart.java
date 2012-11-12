@@ -70,7 +70,7 @@ public class TestTrendChart extends DashboardPortlet {
       this.graphWidth = graphWidth;
       this.graphHeight = graphHeight;
       this.dateRange = dateRange;
-      this.displayStatus = DisplayStatus.valueOf(display);
+      this.displayStatus = display != null ? DisplayStatus.valueOf(display) : DisplayStatus.ALL;
       DashboardLog.debug("TestTrendChart", "ctor");
    }
 
@@ -97,6 +97,15 @@ public class TestTrendChart extends DashboardPortlet {
    
    public void setDisplayStatus(String s) {
       displayStatus = DisplayStatus.valueOf(s);
+   }
+   
+   public DisplayStatus getDisplayStatusEnum() {
+      if (displayStatus == null)
+      {
+         displayStatus = DisplayStatus.ALL;
+         DashboardLog.info("TestTrendChart", "display is null - setting to ALL");
+      }
+      return displayStatus;
    }
 
    /**
@@ -208,7 +217,7 @@ public class TestTrendChart extends DashboardPortlet {
             StackedAreaRenderer ar = new StackedAreaRenderer2();
             plot.setRenderer(ar);
 
-            switch (displayStatus) {
+            switch (getDisplayStatusEnum()) {
                case SUCCESS:
                   ar.setSeriesPaint(0, ColorPalette.BLUE);
                   break;
@@ -239,7 +248,7 @@ public class TestTrendChart extends DashboardPortlet {
       for (Map.Entry<LocalDate, TestResultSummary> entry : summaries.entrySet()) {
          LocalDateLabel label = new LocalDateLabel(entry.getKey());
 
-         switch (displayStatus) {
+         switch (getDisplayStatusEnum()) {
             case SUCCESS:
                dsb.add(entry.getValue().getSuccess(),
                        Messages.Dashboard_Total(), label);
