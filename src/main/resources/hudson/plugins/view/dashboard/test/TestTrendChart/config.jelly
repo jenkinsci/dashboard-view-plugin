@@ -39,20 +39,20 @@ THE SOFTWARE.
   <f:entry name="display" title="Display" field="display">
     <select name="portlet.display">
       <j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('All')==0}"><option value="ALL" selected="true">All tests</option></j:when>
-         <j:otherwise><option value="ALL">All tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('All')==0}"><option value="ALL" selected="true">${%All tests}</option></j:when>
+         <j:otherwise><option value="ALL">${%All tests}</option></j:otherwise>
 		</j:choose>
 	  	<j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('Success')==0}"><option value="SUCCESS" selected="true">Only successful tests</option></j:when>
-         <j:otherwise><option value="SUCCESS">Only successful tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('Success')==0}"><option value="SUCCESS" selected="true">${%Only successful tests}</option></j:when>
+         <j:otherwise><option value="SUCCESS">${%Only successful tests}</option></j:otherwise>
 		</j:choose>
 		<j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('Failed')==0}"><option value="FAILED" selected="true">Only failed tests</option></j:when>
-         <j:otherwise><option value="FAILED">Only failed tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('Failed')==0}"><option value="FAILED" selected="true">${%Only failed tests}</option></j:when>
+         <j:otherwise><option value="FAILED">${%Only failed tests}</option></j:otherwise>
 		</j:choose>
 		<j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('Skipped')==0}"><option value="SKIPPED" selected="true">Only skipped tests</option></j:when>
-         <j:otherwise><option value="SKIPPED">Only skipped tests</option></j:otherwise>
+         <j:when test="${instance.getDisplayStatus().compareTo('Skipped')==0}"><option value="SKIPPED" selected="true">${%Only skipped tests}</option></j:when>
+         <j:otherwise><option value="SKIPPED">${%Only skipped tests}</option></j:otherwise>
 		</j:choose>
     </select>
   </f:entry>

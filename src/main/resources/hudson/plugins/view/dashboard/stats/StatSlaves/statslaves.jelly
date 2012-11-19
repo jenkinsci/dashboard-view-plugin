@@ -47,12 +47,12 @@ THE SOFTWARE.
     </script>
     <table id="statistics" class="sortable pane bigtable" style="margin-top: 0px;">
         <tr style="border-top: 0px;">
-            <th align="left">Slaves</th>
-            <th align="left">Online slaves</th>
-            <th align="left">Offline slaves</th>
-            <th align="left">Disconnected slaves</th>
-            <th align="left">Tasks in queue</th>
-            <th align="left">Running jobs</th>
+            <th align="left">${%Slaves}</th>
+            <th align="left">${%Online slaves}</th>
+            <th align="left">${%Offline slaves}</th>
+            <th align="left">${%Disconnected slaves}</th>
+            <th align="left">${%Tasks in queue}</th>
+            <th align="left">${%Running jobs}</th>
         </tr>
         <tr>      
             <td>
