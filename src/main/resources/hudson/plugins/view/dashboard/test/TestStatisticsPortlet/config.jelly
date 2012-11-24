@@ -26,14 +26,14 @@ THE SOFTWARE.
   <f:entry title="${%Display name}">
     <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
-  <f:optionalBlock name="useBackgroundColors" title="Background Colors" checked="${portlet.isUseBackgroundColors()}" inline="true">
-      <f:entry title="Success Color (in hex)">
+  <f:optionalBlock name="useBackgroundColors" title="${%Background Colors}" checked="${portlet.isUseBackgroundColors()}" inline="true">
+      <f:entry title="${%Success Color} (${%in hex})">
 	    <f:textbox name="successColor" field="successColor" default="71E66D" />
 	  </f:entry>
-	  <f:entry title="Failure Color (in hex)">
+	  <f:entry title="${%Failure Color} (${%in hex})">
 	    <f:textbox name="failureColor" field="failureColor" default="E86850" />
 	  </f:entry>
-	  <f:entry title="Skipped Color (in hex)">
+	  <f:entry title="${%Skipped Color} (${%in hex})">
 	    <f:textbox name="skippedColor" field="skippedColor" default="FDB813" />
 	  </f:entry>
   </f:optionalBlock>
