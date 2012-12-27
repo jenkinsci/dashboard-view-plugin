@@ -43,7 +43,7 @@ THE SOFTWARE.
 						<t:ballColorTd it="${col.key}" />
 						<td>${col.key.description}</td>
 						<td>${col.value}</td>
-						<td>${(col.value/nBuilds)*100}</td>
+						<td>${it.roundFloatDecimal((col.value/nBuilds)*100)}</td>
 					</tr>
 				</j:forEach>
 				<tr>
