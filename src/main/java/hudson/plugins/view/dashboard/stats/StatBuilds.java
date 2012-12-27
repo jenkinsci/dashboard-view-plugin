@@ -59,6 +59,16 @@ public class StatBuilds extends DashboardPortlet{
 		}
 		return colStatBuilds;
 	}
+	
+	
+	public float roundFloatDecimal(float input) {	
+      float rounded = (float)Math.round(input*100f);
+      rounded = rounded/100f;
+      return rounded;
+    }
+	
+	
+	
 
 	@Extension
     public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
