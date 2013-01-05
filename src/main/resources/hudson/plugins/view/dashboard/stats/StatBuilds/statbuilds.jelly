@@ -33,14 +33,18 @@ THE SOFTWARE.
 					<th tooltip="${%Status of the build}" align="left">${%Status of the build}</th>
 					<th tooltip="${%Description}" align="left">${%Description}</th>
 					<th tooltip="${%Number of builds with status}" align="left">${%Number of builds with status}</th>
+                                        <th tooltip="${%Percentage Of total builds}" align="left">${%Percentage of total builds}</th>
 				</tr>
+				<j:forEach var="col" items="${statsBuild}">
+					<j:set var="nBuilds" value="${nBuilds+col.value}" />
+				</j:forEach>
 				<j:forEach var="col" items="${statsBuild}">
 					<tr>
 						<t:ballColorTd it="${col.key}" />
 						<td>${col.key.description}</td>
 						<td>${col.value}</td>
+						<td>${it.roundFloatDecimal((col.value/nBuilds)*100)}</td>
 					</tr>
-					<j:set var="nBuilds" value="${nBuilds+col.value}" />
 				</j:forEach>
 				<tr>
 					<td><b>${%Total builds}</b></td>
