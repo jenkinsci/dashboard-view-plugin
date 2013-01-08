@@ -23,7 +23,6 @@ THE SOFTWARE.
 -->
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
-  <div align="right"><a href="./configure"><img height="16" alt="" width="16" src="${imagesURL}/16x16/notepad.png" />${%configure}</a></div>
   <j:set var="views" value="${it.owner.views}" />
   <j:set var="currentView" value="${it}" />
   <j:choose>
