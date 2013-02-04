@@ -4,6 +4,7 @@ import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.plugins.view.dashboard.DashboardPortlet;
+import hudson.plugins.view.dashboard.Messages;
 
 import java.util.Iterator;
 
@@ -68,7 +69,7 @@ public class IframePortlet extends DashboardPortlet {
 
 		@Override
 		public String getDisplayName() {
-			return "Iframe Portlet";
+			return Messages.Dashboard_IframePortlet();
 		}
 	}
 
