@@ -23,60 +23,11 @@ THE SOFTWARE.
 -->
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <j:new className="java.text.DecimalFormat" var="format">
-    <j:arg type="java.lang.String" value="0%" />
-  </j:new>
-  <dp:decorate portlet="${it}" width="8">
-  <tr><td class="pane-header" rowspan="2" style="vertical-align: middle" align="center">${%Job}</td><td class="pane-header" colspan="2" align="center">${%Success}</td><td class="pane-header" colspan="2" align="center">${%Failed}</td><td class="pane-header" colspan="2" align="center">${%Skipped}</td><td class="pane-header" align="center">${%Total}</td></tr>
-  <tr><td class="pane-header" align="center">#</td><td class="pane-header" align="center">%</td><td class="pane-header" align="center">#</td><td class="pane-header" align="center">%</td><td class="pane-header" align="center">#</td><td class="pane-header" align="center">%</td><td class="pane-header" align="center">#</td></tr>
-  <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
-  <j:if test="${it.useBackgroundColors}">
-	  <j:forEach var="tr" items="${summary.testResults}">
-	  	<tr style="border: 1px #bbb solid;">
-	  	  <td align="center" style="vertical-align:middle" height="50" bgcolor="#${it.getRowColor(tr)}"><font size="+1"><dp:jobLink job="${tr.job}"/></font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.successColor}"><font size="+1">${tr.success}</font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.successColor}"><font size="+1">${it.format(format, tr.successPct)}</font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.failureColor}"><font size="+1">${tr.failed}</font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.failureColor}"><font size="+1">${it.format(format, tr.failedPct)}</font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.skippedColor}"><font size="+1">${tr.skipped}</font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.skippedColor}"><font size="+1">${it.format(format, tr.skippedPct)}</font></td>
-	  	  <td align="center" style="vertical-align:middle" bgcolor="#${it.getRowColor(tr)}"><font size="+1">${tr.tests}</font></td>
-	  	</tr>
-	  </j:forEach>
-	  <tr>
-	    <td height="50" align="center" style="vertical-align:middle" bgcolor="#${it.getTotalRowColor(summary.testResults)}"><font size="+1">${%Total}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.successColor}"><font size="+1">${summary.success}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.successColor}"><font size="+1">${it.format(format, summary.successPct)}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.failureColor}"><font size="+1">${summary.failed}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.failureColor}"><font size="+1">${it.format(format, summary.failedPct)}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.skippedColor}"><font size="+1">${summary.skipped}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.skippedColor}"><font size="+1">${it.format(format, summary.skippedPct)}</font></td>
-	    <td align="center" style="vertical-align:middle" bgcolor="#${it.getTotalRowColor(summary.testResults)}"><font size="+1">${summary.tests}</font></td>
-	  </tr>
-  </j:if>
-  <j:if test="${!it.useBackgroundColors}">
-	  <j:forEach var="tr" items="${summary.testResults}">
-	  	<tr style="border: 1px #bbb solid;">
-	  	  <td><dp:jobLink job="${tr.job}"/></td>
-	  	  <td>${tr.success}</td>
-	  	  <td>${it.format(format, tr.successPct)}</td>
-	  	  <td>${tr.failed}</td>
-	  	  <td>${it.format(format, tr.failedPct)}</td>
-	  	  <td>${tr.skipped}</td>
-	  	  <td>${it.format(format, tr.skippedPct)}</td>
-	  	  <td>${tr.tests}</td>
-	  	</tr>
-	  </j:forEach>
-	  <tr>
-	    <td>${%Total}</td>
-	    <td>${summary.success}</td>
-	    <td>${it.format(format, summary.successPct)}</td>
-	    <td>${summary.failed}</td>
-	    <td>${it.format(format, summary.failedPct)}</td>
-	    <td>${summary.skipped}</td>
-	    <td>${it.format(format, summary.skippedPct)}</td>
-	    <td>${summary.tests}</td>
-	  </tr>
-  </j:if>
+  <dp:decorate portlet="${it}">
+    <tr><td>
+      <div align="center">
+		<st:include page="teststatistics.jelly"/>
+       </div>
+     </td></tr>
   </dp:decorate>
 </j:jelly>
