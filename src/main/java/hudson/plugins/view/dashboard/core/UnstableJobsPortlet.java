@@ -28,12 +28,15 @@ import hudson.plugins.view.dashboard.Messages;
  */
 public class UnstableJobsPortlet extends DashboardPortlet {
 
+   private boolean showOnlyFailedJobs = false;
+   
    private static final Collection<ListViewColumn> COLUMNS =
            Arrays.asList(new StatusColumn(), new WeatherColumn(), new JobColumn());
 
    @DataBoundConstructor
-   public UnstableJobsPortlet(String name) {
+   public UnstableJobsPortlet(String name, boolean showOnlyFailedJobs) {
       super(name);
+	  this.showOnlyFailedJobs = showOnlyFailedJobs;
    }
 
    /**
@@ -47,8 +50,12 @@ public class UnstableJobsPortlet extends DashboardPortlet {
              Job job = (Job) item;
              Run run = job.getLastCompletedBuild();
 
-             if (run != null && Result.UNSTABLE.isBetterOrEqualTo(run.getResult())) {
-                unstableJobs.add(job);
+             if (run != null) {
+                Result expected = this.showOnlyFailedJobs ? Result.FAILURE : Result.UNSTABLE;
+
+                if (expected.isBetterOrEqualTo(run.getResult())) {
+                   unstableJobs.add(job);
+                }
              }
          }
       }
@@ -60,6 +67,10 @@ public class UnstableJobsPortlet extends DashboardPortlet {
       return COLUMNS;
    }
 
+   public boolean isShowOnlyFailedJobs() {
+      return this.showOnlyFailedJobs;
+   }
+	
    @Extension
    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
 
