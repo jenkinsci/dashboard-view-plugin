@@ -32,10 +32,10 @@ THE SOFTWARE.
 
   <!--t:buildHealth job="${job}" td="false" style="${indenter.getRelativeShift(job)}" iconSize="16x16"
       link="${jobBaseUrl}${job.shortUrl}lastBuild" /-->
-   <img src="${imagesURL}/16x16/${job.buildStatusUrl}"
+   <img src="${job.iconColor.getImageOf('16x16')}"
       alt="${job.iconColor.description}"
       title="${job.iconColor.description}"/>
-   <img src="${imagesURL}/16x16/${job.buildHealth.iconUrl}"
+   <img src="${job.buildHealth.getIconUrl('16x16')}"
       alt="${job.buildHealth.description}"
       title="${job.buildHealth.description}" />
    <!--t:jobLink job="${job}"/-->
