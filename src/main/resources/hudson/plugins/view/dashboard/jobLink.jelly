@@ -35,7 +35,7 @@ THE SOFTWARE.
    <img src="${job.iconColor.getImageOf('16x16')}"
       alt="${job.iconColor.description}"
       title="${job.iconColor.description}"/>
-   <img src="${job.buildHealth.getIconUrl('16x16')}"
+   <img src="${rootURL}${job.buildHealth.getIconUrl('16x16')}"
       alt="${job.buildHealth.description}"
       title="${job.buildHealth.description}" />
    <!--t:jobLink job="${job}"/-->
