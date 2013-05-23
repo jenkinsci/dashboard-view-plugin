@@ -26,7 +26,7 @@ import hudson.plugins.view.dashboard.Messages;
 public class StatBuilds extends DashboardPortlet{
 
     /** The most builds we will try to examine. */
-    static final int MAX_BUILDS = 10;
+    static final int MAX_BUILDS = Integer.getInteger(StatBuilds.class.getName() + ".maxBuilds", 10);
 	
 	@DataBoundConstructor
 	public StatBuilds(String name) {
