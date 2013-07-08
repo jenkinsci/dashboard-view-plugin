@@ -53,7 +53,7 @@ public class TestUtil {
    }
 
    public static TestResult getTestResult(Run run) {
-      TestResultAction tra = run.getAction(TestResultAction.class);
+      AbstractTestResultAction tra = run.getAction(AbstractTestResultAction.class);
       if (tra != null) {
          return new TestResult(run.getParent(), tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount());
       } 
