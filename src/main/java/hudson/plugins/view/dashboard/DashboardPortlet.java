@@ -6,7 +6,6 @@ import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.model.ModelObject;
-import hudson.model.ParameterDefinition;
 import hudson.model.TopLevelItem;
 
 import org.kohsuke.stapler.Stapler;
@@ -18,7 +17,7 @@ import java.util.Random;
 /**
  * Report that can summarize project data across multiple projects and display
  * the resulting data.
- * 
+ *
  * @author Peter Hayes
  */
 public abstract class DashboardPortlet implements ModelObject, Describable<DashboardPortlet>, ExtensionPoint {
@@ -73,7 +72,7 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
    }
 
    /**
-    * Returns all the registered {@link ParameterDefinition} descriptors.
+    * Returns all the registered {@link DashboardPortlet} descriptors.
     */
    public static DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> all() {
       return Hudson.getInstance().getDescriptorList(DashboardPortlet.class);
