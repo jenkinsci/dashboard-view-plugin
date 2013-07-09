@@ -22,68 +22,66 @@ import java.util.Random;
  */
 public abstract class DashboardPortlet implements ModelObject, Describable<DashboardPortlet>, ExtensionPoint {
 
-   private static Random generator = new Random();
-   private String id = null;
-   private String name;
+    private static Random generator = new Random();
+    private String id = null;
+    private String name;
 
-   public DashboardPortlet(String name) {
-      if (this.id == null)
-      {
-         this.id = "dashboard_portlet_" + generator.nextInt(32000);
-      }
-      this.name = name;
-      DashboardLog.debug("DashboardPortlet", name + " - " + id);
-   }
+    public DashboardPortlet(String name) {
+        if (this.id == null) {
+            this.id = "dashboard_portlet_" + generator.nextInt(32000);
+        }
+        this.name = name;
+        DashboardLog.debug("DashboardPortlet", name + " - " + id);
+    }
 
-   public String getId() {
-      return id;
-   }
+    public String getId() {
+        return id;
+    }
 
-   public String getName() {
-      return name;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public Dashboard getDashboard() {
-      // TODO Can the dashboard instance be a field on this class -- parent?
-      StaplerRequest req = Stapler.getCurrentRequest();
-      return req.findAncestorObject(Dashboard.class);
-   }
+    public Dashboard getDashboard() {
+        // TODO Can the dashboard instance be a field on this class -- parent?
+        StaplerRequest req = Stapler.getCurrentRequest();
+        return req.findAncestorObject(Dashboard.class);
+    }
 
-   public String getDisplayName() {
-      return getName();
-   }
+    public String getDisplayName() {
+        return getName();
+    }
 
-   public String getUrl() {
-      return "portlet/" + getId() + '/';
-   }
+    public String getUrl() {
+        return "portlet/" + getId() + '/';
+    }
 
-   /**
-    * Support accessing jobs available via view through portlets
-    */
-   public TopLevelItem getJob(String name) {
-      return getDashboard().getJob(name);
-   }
+    /**
+     * Support accessing jobs available via view through portlets
+     */
+    public TopLevelItem getJob(String name) {
+        return getDashboard().getJob(name);
+    }
 
-   /**
-    * {@inheritDoc}
-    */
-   public Descriptor<DashboardPortlet> getDescriptor() {
-      return (Descriptor<DashboardPortlet>) Hudson.getInstance().getDescriptor(getClass());
-   }
+    /**
+     * {@inheritDoc}
+     */
+    public Descriptor<DashboardPortlet> getDescriptor() {
+        return (Descriptor<DashboardPortlet>) Hudson.getInstance().getDescriptor(getClass());
+    }
 
-   /**
-    * Returns all the registered {@link DashboardPortlet} descriptors.
-    */
-   public static DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> all() {
-      return Hudson.getInstance().getDescriptorList(DashboardPortlet.class);
-   }
+    /**
+     * Returns all the registered {@link DashboardPortlet} descriptors.
+     */
+    public static DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> all() {
+        return Hudson.getInstance().getDescriptorList(DashboardPortlet.class);
+    }
 
-   public static Comparator getComparator() {
-      return new Comparator<Dashboard>() {
-
-         public int compare(Dashboard p1, Dashboard p2) {
-            return p1.getDescription().compareTo(p2.getDescription());
-         }
-      };
-   }
+    public static Comparator getComparator() {
+        return new Comparator<Dashboard>() {
+            public int compare(Dashboard p1, Dashboard p2) {
+                return p1.getDescription().compareTo(p2.getDescription());
+            }
+        };
+    }
 }
