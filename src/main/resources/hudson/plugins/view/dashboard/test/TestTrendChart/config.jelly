@@ -36,7 +36,7 @@ THE SOFTWARE.
   <!--f:entry title="Display" field="displayStatus">
      <f:enum>${it.description}</f:enum>
   </f:entry-->
-  <f:entry name="display" title="Display" field="display">
+  <f:entry name="display" title="${%Display}" field="display">
     <select name="portlet.display">
       <j:choose>
          <j:when test="${instance.getDisplayStatus().compareTo('All')==0}"><option value="ALL" selected="true">${%All tests}</option></j:when>
