@@ -24,7 +24,7 @@ import org.kohsuke.stapler.StaplerRequest;
 /**
  * View that can be customized with portlets to show the selected jobs information
  * in various ways.
- * 
+ *
  * @author Peter Hayes
  */
 public class Dashboard extends ListView {
@@ -100,16 +100,24 @@ public class Dashboard extends ListView {
       return null;
    }
 
-   public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
-      DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
-      //Collections.sort(list);
-//    Collections.sort(list, new Comparator<Descriptor<DashboardPortlet>>() {
-//      public int compare(Descriptor<DashboardPortlet> p1, Descriptor<DashboardPortlet> p2) {
-//        return p1.getDisplayName().compareTo(p2.getDisplayName());
-//      }
-//    });
-      return list;
-   }
+    @Deprecated
+    public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> getDashboardPortletDescriptors() {
+        DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
+        return list;
+    }
+
+    public List<Descriptor<DashboardPortlet>> getSortedDashboardPortletDescriptors() {
+        DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list = DashboardPortlet.all();
+        List<Descriptor<DashboardPortlet>> descriptors = new ArrayList<Descriptor<DashboardPortlet>>(list);
+
+        Collections.sort(descriptors, new Comparator<Descriptor<DashboardPortlet>>() {
+            public int compare(Descriptor<DashboardPortlet> d1, Descriptor<DashboardPortlet> d2) {
+                return d1.getDisplayName().compareTo(d2.getDisplayName());
+            }
+        });
+
+        return descriptors;
+    }
 
    /* Use contains */
    //@Deprecated
@@ -122,7 +130,7 @@ public class Dashboard extends ListView {
    /* Use getItems */
    public synchronized List<Job> getJobs() {
       List<Job> jobs = new ArrayList<Job>();
-      
+
       for (TopLevelItem item : getItems()) {
          if (item instanceof Job) {
             jobs.add((Job) item);
