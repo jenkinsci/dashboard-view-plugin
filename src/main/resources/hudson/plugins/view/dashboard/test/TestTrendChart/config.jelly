@@ -62,8 +62,8 @@ THE SOFTWARE.
     </f:entry>
   <!--</f:optionalBlock>-->
   <!--<f:optionalBlock name="dynamic" title="Specify a time shift">-->
-    <f:entry title="Number of Minutes the date is shifted">
-      <f:textbox name="dateShift" field="dateShift" value="${it.dateShift}"/>
+    <f:entry title="Number of Minutes the date is shifted" help="/plugin/dashboard-view/help/help-configTestTrendDateshift.html">
+      <f:textbox name="dateShift" field="dateShift" value="${it.dateShift}" default="0"/>
     </f:entry>
   <!--</f:optionalBlock>-->
 </j:jelly>
