@@ -5,9 +5,11 @@ import hudson.model.FreeStyleProject;
 import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.RunLoadCounter;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
 
@@ -27,6 +29,16 @@ public class StatBuildsTest {
                 return stats.getBuildStat(Collections.<TopLevelItem>singletonList(p)).get(BallColor.BLUE);
             }
         }).intValue());
+    }
+
+    @Test public void testGettingBuildStatsWithZeroBuild() throws Exception {
+        final FreeStyleProject project = j.createFreeStyleProject();
+        RunLoadCounter.prepare(project);
+        final StatBuilds stats = new StatBuilds("-");
+        final Map<BallColor,Integer> buildStats = stats.getBuildStat(Collections.<TopLevelItem>singletonList(project));
+        for (BallColor color : BallColor.values()) {
+            assertEquals((Integer)0, buildStats.get(color.noAnime()));
+        }
     }
 
 }

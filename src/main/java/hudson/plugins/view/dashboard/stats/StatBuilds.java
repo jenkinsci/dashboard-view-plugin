@@ -34,7 +34,6 @@ public class StatBuilds extends DashboardPortlet{
 	}
 	
 	public Map<BallColor, Integer> getBuildStat(List<TopLevelItem> jobs) {
-		int nBuilds = 0;
 		SortedMap<BallColor, Integer> colStatBuilds = new TreeMap<BallColor, Integer>();
 		for (BallColor color : BallColor.values()) {
 			colStatBuilds.put(color.noAnime(), 0);
@@ -45,22 +44,22 @@ public class StatBuilds extends DashboardPortlet{
 				// Build statistics
                 // With a 1.507+ dep and a fix of JENKINS-18065 could use simply: job.getBuilds().limit(MAX_BUILDS)
 				SortedMap<Integer,Run> buildMap = ((Job) job).getBuildsAsMap();
-                Collection<Run> builds = buildMap.headMap(buildMap.firstKey() - MAX_BUILDS).values();
-				if (builds.isEmpty()) {
-					colStatBuilds.put(BallColor.GREY.noAnime(), colStatBuilds
-							.get(BallColor.GREY) + 1);
-					nBuilds++;
-				} else {
-					//loop over builds
-					for (Run build : builds) {
-						BallColor bColor = build.getIconColor();
-						if(bColor != null && bColor.noAnime() != null && colStatBuilds.get(bColor) != null){
-							colStatBuilds.put(bColor.noAnime(), colStatBuilds
-								.get(bColor) + 1);
-							nBuilds++;
-						}
-					}
-				}
+                if (!buildMap.isEmpty()) {
+                    Collection<Run> builds = buildMap.headMap(buildMap.firstKey() - MAX_BUILDS).values();
+                    if (builds.isEmpty()) {
+                        colStatBuilds.put(BallColor.GREY.noAnime(), colStatBuilds
+                                .get(BallColor.GREY) + 1);
+                    } else {
+                        //loop over builds
+                        for (Run build : builds) {
+                            BallColor bColor = build.getIconColor();
+                            if(bColor != null && bColor.noAnime() != null && colStatBuilds.get(bColor) != null){
+                                colStatBuilds.put(bColor.noAnime(), colStatBuilds
+                                    .get(bColor) + 1);
+                            }
+                        }
+                    }
+                }
 			}
 		}
 		return colStatBuilds;
