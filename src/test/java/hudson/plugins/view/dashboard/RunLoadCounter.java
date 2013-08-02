@@ -24,7 +24,7 @@
 
 package hudson.plugins.view.dashboard;
 
-// XXX copied; use standard version when 1.517+ dep
+// XXX copied; use standard version when 1.517+ or 1.509.3 dep
 
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
