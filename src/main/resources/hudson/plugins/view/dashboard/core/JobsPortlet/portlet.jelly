@@ -23,41 +23,36 @@ THE SOFTWARE.
 -->
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <dp:decorate portlet="${it}" width="3">
-	  <j:set var="i" value="${1 - 1}"/>
-	  <j:while test="${i &lt; jobs.size()}">
-	  	<tr>
+  <j:set var="h" value="${it.rowCount}"/>
+  <j:set var="w" value="${it.columnCount}"/>
+  <dp:decorate portlet="${it}" width="${w}">
+    <j:set var="i" value="${1 - 1}"/>
+    <j:while test="${i &lt; h}">
+      <tr>
         <j:set var="j" value="${1 - 1}"/>
-	  		<j:while test="${i &lt; jobs.size() &amp;&amp; j &lt; 3}">
-          <j:set var="job" value="${jobs.get(i)}" />
-	  			<td style="border: 1px solid #bbb;">
-            <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-              <a href="${job.shortUrl}build?delay=0sec">
-                <img src="${imagesURL}/16x16/clock.png"
-                     title="${%Schedule a build}" alt="${%Schedule a build}"
-                     border="0"
-                     align="middle"
-                     onclick="${job.parameterized ? null : 'return build(this)'}"
-                     style="float: right; clear: none;" />
-                <script>
-                     function build(img) {
-	    		new Ajax.Request(img.parentNode.href);
-	    		hoverNotification('${%Build scheduled}', img, -100);
-	    		return false;
-                     }
-                </script>						 
-              </a>
-            </j:if>
-            <dp:jobLink job="${job}"/>
-          </td>
-	    		<j:set var="i" value="${i + 1}"/>
-	    		<j:set var="j" value="${j + 1}"/>
-	  		</j:while>
-	  		<j:while test="${j &lt; 3}">
-	  			<td style="border: 1px solid #bbb;"></td>
-	    		<j:set var="j" value="${j + 1}"/>
-	  		</j:while>
-	  	</tr>
-	  </j:while>
+        <j:while test="${j &lt; w}">
+          <j:set var="job" value="${it.getJob(i, j)}" />
+          <j:if test="${!empty(job)}">
+            <td style="border: 1px solid #bbb;">
+              <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
+                <a href="${job.shortUrl}build?delay=0sec">
+                  <img src="${imagesURL}/16x16/clock.png"
+                       title="${%Schedule a build}" alt="${%Schedule a build}"
+                       border="0"
+                       align="middle"
+                       style="float: right; clear: none;" />
+                </a>
+              </j:if>
+              <dp:jobLink job="${job}"/>
+            </td>
+          </j:if>
+          <j:if test="${empty(job)}">
+            <td style="border: 1px solid #bbb;"></td>
+          </j:if>
+          <j:set var="j" value="${j + 1}"/>
+        </j:while>
+      </tr>
+      <j:set var="i" value="${i + 1}"/>
+    </j:while>
   </dp:decorate>
 </j:jelly>
