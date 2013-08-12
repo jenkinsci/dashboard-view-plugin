@@ -46,7 +46,7 @@ public class LatestBuilds extends DashboardPortlet {
     *
     */
    public List<Run> getFinishedBuilds() {
-        List<Job> jobs = getDashboard().getJobs();
+        List<Job> jobs = getDashboardJobs();
 
         PriorityQueue<Run> queue = new PriorityQueue<Run>(numBuilds, Run.ORDER_BY_DATE);
         for (Job job : jobs) {
@@ -57,19 +57,26 @@ public class LatestBuilds extends DashboardPortlet {
         }
 
         List<Run> recentBuilds = new ArrayList<Run>(numBuilds);
-        for (int i = 0; i < numBuilds; i++) {
-            Run run = queue.poll();
-            if (run == null) {
+        Run build;
+        while ((build = queue.poll()) != null) {
+            recentBuilds.add(build);
+            if (recentBuilds.size() == numBuilds) {
                 break;
             }
-            recentBuilds.add(run);
-            Run pb = run.getPreviousBuild();
+            Run pb = build.getPreviousBuild();
             if (pb != null) {
                 queue.add(pb);
             }
         }
-
+        
         return recentBuilds;
+   }
+
+   /**
+    * for unit test
+    */
+   protected List<Job> getDashboardJobs() {
+       return getDashboard().getJobs();
    }
 
    public String getBuildColumnSortData(Run<?, ?> build) {
