@@ -22,37 +22,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" 
-	xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
-	xmlns:dp="/hudson/plugins/view/dashboard">
-	<j:set var="iconSize" value="16x16" />
-	<j:set var="builds" value="${it.finishedBuilds}" />
-			<table id="statistics" class="sortable pane bigtable"
-				style="margin-top: 0px;">
-				<tr style="border-top: 0px;">
-					<th tooltip="${%Build name}" align="left">${%Build name}</th>
-          <th tooltip="${%Build status}" align="left">${%Build status}</th>
-					<th tooltip="${%Build time}" align="left">${%Build time}</th>
-				</tr>
-				<j:forEach var="build" items="${builds}">
-					<tr>
-						<td style="border: 1px #bbb solid;">
-              <!-- This tag does not generate a job link relative to view for jobs included using regexp -->
-              <!--t:jobLink job="${build.parent}"/-->
-              <dp:jobLink job="${build.parent}"/>
-            </td>
-            <td data="${it.getBuildColumnSortData(build)}">
-              <!-- This tag does not generate a build link relative to view for jobs included using regexp -->
-              <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
-              <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}" tooltip="${build.description}">
-                <img src="${imagesURL}/16x16/${build.buildStatusUrl}"
-                  alt="${build.iconColor.description}"
-                  title="${build.iconColor.description}" />${build.displayName}
-              </a>
-            </td>
-						<td data="${it.getTimestampSortData(build)}">${it.getTimestampString(build)}</td>
-					</tr>
-				</j:forEach>
-			</table>
-      <!--t:buildListTable builds="${builds}" jobBaseUrl="" /-->
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:dp="/hudson/plugins/view/dashboard">
+    <j:set var="iconSize" value="16x16" />
+    <j:set var="builds" value="${it.finishedBuilds}" />
+    <table id="statistics" class="sortable pane bigtable"
+                               style="margin-top: 0px;">
+        <tr style="border-top: 0px;">
+            <th tooltip="${%Build name}" align="left">${%Build name}</th>
+            <th tooltip="${%Build status}" align="left">${%Build status}</th>
+            <th tooltip="${%Build time}" align="left">${%Build time}</th>
+        </tr>
+        <j:forEach var="build" items="${builds}">
+            <tr>
+                <td style="border: 1px #bbb solid;">
+                    <!-- This tag does not generate a job link relative to view for jobs included using regexp -->
+                    <!--t:jobLink job="${build.parent}"/-->
+                    <dp:jobLink job="${build.parent}"/>
+                </td>
+                <td data="${it.getBuildColumnSortData(build)}">
+                    <!-- This tag does not generate a build link relative to view for jobs included using regexp -->
+                    <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
+                    <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}" tooltip="${build.description}">
+                        <img src="${imagesURL}/16x16/${build.buildStatusUrl}"
+                     alt="${build.iconColor.description}"
+                     title="${build.iconColor.description}" />${build.displayName}
+                    </a>
+                </td>
+                <td data="${it.getTimestampSortData(build)}">${it.getTimestampString(build)}</td>
+            </tr>
+        </j:forEach>
+    </table>
+    <!--t:buildListTable builds="${builds}" jobBaseUrl="" /-->
 </j:jelly>
