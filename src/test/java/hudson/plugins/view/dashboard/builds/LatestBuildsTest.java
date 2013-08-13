@@ -6,10 +6,10 @@ import hudson.model.Run;
 import hudson.plugins.view.dashboard.RunLoadCounter;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 import org.junit.Test;
 import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
-import static org.junit.Assert.assertTrue;
 
 public class LatestBuildsTest {
 
@@ -34,13 +34,12 @@ public class LatestBuildsTest {
 
         };
 
-        int actual = RunLoadCounter.countLoads(p, new Runnable() {
-            public void run() {
-                List<Run> builds = latest.getFinishedBuilds();
+        RunLoadCounter.assertMaxLoads(p, numbuilds, new Callable<List<Run>>() {
+
+            public List<Run> call() throws Exception {
+                return latest.getFinishedBuilds();
             }
         });
-        assertTrue(actual <= numbuilds);
-
     }
 
 }
