@@ -3,7 +3,6 @@ package hudson.plugins.view.dashboard.core;
 import java.util.List;
 
 import hudson.Extension;
-import hudson.model.TopLevelItem;
 import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.plugins.view.dashboard.DashboardPortlet;
@@ -19,7 +18,9 @@ import hudson.plugins.view.dashboard.Messages;
  */
 public class JobsPortlet extends DashboardPortlet {
 
-   private int columnCount = 3;
+   private static final int MIN_COLUMNCOUNT = 3;
+   
+   private int columnCount;
    private boolean fillColumnFirst = false;
 
    @DataBoundConstructor
@@ -27,12 +28,12 @@ public class JobsPortlet extends DashboardPortlet {
                       int columnCount,
                       boolean fillColumnFirst) {
       super(name);
-      this.columnCount = columnCount;
+      this.columnCount = columnCount <= 0 ? MIN_COLUMNCOUNT : columnCount;
       this.fillColumnFirst = fillColumnFirst;
    }
    
    public int getColumnCount() {
-      return this.columnCount <= 0 ? 3 : this.columnCount;
+      return columnCount;
    }
 
    public int getRowCount() {
@@ -50,7 +51,7 @@ public class JobsPortlet extends DashboardPortlet {
 
    public Job getJob(int curRow, int curColumun){
       List<Job> jobs = this.getDashboard().getJobs();
-      int idx = 0;
+      int idx;
       // get grid coordinates from given params
       if (this.fillColumnFirst){
          idx = curRow + curColumun * this.getRowCount();
@@ -70,6 +71,10 @@ public class JobsPortlet extends DashboardPortlet {
    @Extension
    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
 
+      public int getDefaultCoulmnCount() {
+          return MIN_COLUMNCOUNT;
+      } 
+      
       @Override
       public String getDisplayName() {
          return Messages.Dashboard_JobsGrid();
