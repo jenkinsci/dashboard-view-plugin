@@ -28,18 +28,18 @@ public class JobsPortlet extends DashboardPortlet {
                       int columnCount,
                       boolean fillColumnFirst) {
       super(name);
-      this.columnCount = columnCount <= 0 ? MIN_COLUMNCOUNT : columnCount;
+      this.columnCount = columnCount;
       this.fillColumnFirst = fillColumnFirst;
    }
    
    public int getColumnCount() {
-      return columnCount;
+      return columnCount <= 0 ? MIN_COLUMNCOUNT : columnCount;
    }
 
    public int getRowCount() {
       int s = this.getDashboard().getJobs().size();
-      int rowCount = s / this.columnCount;
-      if (s % this.columnCount > 0){
+      int rowCount = s / this.getColumnCount();
+      if (s % this.getColumnCount() > 0){
          rowCount += 1;
       }
       return rowCount;
@@ -60,7 +60,7 @@ public class JobsPortlet extends DashboardPortlet {
          }
       }
       else {
-         idx = curColumun + curRow * this.columnCount;
+         idx = curColumun + curRow * this.getColumnCount();
          if (idx >= jobs.size()){
             return null;
          }
