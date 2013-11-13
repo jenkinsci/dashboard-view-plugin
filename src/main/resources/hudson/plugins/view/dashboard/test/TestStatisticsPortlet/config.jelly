@@ -26,7 +26,7 @@ THE SOFTWARE.
   <f:entry title="${%Display name}">
     <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
-  <f:optionalBlock name="useBackgroundColors" title="${%Background Colors}" checked="${portlet.isUseBackgroundColors()}" inline="true">
+  <f:optionalBlock name="useBackgroundColors" title="${%Background Colors}" checked="${instance.isUseBackgroundColors()}" inline="true">
       <f:entry title="${%Success Color} (${%in hex})">
 	    <f:textbox name="successColor" field="successColor" default="71E66D" />
 	  </f:entry>
