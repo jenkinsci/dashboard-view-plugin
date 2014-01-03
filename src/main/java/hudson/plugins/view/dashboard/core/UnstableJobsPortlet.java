@@ -1,11 +1,7 @@
 package hudson.plugins.view.dashboard.core;
 
 import hudson.Extension;
-import hudson.model.Descriptor;
-import hudson.model.Job;
-import hudson.model.Result;
-import hudson.model.Run;
-import hudson.model.TopLevelItem;
+import hudson.model.*;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.views.JobColumn;
 import hudson.views.ListViewColumn;
@@ -46,6 +42,9 @@ public class UnstableJobsPortlet extends DashboardPortlet {
       ArrayList<Job> unstableJobs = new ArrayList<Job>();
 
        for (TopLevelItem item : allJobs) {
+         if (item instanceof ItemGroup) {
+             unstableJobs.addAll(getUnstableJobs(((ItemGroup)item).getItems()));
+         }
          if (item instanceof Job) {
              Job job = (Job) item;
              Run run = job.getLastCompletedBuild();
