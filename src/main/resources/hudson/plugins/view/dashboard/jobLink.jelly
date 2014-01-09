@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
    <st:documentation>
-    Generates a link to a job - same as lib/hudson/jobLink except uses job short url
+    Generates a link to a job - same as lib/hudson/jobLink except uses job long url
       <st:attribute name="job" type="hudson.model.Job" use="required">
       Job object to be displayed.
       </st:attribute>
@@ -39,5 +39,5 @@ THE SOFTWARE.
       alt="${job.buildHealth.description}"
       title="${job.buildHealth.description}" />
    <!--t:jobLink job="${job}"/-->
-   <a href="${job.shortUrl}" class="model-link">${job.displayName}</a>
+   <a href="${job.url}" class="model-link">${job.fullDisplayName}</a>
 </j:jelly>
