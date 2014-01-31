@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
   <j:set var="items" value="${it.dashboard.items}"/>
-  <j:set var="jobs" value="${it.dashboard.items}"/>
+  <j:set var="jobs" value="${it.dashboard.jobs}"/>
   <l:layout title="${it.dashboard.displayName} - ${it.displayName}">
     <!--st:include page="sidepanel.jelly" /-->
     <l:main-panel>
