@@ -29,5 +29,7 @@ THE SOFTWARE.
   <f:entry title="${%Parameters}">
     <f:checkbox name="portlet.showOnlyFailedJobs" field="showOnlyFailedJobs" />
 	${%Show only Failed Jobs} <br/>
+    <f:checkbox name="portlet.recurse" field="recurse" />
+	${%Recurse within folders} <br/>
   </f:entry>
 </j:jelly>
