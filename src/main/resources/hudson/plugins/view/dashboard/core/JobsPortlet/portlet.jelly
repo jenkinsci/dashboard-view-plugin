@@ -35,12 +35,11 @@ THE SOFTWARE.
           <j:if test="${!empty(job)}">
             <td style="border: 1px solid #bbb;">
               <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-                <a href="${job.url}build?delay=0sec">
+                <a onclick="doBuildPost('${job.shortUrl}build', this);" href="#">
                   <img src="${imagesURL}/16x16/clock.png"
                        title="${%Schedule a build}" alt="${%Schedule a build}"
                        border="0"
                        align="middle"
-                       onclick="${job.parameterized ? null : 'return build(this)'}"
                        style="float: right; clear: none;" />
                 </a>
               </j:if>
