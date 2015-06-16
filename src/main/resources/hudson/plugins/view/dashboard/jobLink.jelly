@@ -39,5 +39,5 @@ THE SOFTWARE.
       alt="${job.buildHealth.description}"
       title="${job.buildHealth.description}" />
    <!--t:jobLink job="${job}"/-->
-   <a href="${job.absoluteUrl}" class="model-link">${job.fullDisplayName}</a>
+   <a href="${rootURL}/${job.url}" class="model-link">${job.fullDisplayName}</a>
 </j:jelly>
