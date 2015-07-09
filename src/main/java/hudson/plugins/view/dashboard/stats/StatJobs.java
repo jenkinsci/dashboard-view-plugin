@@ -64,11 +64,8 @@ public class StatJobs extends DashboardPortlet {
          if (score < 80) {
             return HEALTH_60_TO_79;
          }
-         if (score >= 80) {
-            return nBuilds != 0 ? HEALTH_OVER_80 : HEALTH_UNKNOWN;
-         }
 
-         return HEALTH_UNKNOWN;
+         return nBuilds != 0 ? HEALTH_OVER_80 : HEALTH_UNKNOWN;
       }
 
       public String getIconUrl() {
