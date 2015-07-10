@@ -37,7 +37,7 @@ THE SOFTWARE.
       <j:forEach var="job" items="${unstableJobs}">
         <tr><td style="${indenter.getCss(j)}; border: 1px solid #BBBBBB">
           <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-            <a href="${job.url}build?delay=0sec">
+            <a href="${rootUrl}/${job.url}build?delay=0sec">
               <img src="${imagesURL}/16x16/clock.png"
                    title="${%Schedule a build}" alt="${%Schedule a build}"
                    border="0"
@@ -50,7 +50,7 @@ THE SOFTWARE.
                   hoverNotification('${%Build scheduled}', img, -100);
                   return false;
                 }
-              </script>				   
+              </script>
             </a>
           </j:if>
           <dp:jobLink job="${job}" />
