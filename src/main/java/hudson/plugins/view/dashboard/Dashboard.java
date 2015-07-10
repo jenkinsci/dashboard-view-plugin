@@ -41,6 +41,10 @@ public class Dashboard extends ListView {
      */
     private boolean includeStdJobList = false;
     /*
+     * Hide standard Jenkins panels (full screen view)
+     */
+    private boolean hideJenkinsPanels = false;
+    /*
      * The width of the left portlets
      */
     private String leftPortletWidth = "50%";
@@ -64,6 +68,10 @@ public class Dashboard extends ListView {
 
     public boolean isIncludeStdJobList() {
         return includeStdJobList;
+    }
+
+    public boolean isHideJenkinsPanels() {
+        return hideJenkinsPanels;
     }
 
     public List<DashboardPortlet> getLeftPortlets() {
@@ -156,6 +164,9 @@ public class Dashboard extends ListView {
 
         String sIncludeStdJobList = Util.nullify(req.getParameter("includeStdJobList"));
         includeStdJobList = sIncludeStdJobList != null && "on".equals(sIncludeStdJobList);
+
+        String shideJenkinsPanels = Util.nullify(req.getParameter("hideJenkinsPanels"));
+        hideJenkinsPanels = shideJenkinsPanels != null && "on".equals(shideJenkinsPanels);
 
         String sUseCssStyle = Util.nullify(req.getParameter("useCssStyle"));
         useCssStyle = sUseCssStyle != null && "on".equals(sUseCssStyle);

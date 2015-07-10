@@ -33,6 +33,10 @@ THE SOFTWARE.
       <f:checkbox name="includeStdJobList" field="includeStdJobList" />
       ${%Show standard Jenkins list at the top of the page}
     </f:block>
+    <f:block>
+      <f:checkbox name="hideJenkinsPanels" field="hideJenkinsPanels" />
+      ${%Full screen view - hide standard Jenkins panels}
+    </f:block>
     <f:optionalBlock name="useCssStyle" title="${%Set CSS custom parameters}"
                    checked="${it.useCssStyle}">
       <f:entry title="${%Left portlet width}" help="/plugin/dashboard-view/help/help-configPortletWidth.html">
