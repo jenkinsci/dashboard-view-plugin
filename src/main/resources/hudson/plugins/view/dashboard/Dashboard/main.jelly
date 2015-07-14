@@ -23,6 +23,11 @@ THE SOFTWARE.
 -->
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <j:if test="${it.isHideJenkinsPanels()}">
+    <link href="${rootURL}/plugin/dashboard-view/css/full_screen.css" type="text/css" rel="stylesheet" />
+  </j:if>
+
   <j:set var="views" value="${it.owner.views}" />
   <j:set var="currentView" value="${it}" />
   <j:choose>
