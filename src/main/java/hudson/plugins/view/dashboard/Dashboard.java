@@ -1,5 +1,6 @@
 package hudson.plugins.view.dashboard;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.DescriptorExtensionList;
 import hudson.Extension;
 import hudson.Util;
@@ -21,6 +22,8 @@ import javax.servlet.ServletException;
 
 import net.sf.json.JSONObject;
 
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.DoNotUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -123,7 +126,9 @@ public class Dashboard extends ListView {
     }
 
     /* Use contains */
-    //@Deprecated
+    @Deprecated
+    @SuppressFBWarnings(value = "NM_METHOD_NAMING_CONVENTION", justification = "backwards compatibility, but seems unused internally.")
+    @Restricted(DoNotUse.class)
     public synchronized boolean HasItem(TopLevelItem item) {
         List<TopLevelItem> items = getItems();
         return items.contains(item);

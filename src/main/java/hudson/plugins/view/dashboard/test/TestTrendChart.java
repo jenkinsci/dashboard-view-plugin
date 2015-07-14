@@ -148,19 +148,19 @@ public class TestTrendChart extends DashboardPortlet {
          Run run = job.getFirstBuild();
 
          if (run != null) { // execute only if job has builds
-        	 LocalDate runDay = new LocalDate(
-        			 run.getTimeInMillis() - dateShift*60000, GregorianChronology.getInstanceUTC());
-             LocalDate firstDay = (dateRange != 0) ? new LocalDate(
-            		 System.currentTimeMillis() - dateShift*6000, GregorianChronology.getInstanceUTC()).minusDays(dateRange) : runDay;
+            LocalDate runDay = new LocalDate(
+                     run.getTimeInMillis() - dateShift*60000L, GregorianChronology.getInstanceUTC());
+            LocalDate firstDay = (dateRange != 0) ? new LocalDate(
+                     System.currentTimeMillis() - dateShift*6000L, GregorianChronology.getInstanceUTC()).minusDays(dateRange) : runDay;
 
             while (run != null) {
                runDay = new LocalDate(
-            		   run.getTimeInMillis() - dateShift*60000, GregorianChronology.getInstanceUTC());
+                        run.getTimeInMillis() - dateShift*60000L, GregorianChronology.getInstanceUTC());
                Run nextRun = run.getNextBuild();
 
                if (nextRun != null) {
                   LocalDate nextRunDay = new LocalDate(
-                		  nextRun.getTimeInMillis() - dateShift*60000, GregorianChronology.getInstanceUTC());
+                          nextRun.getTimeInMillis() - dateShift*60000L, GregorianChronology.getInstanceUTC());
                   // skip run before firstDay, but keep if next build is
                   // after start date
                   if (!runDay.isBefore(firstDay)
