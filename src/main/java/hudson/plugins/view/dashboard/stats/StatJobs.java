@@ -51,7 +51,6 @@ public class StatJobs extends DashboardPortlet {
 
       public static HealthStatus getHealthStatus(Job job) {
          int score = job.getBuildHealth().getScore();
-         int nBuilds = job.getBuilds().size();
          if (score < 20) {
             return HEALTH_0_TO_19;
          }
@@ -65,7 +64,7 @@ public class StatJobs extends DashboardPortlet {
             return HEALTH_60_TO_79;
          }
 
-         return nBuilds != 0 ? HEALTH_OVER_80 : HEALTH_UNKNOWN;
+         return job.getFirstBuild() != null ? HEALTH_OVER_80 : HEALTH_UNKNOWN;
       }
 
       public String getIconUrl() {
