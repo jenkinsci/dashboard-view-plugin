@@ -24,12 +24,10 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
 
     private static Random generator = new Random();
     private String id = null;
-    private String name;
+    private String name = null;
 
     public DashboardPortlet(String name) {
-        if (this.id == null) {
-            this.id = "dashboard_portlet_" + generator.nextInt(32000);
-        }
+        this.id = "dashboard_portlet_" + generator.nextInt(32000);
         this.name = name;
         DashboardLog.debug("DashboardPortlet", name + " - " + id);
     }
