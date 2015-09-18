@@ -1,10 +1,10 @@
 package hudson.plugins.view.dashboard.test;
 
+import hudson.matrix.MatrixProject;
 import hudson.maven.reporters.SurefireAggregatedReport;
 import hudson.model.Job;
 import hudson.model.Run;
 import hudson.model.TopLevelItem;
-import hudson.tasks.junit.TestResultAction;
 import hudson.tasks.test.AbstractTestResultAction;
 import hudson.tasks.test.TestResultProjectAction;
 
@@ -15,54 +15,67 @@ public class TestUtil {
    /**
     * Summarize the last test results from the passed set of jobs.  If a job
     * doesn't include any tests, add a 0 summary.
-    * 
+    *
     * @param jobs
     * @return
     */
    public static TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
       TestResultSummary summary = new TestResultSummary();
 
-       for (TopLevelItem item : jobs) {
-           if (item instanceof Job) {
-                Job job = (Job) item;
-                boolean addBlank = true;
-                TestResultProjectAction testResults = job.getAction(TestResultProjectAction.class);
+      for (TopLevelItem item : jobs) {
+         if (item instanceof MatrixProject) {
+            MatrixProject mp = (MatrixProject) item;
 
-                if (testResults != null) {
-                    AbstractTestResultAction tra = testResults.getLastTestResultAction();
-
-                    if (tra != null) {
-                       addBlank = false;
-                       summary.addTestResult(new TestResult(job, tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount()));
-                    }
-                } else {
-                    SurefireAggregatedReport surefireTestResults = job.getAction(SurefireAggregatedReport.class);
-                    if (surefireTestResults != null) {
-                       addBlank = false;
-                       summary.addTestResult(new TestResult(job, surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount()));
-                    }
-                }
-
-                if (addBlank) {
-                    summary.addTestResult(new TestResult(job, 0, 0, 0));
-                }
-           }
+            for (Job job : mp.getAllJobs()) {
+               if (job != mp) { //getAllJobs includes the parent job too, so skip that
+                  summarizeJob(job, summary);
+               }
+            }
+         }
+         else if (item instanceof Job) {
+            Job job = (Job) item;
+            summarizeJob(job, summary);
+         }
       }
 
       return summary;
+   }
+
+   private static void summarizeJob(Job job, TestResultSummary summary) {
+      boolean addBlank = true;
+      TestResultProjectAction testResults = job.getAction(TestResultProjectAction.class);
+
+      if (testResults != null) {
+         AbstractTestResultAction tra = testResults.getLastTestResultAction();
+
+         if (tra != null) {
+            addBlank = false;
+            summary.addTestResult(new TestResult(job, tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount()));
+         }
+      } else {
+         SurefireAggregatedReport surefireTestResults = job.getAction(SurefireAggregatedReport.class);
+         if (surefireTestResults != null) {
+            addBlank = false;
+            summary.addTestResult(new TestResult(job, surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount()));
+         }
+      }
+
+      if (addBlank) {
+         summary.addTestResult(new TestResult(job, 0, 0, 0));
+      }
    }
 
    public static TestResult getTestResult(Run run) {
       AbstractTestResultAction tra = run.getAction(AbstractTestResultAction.class);
       if (tra != null) {
          return new TestResult(run.getParent(), tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount());
-      } 
-      
+      }
+
       SurefireAggregatedReport surefireTestResults = run.getAction(SurefireAggregatedReport.class);
       if (surefireTestResults != null) {
          return new TestResult(run.getParent(), surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount());
       }
-      
+
       return new TestResult(run.getParent(), 0, 0, 0);
    }
 }
