@@ -40,7 +40,7 @@ THE SOFTWARE.
 				</j:forEach>
 				<j:forEach var="col" items="${statsBuild}">
 					<tr>
-						<t:ballColorTd it="${col.key}" />
+						<t:ballColorTd it="${col.key}" iconSizeClass="icon-sm" />
 						<td>${col.key.description}</td>
 						<td>${col.value}</td>
 						<td>${it.roundFloatDecimal((col.value/nBuilds)*100)}</td>
