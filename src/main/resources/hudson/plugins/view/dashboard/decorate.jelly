@@ -25,6 +25,7 @@ THE SOFTWARE.
 <!--
 	adds a table with header row and caller adds additional rows to body
 -->
+<?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:st="jelly:stapler">
   <st:documentation>
     Portlet border decoration
