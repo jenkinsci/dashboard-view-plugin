@@ -42,26 +42,21 @@ public class StatBuilds extends DashboardPortlet{
 		for (TopLevelItem job : jobs) {
 			if (job instanceof Job) {
 				// Build statistics
-                // With a 1.507+ dep and a fix of JENKINS-18065 could use simply: job.getBuilds().limit(MAX_BUILDS)
-				SortedMap<Integer,Run> buildMap = ((Job) job).getBuildsAsMap();
-                if (!buildMap.isEmpty()) {
-                    Collection<Run> builds = buildMap.headMap(buildMap.firstKey() - MAX_BUILDS).values();
-                    if (builds.isEmpty()) {
-                        colStatBuilds.put(BallColor.GREY.noAnime(), colStatBuilds
-                                .get(BallColor.GREY) + 1);
+                List<Run> builds = ((Job) job).getBuilds().limit(MAX_BUILDS);
+                if (builds.isEmpty()) {
+                    colStatBuilds.put(BallColor.GREY.noAnime(),
+                                      colStatBuilds.get(BallColor.GREY) + 1);
                     } else {
-                        //loop over builds
-                        for (Run build : builds) {
-                            BallColor bColor = build.getIconColor();
-                            if(bColor != null && bColor.noAnime() != null && colStatBuilds.get(bColor) != null){
-                                colStatBuilds.put(bColor.noAnime(), colStatBuilds
-                                    .get(bColor) + 1);
-                            }
+                    //loop over builds
+                    for (Run build : builds) {
+                        BallColor bColor = build.getIconColor();
+                        if(bColor != null && bColor.noAnime() != null && colStatBuilds.get(bColor) != null) {
+                            colStatBuilds.put(bColor.noAnime(), colStatBuilds.get(bColor) + 1);
                         }
                     }
                 }
-			}
-		}
+            }
+        }
 		return colStatBuilds;
 	}
 	
