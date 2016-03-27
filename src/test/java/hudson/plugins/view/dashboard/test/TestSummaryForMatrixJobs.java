@@ -24,13 +24,13 @@ import static org.junit.Assert.assertThat;
 
 public class TestSummaryForMatrixJobs {
    @Rule
-   public JenkinsRule jenkins = new JenkinsRule();
+   public JenkinsRule j = new JenkinsRule();
 
    private MatrixProject matrixProject;
 
    @Before
    public void createMatrixJob() throws IOException {
-      matrixProject = jenkins.createMatrixProject("top");
+      matrixProject = j.jenkins.createProject(MatrixProject.class, "top");
       matrixProject.getAxes().add(new TextAxis("param", "one", "two"));
       matrixProject.getBuildersList().add(new TestBuilder() {
          @Override
@@ -45,7 +45,7 @@ public class TestSummaryForMatrixJobs {
    @Test
    public void summaryIncludesMatrixJobs() throws Exception {
       MatrixBuild result = matrixProject.scheduleBuild2(0).get();
-      jenkins.assertBuildStatus(Result.UNSTABLE, result);
+      j.assertBuildStatus(Result.UNSTABLE, result);
 
       TestResultSummary testSummary = TestUtil.getTestResultSummary(Collections.singleton((TopLevelItem) matrixProject));
       assertThat(testSummary.getFailed(), is((2)));
