@@ -3,13 +3,13 @@ package hudson.plugins.view.dashboard.builds;
 import hudson.model.FreeStyleProject;
 import hudson.model.Job;
 import hudson.model.Run;
-import hudson.plugins.view.dashboard.RunLoadCounter;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.junit.Test;
 import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.RunLoadCounter;
 
 public class LatestBuildsTest {
 

@@ -3,7 +3,6 @@ package hudson.plugins.view.dashboard.stats;
 import hudson.model.BallColor;
 import hudson.model.FreeStyleProject;
 import hudson.model.TopLevelItem;
-import hudson.plugins.view.dashboard.RunLoadCounter;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -12,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Rule;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.RunLoadCounter;
 
 public class StatBuildsTest {
 
