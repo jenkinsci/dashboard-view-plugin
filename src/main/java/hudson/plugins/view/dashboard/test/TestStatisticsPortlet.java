@@ -24,18 +24,33 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 	private String skippedColor;
 	private String successColor;
 	private String failureColor;
+	private boolean hideBlankJobs;
 
-	@DataBoundConstructor
-	public TestStatisticsPortlet(String name, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors) {
+	public TestStatisticsPortlet(
+            String name, String successColor, String failureColor, String skippedColor,
+            boolean useBackgroundColors) {
 		super(name);
 		this.successColor = successColor;
 		this.failureColor = failureColor;
 		this.skippedColor = skippedColor;
 		this.useBackgroundColors = useBackgroundColors;
+		this.hideBlankJobs = false;
+        }
+
+	@DataBoundConstructor
+	public TestStatisticsPortlet(
+            String name, String successColor, String failureColor, String skippedColor,
+            boolean useBackgroundColors, boolean hideBlankJobs) {
+		super(name);
+		this.successColor = successColor;
+		this.failureColor = failureColor;
+		this.skippedColor = skippedColor;
+		this.useBackgroundColors = useBackgroundColors;
+		this.hideBlankJobs = hideBlankJobs;
 	}
 
 	public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
-		return TestUtil.getTestResultSummary(jobs);
+		return TestUtil.getTestResultSummary(jobs, hideBlankJobs);
 	}
 
 	public String format(DecimalFormat df, double val) {
@@ -47,7 +62,11 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 		}
 		return df.format(val);
 	}
-	
+
+    public boolean isHideBlankJobs() {
+        return hideBlankJobs;
+    }
+
 	public boolean isUseBackgroundColors() {
 		return useBackgroundColors;
 	}
@@ -76,8 +95,12 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 		}
 		return successColor;
 	}
-	
-	public void setUseBackgroundColors(boolean useBackgroundColors) {
+
+    public void setHideBlankJobs(boolean hideBlankJobs) {
+        this.hideBlankJobs = hideBlankJobs;
+    }
+
+    public void setUseBackgroundColors(boolean useBackgroundColors) {
 		this.useBackgroundColors = useBackgroundColors;
 	}
 	

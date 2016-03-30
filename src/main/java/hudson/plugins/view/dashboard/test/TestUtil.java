@@ -20,6 +20,10 @@ public class TestUtil {
     * @return
     */
    public static TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
+       return getTestResultSummary(jobs, false);
+   }
+
+   public static TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs, boolean hideBlanks) {
       TestResultSummary summary = new TestResultSummary();
 
       for (TopLevelItem item : jobs) {
@@ -28,21 +32,21 @@ public class TestUtil {
 
             for (Job job : mp.getAllJobs()) {
                if (job != mp) { //getAllJobs includes the parent job too, so skip that
-                  summarizeJob(job, summary);
+                  summarizeJob(job, summary, hideBlanks);
                }
             }
          }
          else if (item instanceof Job) {
             Job job = (Job) item;
-            summarizeJob(job, summary);
+            summarizeJob(job, summary, hideBlanks);
          }
       }
 
       return summary;
    }
 
-   private static void summarizeJob(Job job, TestResultSummary summary) {
-      boolean addBlank = true;
+   private static void summarizeJob(Job job, TestResultSummary summary, boolean hideBlanks) {
+      boolean addBlank = !hideBlanks;
       TestResultProjectAction testResults = job.getAction(TestResultProjectAction.class);
 
       if (testResults != null) {
