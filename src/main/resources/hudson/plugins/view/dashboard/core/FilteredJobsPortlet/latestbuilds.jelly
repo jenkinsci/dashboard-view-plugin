@@ -1,0 +1,64 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:dp="/hudson/plugins/view/dashboard">
+    <j:set var="iconSize" value="16x16" />
+    <j:set var="builds" value="${it.getMostRecentBuilds(job)}" />    
+    <table id="statistics" class="sortable pane bigtable"
+                               style="margin-top: 0px;">
+        <tr style="border-top: 0px;">
+            <th tooltip="${%Build name}" align="left">${%Build name}</th>
+            <th tooltip="${%Build status}" align="left">${%Build status}</th>
+            <th tooltip="${%Build time}" align="left">${%Build time}</th>
+        </tr>        
+        <j:forEach var="build" items="${builds}">
+            <tr>                
+                <td style="border: 1px #bbb solid;" width="70%">
+                    <!-- This tag does not generate a job link relative to view for jobs included using regexp -->
+                    <!--t:jobLink job="${build.parent}"/-->
+                    <dp:jobLink job="${build.parent}"/>
+                </td>
+                <td data="${it.getBuildColumnSortData(build)}">
+                    <!-- This tag does not generate a build link relative to view for jobs included using regexp -->
+                    <!--t:buildLink job="${build.parent}" jobName="${build.parent.displayName}" number="${build.number}" /-->
+                    <a href="${build.parent.absoluteUrl}/${build.number}/console" tooltip="${build.description}">
+                        <!--img src="${imagesURL}/16x16/${build.buildStatusUrl}"-->
+                        <img src="${rootURL}/plugin/dashboard-view/images/terminal_16x16.png"
+                            alt="${build.iconColor.description}"
+                            title="${build.iconColor.description}"/>
+                    </a>                    
+                    <st:nbsp/>                    
+                    <a href="${build.parent.absoluteUrl}/${build.number}" tooltip="${build.description}">
+                        ${build.displayName}
+                    </a>
+                </td>
+                <td style="border: 1px #bbb solid; text-align:left" data="${it.getTimestampSortData(build)}">${it.getTimestampString(build)}</td>
+            </tr>
+        </j:forEach>
+    </table>
+    <!--t:buildListTable builds="${builds}" jobBaseUrl="" /-->
+</j:jelly>
