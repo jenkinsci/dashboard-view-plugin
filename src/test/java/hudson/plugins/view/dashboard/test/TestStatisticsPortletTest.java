@@ -47,7 +47,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testFormatLessThan1Percent() {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				null, null, null, false);
+				false, null, null, null, false);
 		DecimalFormat df = new DecimalFormat("0%");
 		double val = 0.003d;
 		String expResult = ">0%";
@@ -61,7 +61,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testFormatBetween1PercentAnd99Percent() {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				null, null, null, false);
+				false, null, null, null, false);
 		DecimalFormat df = new DecimalFormat("0%");
 		double val = 0.5d;
 		String expResult = "50%";
@@ -75,7 +75,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testFormatGreaterThan99Percent() {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				null, null, null, false);
+				false, null, null, null, false);
 		DecimalFormat df = new DecimalFormat("0%");
 		double val = 0.996d;
 		String expResult = "<100%";
@@ -89,7 +89,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testFormatEqualTo100Percent() {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				null, null, null, false);
+				false, null, null, null, false);
 		DecimalFormat df = new DecimalFormat("0%");
 		double val = 1d;
 		String expResult = "100%";
@@ -103,7 +103,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testFormatEqualTo0Percent() {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				null, null, null, false);
+				false, null, null, null, false);
 		DecimalFormat df = new DecimalFormat("0%");
 		double val = 0d;
 		String expResult = "0%";
@@ -114,7 +114,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testRowColor() throws Exception {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				"green", "red", null, false);
+				false, "green", "red", null, false);
 		assertEquals("green", instance.getRowColor(new TestResult(null, 3, 0, 0)));
 		assertEquals("red", instance.getRowColor(new TestResult(null, 1, 1, 0)));
 		assertEquals("red", instance.getRowColor(new TestResult(null, 1, 0, 1)));
@@ -123,7 +123,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testSummaryRowColorWithOneRow() throws Exception {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				"green", "red", null, false);
+				false, "green", "red", null, false);
 		assertEquals("green", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 3, 0, 0))));
 		assertEquals("red", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 1, 0))));
 		assertEquals("red", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 0, 1))));
@@ -132,7 +132,7 @@ public class TestStatisticsPortletTest {
 	@Test
 	public void testSummaryRowColorWithMultipleRows() throws Exception {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
-				"green", "red", null, false);
+				false, "green", "red", null, false);
 		assertEquals("green", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 2, 0, 0), new TestResult(null, 2, 0, 0))));
 		assertEquals("red", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 1, 0))));
 		assertEquals("red", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 0, 1))));

@@ -47,7 +47,7 @@ public class TestSummaryForMatrixJobs {
       MatrixBuild result = matrixProject.scheduleBuild2(0).get();
       j.assertBuildStatus(Result.UNSTABLE, result);
 
-      TestResultSummary testSummary = TestUtil.getTestResultSummary(Collections.singleton((TopLevelItem) matrixProject));
+      TestResultSummary testSummary = TestUtil.getTestResultSummary(Collections.singleton((TopLevelItem) matrixProject), false);
       assertThat(testSummary.getFailed(), is((2)));
       assertThat(testSummary.getSuccess(), is((2)));
    }

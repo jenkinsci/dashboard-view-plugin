@@ -27,6 +27,9 @@ THE SOFTWARE.
   <f:entry title="${%Display name}">
     <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
+  <f:entry title="${%Hide projects with no tests}" field="hideZeroTestProjects">
+      <f:checkbox />
+  </f:entry>
   <f:optionalBlock name="useBackgroundColors" title="${%Background Colors}" checked="${instance.isUseBackgroundColors()}" inline="true">
       <f:entry title="${%Success Color} (${%in hex})">
 	    <f:textbox name="successColor" field="successColor" default="71E66D" />
