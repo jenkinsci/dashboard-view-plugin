@@ -1,5 +1,6 @@
 package hudson.plugins.view.dashboard.test;
 
+import hudson.matrix.MatrixConfiguration;
 import hudson.matrix.MatrixProject;
 import hudson.maven.reporters.SurefireAggregatedReport;
 import hudson.model.Job;
@@ -27,10 +28,9 @@ public class TestUtil {
          if (item instanceof MatrixProject) {
             MatrixProject mp = (MatrixProject) item;
 
-            for (Job job : mp.getAllJobs()) {
-               if (job != mp) { //getAllJobs includes the parent job too, so skip that
-                  summarizeJob(job, summary, hideZeroTestProjects);
-               }
+            for (MatrixConfiguration configuration : mp.getActiveConfigurations()) {
+               MatrixConfiguration job = mp.getItem(configuration.getCombination());
+               summarizeJob(job, summary, hideZeroTestProjects);
             }
          }
          else if (item instanceof Job) {
