@@ -40,7 +40,7 @@ THE SOFTWARE.
     </j:when>
     <j:otherwise>
       	<st:include page="viewTabs.jelly" it="${it.owner.viewsTabBar}" />
-    	<j:set var="jobs" value="${it.items}"/>
+    	<j:set var="jobs" value="${it.jobs}"/>
 
     	<j:choose>
     	  <j:when test="${empty(it.rightPortlets)}">
