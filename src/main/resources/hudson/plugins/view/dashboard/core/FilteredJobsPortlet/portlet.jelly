@@ -26,15 +26,15 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <j:set var="h" value="${it.rowCount}"/>
   <j:set var="w" value="${it.columnCount}"/>
-  <j:set var="unused" value="${it.doInitFilterPattern()}"/>  
+  <j:set var="unused" value="${it.doInitFilterPattern()}"/>
   <dp:decorate portlet="${it}" width="${w}">
     <j:set var="i" value="${1 - 1}"/>
     <j:while test="${i &lt; h}">
       <tr>
         <j:set var="j" value="${1 - 1}"/>
         <j:while test="${j &lt; w}">
-          <j:set var="job" value="${it.getJob(i, j)}" />          
-          <j:if test="${!empty(job)}">              
+          <j:set var="job" value="${it.getJob(i, j)}" />
+          <j:if test="${!empty(job)}">
             <td style="border: 1px solid #bbb;">
               <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
                 <a onclick="doBuildPost('${job.shortUrl}build', this);" href="#">
@@ -56,9 +56,9 @@ THE SOFTWARE.
                 <j:if test="${!empty(job)}">
                 <td style="border: 1px solid #bbb;"></td>
                 </j:if>
-            </j:if>            
-          </j:if>          
-          <j:set var="j" value="${j + 1}"/>          
+            </j:if>
+          </j:if>
+          <j:set var="j" value="${j + 1}"/>
         </j:while>
       </tr>
       <j:set var="i" value="${i + 1}"/>

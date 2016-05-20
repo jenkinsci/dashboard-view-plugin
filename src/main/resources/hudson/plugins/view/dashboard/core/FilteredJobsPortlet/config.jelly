@@ -25,7 +25,7 @@ THE SOFTWARE.
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <f:entry title="${%Display name}">
-    <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />    
+    <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
   <f:entry title="Jobs Filter">
     <f:textbox name="portlet.filterText" field="filterText" default="${descriptor.getDefaultFilterText()}" />
@@ -41,5 +41,5 @@ THE SOFTWARE.
       <f:checkbox name="portlet.includeLastBuild" field="includeLastBuild" default="${descriptor.getDefaultIncludeLastBuild}"/>
       ${%Include last build}
   </f:entry>
-  
+
 </j:jelly>
