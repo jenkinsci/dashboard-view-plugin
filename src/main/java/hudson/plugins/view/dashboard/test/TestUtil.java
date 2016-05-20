@@ -1,5 +1,6 @@
 package hudson.plugins.view.dashboard.test;
 
+import hudson.matrix.MatrixConfiguration;
 import hudson.matrix.MatrixProject;
 import hudson.maven.reporters.SurefireAggregatedReport;
 import hudson.model.Job;
@@ -19,29 +20,30 @@ public class TestUtil {
     * @param jobs
     * @return
     */
-   public static TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
+   public static TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs,
+                                                        boolean hideZeroTestProjects) {
       TestResultSummary summary = new TestResultSummary();
 
       for (TopLevelItem item : jobs) {
          if (item instanceof MatrixProject) {
             MatrixProject mp = (MatrixProject) item;
 
-            for (Job job : mp.getAllJobs()) {
-               if (job != mp) { //getAllJobs includes the parent job too, so skip that
-                  summarizeJob(job, summary);
-               }
+            for (MatrixConfiguration configuration : mp.getActiveConfigurations()) {
+               MatrixConfiguration job = mp.getItem(configuration.getCombination());
+               summarizeJob(job, summary, hideZeroTestProjects);
             }
          }
          else if (item instanceof Job) {
             Job job = (Job) item;
-            summarizeJob(job, summary);
+            summarizeJob(job, summary, hideZeroTestProjects);
          }
       }
 
       return summary;
    }
 
-   private static void summarizeJob(Job job, TestResultSummary summary) {
+   private static void summarizeJob(Job job, TestResultSummary summary,
+                                    boolean hideZeroTestProjects) {
       boolean addBlank = true;
       TestResultProjectAction testResults = job.getAction(TestResultProjectAction.class);
 
@@ -50,17 +52,23 @@ public class TestUtil {
 
          if (tra != null) {
             addBlank = false;
-            summary.addTestResult(new TestResult(job, tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount()));
+            if(tra.getTotalCount()>0 || !hideZeroTestProjects)
+            {
+                summary.addTestResult(new TestResult(job, tra.getTotalCount(), tra.getFailCount(), tra.getSkipCount()));
+            }
          }
       } else {
          SurefireAggregatedReport surefireTestResults = job.getAction(SurefireAggregatedReport.class);
          if (surefireTestResults != null) {
             addBlank = false;
-            summary.addTestResult(new TestResult(job, surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount()));
+            if(surefireTestResults.getTotalCount()>0 || !hideZeroTestProjects)
+            {
+              summary.addTestResult(new TestResult(job, surefireTestResults.getTotalCount(), surefireTestResults.getFailCount(), surefireTestResults.getSkipCount()));
+            }
          }
       }
 
-      if (addBlank) {
+      if (addBlank && !hideZeroTestProjects) {
          summary.addTestResult(new TestResult(job, 0, 0, 0));
       }
    }

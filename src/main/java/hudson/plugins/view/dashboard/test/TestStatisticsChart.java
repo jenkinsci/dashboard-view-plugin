@@ -33,7 +33,7 @@ public class TestStatisticsChart extends DashboardPortlet {
     * Graph of duration of tests over time.
     */
    public Graph getSummaryGraph() {
-      final TestResultSummary summary = TestUtil.getTestResultSummary(getDashboard().getItems());
+      final TestResultSummary summary = TestUtil.getTestResultSummary(getDashboard().getItems(), false);
 
       return new Graph(-1, 300, 220) {
 

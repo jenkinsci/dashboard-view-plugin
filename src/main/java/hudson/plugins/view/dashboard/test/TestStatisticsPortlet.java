@@ -24,18 +24,20 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 	private String skippedColor;
 	private String successColor;
 	private String failureColor;
+        private boolean hideZeroTestProjects;
 
 	@DataBoundConstructor
-	public TestStatisticsPortlet(String name, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors) {
+	public TestStatisticsPortlet(String name, final boolean hideZeroTestProjects, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors) {
 		super(name);
 		this.successColor = successColor;
 		this.failureColor = failureColor;
 		this.skippedColor = skippedColor;
 		this.useBackgroundColors = useBackgroundColors;
+                this.hideZeroTestProjects = hideZeroTestProjects;
 	}
 
 	public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
-		return TestUtil.getTestResultSummary(jobs);
+		return TestUtil.getTestResultSummary(jobs, hideZeroTestProjects);
 	}
 
 	public String format(DecimalFormat df, double val) {
