@@ -39,6 +39,10 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 	public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
 		return TestUtil.getTestResultSummary(jobs, hideZeroTestProjects);
 	}
+        
+        public boolean getHideZeroTestProjects() {
+            return this.hideZeroTestProjects;
+        }
 
 	public String format(DecimalFormat df, double val) {
 		if (val < 1d && val > .99d) {
