@@ -30,6 +30,10 @@ THE SOFTWARE.
   <f:entry title="${%Hide projects with no tests}" field="hideZeroTestProjects">
       <f:checkbox />
   </f:entry>
+  <f:entry title="${%Use alternate percentages on limits}" field="useAlternatePercentagesOnLimits">
+    <f:checkbox />
+  </f:entry>
+
   <f:optionalBlock name="useBackgroundColors" title="${%Background Colors}" checked="${instance.isUseBackgroundColors()}" inline="true">
       <f:entry title="${%Success Color} (${%in hex})">
 	    <f:textbox name="successColor" field="successColor" default="71E66D" />

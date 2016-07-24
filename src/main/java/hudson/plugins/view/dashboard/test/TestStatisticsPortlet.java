@@ -24,32 +24,38 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 	private String skippedColor;
 	private String successColor;
 	private String failureColor;
-        private boolean hideZeroTestProjects;
+	private boolean hideZeroTestProjects;
+	private boolean useAlternatePercentagesOnLimits;
 
 	@DataBoundConstructor
-	public TestStatisticsPortlet(String name, final boolean hideZeroTestProjects, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors) {
+	public TestStatisticsPortlet(String name, final boolean hideZeroTestProjects, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors, boolean useAlternatePercentagesOnLimits) {
 		super(name);
 		this.successColor = successColor;
 		this.failureColor = failureColor;
 		this.skippedColor = skippedColor;
 		this.useBackgroundColors = useBackgroundColors;
-                this.hideZeroTestProjects = hideZeroTestProjects;
+        this.hideZeroTestProjects = hideZeroTestProjects;
+		this.useAlternatePercentagesOnLimits = useAlternatePercentagesOnLimits;
 	}
 
 	public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
 		return TestUtil.getTestResultSummary(jobs, hideZeroTestProjects);
 	}
-        
-        public boolean getHideZeroTestProjects() {
+
+	public boolean getHideZeroTestProjects() {
             return this.hideZeroTestProjects;
         }
 
 	public String format(DecimalFormat df, double val) {
 		if (val < 1d && val > .99d) {
-			return "<100%";
+			return useAlternatePercentagesOnLimits
+					? ">99%"
+					: "<100%";
 		}
 		if (val > 0d && val < .01d) {
-			return ">0%";
+			return useAlternatePercentagesOnLimits
+					? "<1%"
+					: ">0%";
 		}
 		return df.format(val);
 	}
@@ -68,6 +74,10 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 
 	public String getSkippedColor() {
 		return skippedColor;
+	}
+
+	public boolean isUseAlternatePercentagesOnLimits() {
+		return useAlternatePercentagesOnLimits;
 	}
 	
 	public String getRowColor(TestResult testResult) {
