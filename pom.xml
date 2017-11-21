@@ -44,6 +44,14 @@
     <tag>HEAD</tag>
   </scm>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <distribution>repo</distribution>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
   <repositories>
     <repository>
       <id>repo.jenkins-ci.org</id>
