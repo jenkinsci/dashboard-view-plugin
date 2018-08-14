@@ -51,16 +51,16 @@ public class StatJobs extends DashboardPortlet {
 
       public static HealthStatus getHealthStatus(Job job) {
          int score = job.getBuildHealth().getScore();
-         if (score < 20) {
+         if (score <= 20) {
             return HEALTH_0_TO_19;
          }
-         if (score < 40) {
+         if (score <= 40) {
             return HEALTH_20_TO_39;
          }
-         if (score < 60) {
+         if (score <= 60) {
             return HEALTH_40_TO_59;
          }
-         if (score < 80) {
+         if (score <= 80) {
             return HEALTH_60_TO_79;
          }
 
