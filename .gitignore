@@ -1,8 +1,7 @@
-target
-work
-.classpath
-.project
-.settings
-.idea
-dashboard-view.iml
-nb-configuration.xml
+/*.iml
+/.classpath
+/.idea/
+/.project
+/.settings/
+/target/
+/work/
