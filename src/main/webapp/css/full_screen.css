@@ -2,3 +2,8 @@
 #side-panel, #top-panel, #footer, #top-nav, #view-message, #viewList {
     display: none;
 }
+
+body.two-column #main-panel {
+    margin-left: 0;
+}
+
