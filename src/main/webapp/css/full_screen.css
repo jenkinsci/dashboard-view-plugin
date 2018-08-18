@@ -2,3 +2,7 @@
 #side-panel, #top-panel, #footer, #top-nav, #view-message, #viewList {
     display: none;
 }
+
+#main-panel {
+    margin-left: 0 !important;
+} 
