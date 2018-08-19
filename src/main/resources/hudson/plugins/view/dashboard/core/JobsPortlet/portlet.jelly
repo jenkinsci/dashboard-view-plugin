@@ -36,7 +36,7 @@ THE SOFTWARE.
           <j:if test="${!empty(job)}">
             <td style="border: 1px solid #bbb;">
               <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-                <a onclick="doBuildPost('${job.shortUrl}build', this);" href="#">
+                <a href="${rootURL}/${job.url}build?delay=0sec">
                   <img src="${imagesURL}/16x16/clock.png"
                        title="${%Schedule a build}" alt="${%Schedule a build}"
                        border="0"
