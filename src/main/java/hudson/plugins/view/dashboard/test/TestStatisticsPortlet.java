@@ -12,6 +12,8 @@ import java.util.List;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import hudson.plugins.view.dashboard.Messages;
+import org.kohsuke.stapler.DataBoundSetter;
+
 import java.text.DecimalFormat;
 
 /**
@@ -28,14 +30,13 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 	private boolean useAlternatePercentagesOnLimits;
 
 	@DataBoundConstructor
-	public TestStatisticsPortlet(String name, final boolean hideZeroTestProjects, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors, boolean useAlternatePercentagesOnLimits) {
+	public TestStatisticsPortlet(String name, final boolean hideZeroTestProjects, String successColor, String failureColor, String skippedColor, boolean useBackgroundColors) {
 		super(name);
 		this.successColor = successColor;
 		this.failureColor = failureColor;
 		this.skippedColor = skippedColor;
 		this.useBackgroundColors = useBackgroundColors;
         this.hideZeroTestProjects = hideZeroTestProjects;
-		this.useAlternatePercentagesOnLimits = useAlternatePercentagesOnLimits;
 	}
 
 	public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
@@ -76,6 +77,10 @@ public class TestStatisticsPortlet extends DashboardPortlet {
 		return skippedColor;
 	}
 
+	@DataBoundSetter
+	public void setUseAlternatePercentagesOnLimits(boolean useAlternatePercentagesOnLimits) {
+		this.useAlternatePercentagesOnLimits = useAlternatePercentagesOnLimits;
+	}
 	public boolean isUseAlternatePercentagesOnLimits() {
 		return useAlternatePercentagesOnLimits;
 	}
