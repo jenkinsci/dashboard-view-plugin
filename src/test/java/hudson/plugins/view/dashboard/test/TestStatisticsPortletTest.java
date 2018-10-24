@@ -59,6 +59,21 @@ public class TestStatisticsPortletTest {
 	 * Test of format method, of class TestStatisticsPortlet.
 	 */
 	@Test
+	public void testAlternateFormatLessThan1Percent() {
+		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
+				false, null, null, null, false);
+		instance.setUseAlternatePercentagesOnLimits(true);
+		DecimalFormat df = new DecimalFormat("0%");
+		double val = 0.003d;
+		String expResult = "<1%";
+		String result = instance.format(df, val);
+		assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of format method, of class TestStatisticsPortlet.
+	 */
+	@Test
 	public void testFormatBetween1PercentAnd99Percent() {
 		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
 				false, null, null, null, false);
@@ -79,6 +94,21 @@ public class TestStatisticsPortletTest {
 		DecimalFormat df = new DecimalFormat("0%");
 		double val = 0.996d;
 		String expResult = "<100%";
+		String result = instance.format(df, val);
+		assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of format method, of class TestStatisticsPortlet.
+	 */
+	@Test
+	public void testAlternateFormatGreaterThan99Percent() {
+		TestStatisticsPortlet instance = new TestStatisticsPortlet("test",
+				false, null, null, null, false);
+		instance.setUseAlternatePercentagesOnLimits(true);
+		DecimalFormat df = new DecimalFormat("0%");
+		double val = 0.996d;
+		String expResult = ">99%";
 		String result = instance.format(df, val);
 		assertEquals(expResult, result);
 	}
