@@ -2,20 +2,16 @@ package hudson.plugins.view.dashboard.stats;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.HealthReport;
 import hudson.model.Hudson;
 import hudson.model.Job;
 import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.DashboardPortlet;
-
+import hudson.plugins.view.dashboard.Messages;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import org.kohsuke.stapler.DataBoundConstructor;
-
-import hudson.plugins.view.dashboard.Messages;
 
 /**
  * Job statistics - number of jobs with given health status
@@ -31,7 +27,12 @@ public class StatJobs extends DashboardPortlet {
 
    /**
     * Heath status of the builds (use enum not class for it)
+    *
+    * FIXME: Should be refactored to not duplicate logic from Jenkins core.
+    *
+    * @deprecated Should be replaced with {@link hudson.model.HealthReport}
     */
+   @Deprecated
    public enum HealthStatus {
 
       HEALTH_OVER_80("health-80plus.gif", Messages.Dashboard_NoRecentBuildsFailed()),
