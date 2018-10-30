@@ -5,6 +5,10 @@
   <j:if test="${it.isHideJenkinsPanels()}">
     <link href="${rootURL}/plugin/dashboard-view/css/full_screen.css" type="text/css"
       rel="stylesheet"/>
+    <div align="right">
+      <l:task href="${rootURL}/${it.viewUrl}configure" icon="icon-gear icon-md"
+        permission="${it.CONFIGURE}" title="${%Edit View}"/>
+    </div>
   </j:if>
 
   <j:set var="views" value="${it.owner.views}"/>
