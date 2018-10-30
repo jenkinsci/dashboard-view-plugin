@@ -10,6 +10,8 @@ import java.util.List;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
 
 /** @author Lucie Votypkova */
 public class StatSlaves extends DashboardPortlet {
@@ -19,62 +21,50 @@ public class StatSlaves extends DashboardPortlet {
     super(name);
   }
 
-  @JavaScriptMethod
-  public int getAgents() {
-    return Jenkins.getActiveInstance().getNodes().size();
-  }
+  @ExportedBean
+  public static final class AgentStats {
+    @Exported public final int agents;
+    @Exported public int onlineAgents = 0;
+    @Exported public int offlineAgents = 0;
+    @Exported public int disconnectedAgents = 0;
+    @Exported public final int tasksInQueue;
+    @Exported public final int runningJobs;
 
-  @JavaScriptMethod
-  public int getOnlineAgents() {
-    Computer[] computers = Jenkins.getActiveInstance().getComputers();
-    int countOnlineAgents = 0;
-    for (Computer computer : computers) {
-      if (computer.isOnline()) {
-        countOnlineAgents++;
-      }
+    AgentStats(Jenkins j) {
+      agents = j.getNodes().size();
+      countAgents(j.getComputers());
+      tasksInQueue = j.getQueue().getApproximateItemsQuickly().size();
+      runningJobs = countRunningJobs(j);
     }
-    return countOnlineAgents - 1;
-  }
 
-  @JavaScriptMethod
-  public int getOfflineAgents() {
-    Computer[] computers = Jenkins.getActiveInstance().getComputers();
-    int countOfflineAgents = 0;
-    for (Computer computer : computers) {
-      if (computer.isOffline() && computer.getConnectTime() != 0) {
-        countOfflineAgents++;
+    private void countAgents(Computer[] computers) {
+      for (Computer computer : computers) {
+        if (computer.isOnline()) {
+          onlineAgents++;
+        } else if (computer.getConnectTime() != 0) {
+          offlineAgents++;
+        } else {
+          disconnectedAgents++;
+        }
       }
+      onlineAgents--;
     }
-    return countOfflineAgents;
-  }
 
-  @JavaScriptMethod
-  public int getDisconnectedAgents() {
-    Computer[] computers = Jenkins.getActiveInstance().getComputers();
-    int countDisconnectedAgents = 0;
-    for (Computer computer : computers) {
-      if (computer.getConnectTime() == 0) {
-        countDisconnectedAgents++;
+    private int countRunningJobs(Jenkins j) {
+      List<Job> jobs = j.getAllItems(Job.class);
+      int countRunningJobs = 0;
+      for (Job job : jobs) {
+        if (job.isBuilding()) {
+          countRunningJobs++;
+        }
       }
+      return countRunningJobs;
     }
-    return countDisconnectedAgents;
   }
 
   @JavaScriptMethod
-  public int getTasksInQueue() {
-    return Jenkins.getActiveInstance().getQueue().getItems().length;
-  }
-
-  @JavaScriptMethod
-  public int getRunningJobs() {
-    List<Job> jobs = Jenkins.getActiveInstance().getAllItems(Job.class);
-    int countRunningJobs = 0;
-    for (Job job : jobs) {
-      if (job.isBuilding()) {
-        countRunningJobs++;
-      }
-    }
-    return countRunningJobs;
+  public AgentStats getStats() {
+    return new AgentStats(Jenkins.getActiveInstance());
   }
 
   @Extension

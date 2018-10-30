@@ -2,23 +2,20 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
   <script>
-    var buildStat = <st:bind value="${it}"/>;
-    function repeat(){
-    buildStat.getAgents(function(t) {
-    document.getElementById('agents').innerHTML = t.responseObject(); });
-    buildStat.getOnlineAgents(function(t) {
-    document.getElementById('onlineAgents').innerHTML = t.responseObject(); });
-    buildStat.getOfflineAgents(function(t) {
-    document.getElementById('offlineAgents').innerHTML = t.responseObject(); });
-    buildStat.getDisconnectedAgents(function(t) {
-    document.getElementById('disconnectedAgents').innerHTML = t.responseObject(); });
-    buildStat.getTasksInQueue(function(t) {
-    document.getElementById('tasksInQueue').innerHTML = t.responseObject();});
-    buildStat.getRunningJobs(function(t) {
-    document.getElementById('runningJobs').innerHTML = t.responseObject();});
+    var buildStat = <st:bind value="${it}" />;
+    function repeat() {
+      buildStat.getStats(function(t) {
+        var stats = t.responseObject();
+        document.getElementById('agents-${it.id}').innerHTML = stats.agents;
+        document.getElementById('onlineAgents-${it.id}').innerHTML = stats.onlineAgents;
+        document.getElementById('offlineAgents-${it.id}').innerHTML = stats.offlineAgents;
+        document.getElementById('disconnectedAgents-${it.id}').innerHTML = stats.disconnectedAgents;
+        document.getElementById('tasksInQueue-${it.id}').innerHTML = stats.tasksInQueue;
+        document.getElementById('runningJobs-${it.id}').innerHTML = stats.runningJobs;
+      });
     }
-    repeat()
-    setInterval('repeat()',2000)
+    repeat();
+    setInterval('repeat()', 2500);
   </script>
   <table id="statistics" class="sortable pane bigtable" style="margin-top: 0px;">
     <tr style="border-top: 0px;">
@@ -31,22 +28,22 @@
     </tr>
     <tr>
       <td>
-        <div id="agents"/>
+        <div id="agents-${it.id}" />
       </td>
       <td>
-        <div id="onlineAgents"/>
+        <div id="onlineAgents-${it.id}" />
       </td>
       <td>
-        <div id="offlineAgents"/>
+        <div id="offlineAgents-${it.id}" />
       </td>
       <td>
-        <div id="disconnectedAgents"/>
+        <div id="disconnectedAgents-${it.id}" />
       </td>
       <td>
-        <div id="tasksInQueue"/>
+        <div id="tasksInQueue-${it.id}" />
       </td>
       <td>
-        <div id="runningJobs"/>
+        <div id="runningJobs-${it.id}" />
       </td>
     </tr>
   </table>
