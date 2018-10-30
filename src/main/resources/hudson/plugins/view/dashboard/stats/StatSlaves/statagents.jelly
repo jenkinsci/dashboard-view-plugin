@@ -1,0 +1,53 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+  xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
+  <script>
+    var buildStat = <st:bind value="${it}"/>;
+    function repeat(){
+    buildStat.getAgents(function(t) {
+    document.getElementById('agents').innerHTML = t.responseObject(); });
+    buildStat.getOnlineAgents(function(t) {
+    document.getElementById('onlineAgents').innerHTML = t.responseObject(); });
+    buildStat.getOfflineAgents(function(t) {
+    document.getElementById('offlineAgents').innerHTML = t.responseObject(); });
+    buildStat.getDisconnectedAgents(function(t) {
+    document.getElementById('disconnectedAgents').innerHTML = t.responseObject(); });
+    buildStat.getTasksInQueue(function(t) {
+    document.getElementById('tasksInQueue').innerHTML = t.responseObject();});
+    buildStat.getRunningJobs(function(t) {
+    document.getElementById('runningJobs').innerHTML = t.responseObject();});
+    }
+    repeat()
+    setInterval('repeat()',2000)
+  </script>
+  <table id="statistics" class="sortable pane bigtable" style="margin-top: 0px;">
+    <tr style="border-top: 0px;">
+      <th align="left">${%Agents}</th>
+      <th align="left">${%Online agents}</th>
+      <th align="left">${%Offline agents}</th>
+      <th align="left">${%Disconnected agents}</th>
+      <th align="left">${%Tasks in queue}</th>
+      <th align="left">${%Running jobs}</th>
+    </tr>
+    <tr>
+      <td>
+        <div id="agents"/>
+      </td>
+      <td>
+        <div id="onlineAgents"/>
+      </td>
+      <td>
+        <div id="offlineAgents"/>
+      </td>
+      <td>
+        <div id="disconnectedAgents"/>
+      </td>
+      <td>
+        <div id="tasksInQueue"/>
+      </td>
+      <td>
+        <div id="runningJobs"/>
+      </td>
+    </tr>
+  </table>
+</j:jelly>

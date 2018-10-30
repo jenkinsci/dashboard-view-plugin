@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package hudson.plugins.view.dashboard.stats;
 
 import hudson.Extension;
@@ -24,44 +20,44 @@ public class StatSlaves extends DashboardPortlet {
   }
 
   @JavaScriptMethod
-  public int getSlaves() {
+  public int getAgents() {
     return Jenkins.getActiveInstance().getNodes().size();
   }
 
   @JavaScriptMethod
-  public int getOnlineSlaves() {
+  public int getOnlineAgents() {
     Computer[] computers = Jenkins.getActiveInstance().getComputers();
-    int countOnlineSlaves = 0;
+    int countOnlineAgents = 0;
     for (Computer computer : computers) {
       if (computer.isOnline()) {
-        countOnlineSlaves++;
+        countOnlineAgents++;
       }
     }
-    return countOnlineSlaves - 1;
+    return countOnlineAgents - 1;
   }
 
   @JavaScriptMethod
-  public int getOfflineSlaves() {
+  public int getOfflineAgents() {
     Computer[] computers = Jenkins.getActiveInstance().getComputers();
-    int countOfflineSlaves = 0;
+    int countOfflineAgents = 0;
     for (Computer computer : computers) {
       if (computer.isOffline() && computer.getConnectTime() != 0) {
-        countOfflineSlaves++;
+        countOfflineAgents++;
       }
     }
-    return countOfflineSlaves;
+    return countOfflineAgents;
   }
 
   @JavaScriptMethod
-  public int getDisconnectedSlaves() {
+  public int getDisconnectedAgents() {
     Computer[] computers = Jenkins.getActiveInstance().getComputers();
-    int countDisconnectedSlaves = 0;
+    int countDisconnectedAgents = 0;
     for (Computer computer : computers) {
       if (computer.getConnectTime() == 0) {
-        countDisconnectedSlaves++;
+        countDisconnectedAgents++;
       }
     }
-    return countDisconnectedSlaves;
+    return countDisconnectedAgents;
   }
 
   @JavaScriptMethod
@@ -86,7 +82,7 @@ public class StatSlaves extends DashboardPortlet {
 
     @Override
     public String getDisplayName() {
-      return Messages.Dashboard_SlavesStatistics();
+      return Messages.Dashboard_AgentStatistics();
     }
   }
 }
