@@ -2,20 +2,31 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
   <script>
-    var buildStat = <st:bind value="${it}" />;
+    var buildStat =<st:bind value="${it}"/>;
+    var err = 0;
     function repeat() {
-      buildStat.getStats(function(t) {
-        var stats = t.responseObject();
-        document.getElementById('agents-${it.id}').innerHTML = stats.agents;
-        document.getElementById('onlineAgents-${it.id}').innerHTML = stats.onlineAgents;
-        document.getElementById('offlineAgents-${it.id}').innerHTML = stats.offlineAgents;
-        document.getElementById('disconnectedAgents-${it.id}').innerHTML = stats.disconnectedAgents;
-        document.getElementById('tasksInQueue-${it.id}').innerHTML = stats.tasksInQueue;
-        document.getElementById('runningJobs-${it.id}').innerHTML = stats.runningJobs;
-      });
+    buildStat.getStats(function(t) {
+    if (t.status === 200) {
+    err = 0;
+    var stats = t.responseObject();
+    document.getElementById('agents-${it.id}').innerHTML = stats.agents;
+    document.getElementById('onlineAgents-${it.id}').innerHTML = stats.onlineAgents;
+    document.getElementById('offlineAgents-${it.id}').innerHTML = stats.offlineAgents;
+    document.getElementById('disconnectedAgents-${it.id}').innerHTML = stats.disconnectedAgents;
+    document.getElementById('tasksInQueue-${it.id}').innerHTML = stats.tasksInQueue;
+    document.getElementById('runningJobs-${it.id}').innerHTML = stats.runningJobs;
+    } else {
+    err++;
+    document.getElementById('runningJobs-${it.id}').innerHTML = 'ERR-' + err;
+    }
+
+    if (err &lt; 10) {
+    setTimeout('repeat()', 2500);
+    }
+    });
     }
     repeat();
-    setInterval('repeat()', 2500);
+
   </script>
   <table id="statistics" class="sortable pane bigtable" style="margin-top: 0px;">
     <tr style="border-top: 0px;">
