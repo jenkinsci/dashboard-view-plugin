@@ -20,11 +20,11 @@ public class StatBuildsTest {
     @Test public void avoidEagerLoading() throws Exception {
         final FreeStyleProject p = j.createFreeStyleProject();
         RunLoadCounter.prepare(p);
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 25; i++) {
             j.assertBuildStatusSuccess(p.scheduleBuild2(0));
         }
         final StatBuilds stats = new StatBuilds("-");
-        assertEquals(StatBuilds.MAX_BUILDS, RunLoadCounter.assertMaxLoads(p, StatBuilds.MAX_BUILDS + /* AbstractLazyLoadRunMap.headMap actually loads start, alas */1, new Callable<Integer>() {
+        assertEquals(StatBuilds.MAX_BUILDS, RunLoadCounter.assertMaxLoads(p, StatBuilds.MAX_BUILDS + /* margin for AbstractLazyLoadRunMap.headMap */2, new Callable<Integer>() {
             public Integer call() throws Exception {
                 return stats.getBuildStat(Collections.<TopLevelItem>singletonList(p)).get(BallColor.BLUE);
             }
