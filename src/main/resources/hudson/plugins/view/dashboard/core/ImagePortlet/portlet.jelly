@@ -1,7 +1,7 @@
 <!--
 The MIT License
 
-Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+Copyright (c) 2004-2019, Sun Microsystems, Inc., Kohsuke Kawaguchi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,12 @@ THE SOFTWARE.
 -->
 
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:dp="/hudson/plugins/view/dashboard">
   <dp:decorate portlet="${it}" width="3">
-      <img src="${it.getUrl()}"/>
+    <tr>
+      <td>
+        <img src="${it.getUrl()}"/>
+      </td>
+    </tr>
   </dp:decorate>
 </j:jelly>
