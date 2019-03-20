@@ -29,15 +29,11 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:st="jelly:stapler">
   <st:documentation>
     Portlet border decoration
-
     <st:attribute name="portlet" use="required">
       The portlet being rendered
     </st:attribute>
-    <st:attribute name="width" type="number">
-      The number of columns the title area cell should span, default is 1
-    </st:attribute>
-    <st:attribute name="id" type="number">
-      The id of the table
+    <st:attribute name="width" type="number" deprecated="true">
+      Unused
     </st:attribute>
   </st:documentation>
   <div align="center">

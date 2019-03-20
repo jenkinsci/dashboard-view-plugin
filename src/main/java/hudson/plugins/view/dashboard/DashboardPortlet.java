@@ -7,7 +7,6 @@ import hudson.model.Descriptor;
 import hudson.model.ModelObject;
 import hudson.model.TopLevelItem;
 import java.util.Comparator;
-import java.util.Random;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
@@ -20,18 +19,14 @@ import org.kohsuke.stapler.StaplerRequest;
 public abstract class DashboardPortlet
     implements ModelObject, Describable<DashboardPortlet>, ExtensionPoint {
 
-  private static Random generator = new Random();
-  private String id;
   private String name;
 
   public DashboardPortlet(String name) {
-    this.id = "dashboard_portlet_" + generator.nextInt(32000);
     this.name = name;
-    DashboardLog.debug("DashboardPortlet", name + " - " + id);
   }
 
   public String getId() {
-    return id;
+    return "portlet-" + getDashboard().getPortletUrl(this).replace('/', '-');
   }
 
   public String getName() {
@@ -49,7 +44,7 @@ public abstract class DashboardPortlet
   }
 
   public String getUrl() {
-    return "portlet/" + getId() + '/';
+    return getDashboard().getPortletUrl(this) + '/';
   }
 
   /** Support accessing jobs available via view through portlets */

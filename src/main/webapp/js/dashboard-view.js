@@ -54,43 +54,16 @@ function startsWith(str, substr) {
   return (str.match("^"+substr) == substr);
 }
 
-function doBuildPost(url, img){
-    var xmlhttp;
-    if(window.XMLHttpRequest){
-        xmlhttp = new XMLHttpRequest();
-    } else{
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    
-    var parameters = "delay=0sec";
-    
-    xmlhttp.onreadystatechange = function(){
-        if(xmlhttp.readyState === 4){
-            if(xmlhttp.status === 200 || xmlhttp.status === 201){
-                hoverNotification('Build scheduled', img, -100);
-                return false;
-            } else {
-                hoverNotification('Could not schedule build: '+xmlhttp.status, img, -100);
-                return false;
-            }
-        }
-    };
-    xmlhttp.open("POST", url, true);
-    xmlhttp.send(parameters);
-}
-
 var cmds = window.document.getElementsByTagName('img');
 for (var cmdIndex in cmds) {
   cmd = cmds[cmdIndex];
-  if (cmd.id && startsWith(cmd.id, 'cmdExp-dashboard_portlet_')) {
+  if (cmd.id && startsWith(cmd.id, 'cmdExp-portlet-')) {
     cmd.onclick = myshow;
-//    cmd.style.visibility = 'hidden';
-//    cmd.style.display = 'none';
-  } else if (cmd.id && startsWith(cmd.id, 'cmdCol-dashboard_portlet_')) {
+  } else if (cmd.id && startsWith(cmd.id, 'cmdCol-portlet-')) {
     cmd.onclick = myhide;
     cmd.style.visibility = 'visible';
     cmd.style.display = '';
-  } else if (cmd.id && startsWith(cmd.id, 'cmdMax-dashboard_portlet_')) {
+  } else if (cmd.id && startsWith(cmd.id, 'cmdMax-portlet-')) {
     cmd.style.visibility = 'visible';
     cmd.style.display = '';
   }
