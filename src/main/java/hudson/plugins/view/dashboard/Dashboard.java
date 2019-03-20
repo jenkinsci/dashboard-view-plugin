@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.servlet.ServletException;
+import jenkins.security.stapler.StaplerDispatchable;
 import net.sf.json.JSONObject;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.DoNotUse;
@@ -72,18 +73,22 @@ public class Dashboard extends ListView {
     return hideJenkinsPanels;
   }
 
+  @StaplerDispatchable
   public List<DashboardPortlet> getLeftPortlets() {
     return leftPortlets;
   }
 
+  @StaplerDispatchable
   public List<DashboardPortlet> getRightPortlets() {
     return rightPortlets;
   }
 
+  @StaplerDispatchable
   public List<DashboardPortlet> getTopPortlets() {
     return topPortlets;
   }
 
+  @StaplerDispatchable
   public List<DashboardPortlet> getBottomPortlets() {
     return bottomPortlets;
   }
