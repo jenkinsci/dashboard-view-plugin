@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: dashboard-view-$NEXT_MINOR_VERSION
