@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:t="/lib/hudson">
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
   <j:set var="builds" value="${it.finishedBuilds}"/>
   <table id="statistics" class="sortable pane bigtable"
     style="margin-top: 0px;">
@@ -16,9 +16,8 @@
         <td data="${it.getBuildColumnSortData(build)}">
           <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}"
             tooltip="${build.description}">
-            <img src="${imagesURL}/16x16/${build.buildStatusUrl}"
-              alt="${build.iconColor.description}"
-              title="${build.iconColor.description}"/>${build.displayName}
+            <l:icon alt="${build.iconColor.description}"
+              class="${build.buildStatusIconClassName} icon-sm"/>${build.displayName}
           </a>
         </td>
         <td data="${it.getTimestampSortData(build)}">${it.getTimestampString(build)}</td>

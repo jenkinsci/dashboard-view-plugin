@@ -1,38 +1,51 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:t="/lib/hudson">
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+  xmlns:dp="/hudson/plugins/view/dashboard">
   <dp:decorate portlet="${it}" width="4">
-  <j:set var="columnExtensions" value="${it.columns}" />
-  <j:set var="unstableJobs" value="${it.getUnstableJobs(jobs)}"/>
-  <j:choose>
-    <j:when test="${empty(unstableJobs)}">
-      <tr><td>
-      ${%No unstable jobs}
-      </td></tr>
-    </j:when>
-    <j:otherwise>
-      <j:forEach var="job" items="${unstableJobs}">
-        <tr><td style="${indenter.getCss(j)}; border: 1px solid #BBBBBB">
-          <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-            <a href="${rootURL}/${job.url}build?delay=0sec">
-              <img src="${imagesURL}/16x16/clock.png"
-                   title="${%Schedule a build}" alt="${%Schedule a build}"
-                   border="0"
-                   align="middle"
-                   onclick="${job.parameterized ? null : 'return build(this)'}"
-                   style="float: right; clear: none;" />
-              <script>
-                function build(img) {
-                  new Ajax.Request(img.parentNode.href);
-                  hoverNotification('${%Build scheduled}', img, -100);
-                  return false;
-                }
-              </script>
-            </a>
-          </j:if>
-          <t:jobLink job="${job}" />
-        </td></tr>
-      </j:forEach>
-    </j:otherwise>
-  </j:choose>
+    <j:set var="columnExtensions" value="${it.columns}"/>
+    <j:set var="unstableJobs" value="${it.getUnstableJobs(jobs)}"/>
+    <j:choose>
+      <j:when test="${empty(unstableJobs)}">
+        <tr>
+          <td>
+            ${%No unstable jobs}
+          </td>
+        </tr>
+      </j:when>
+      <j:otherwise>
+        <j:forEach var="job" items="${unstableJobs}">
+          <tr>
+            <td style="${indenter.getCss(j)}; border: 1px solid #BBBBBB">
+              <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
+                <j:set var="id" value="${h.generateId()}"/>
+                <a href="${job.shortUrl}build?delay=0sec">
+                  <j:choose>
+                    <j:when test="${job.parameterized}">
+                      <j:set var="onclick" value="${null}"/>
+                    </j:when>
+                    <j:otherwise>
+                      <j:set var="onclick"
+                        value="return build_${id}(this)"/>
+                    </j:otherwise>
+                  </j:choose>
+                  <l:icon class="icon-clock icon-sm"
+                    title="${%Schedule a build}" alt="${%Schedule a build}"
+                    onclick="${onclick}"
+                    style="float: right; clear: none;"/>
+                </a>
+                <script>
+                  function build_${id}(img) {
+                    new Ajax.Request(img.parentNode.href);
+                    hoverNotification('${%Build scheduled}', img, -100);
+                    return false;
+                  }
+                </script>
+              </j:if>
+              <t:jobLink job="${job}"/>
+            </td>
+          </tr>
+        </j:forEach>
+      </j:otherwise>
+    </j:choose>
   </dp:decorate>
 </j:jelly>

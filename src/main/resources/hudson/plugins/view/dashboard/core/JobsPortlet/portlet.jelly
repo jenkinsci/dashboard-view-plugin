@@ -20,7 +20,8 @@
                 </j:choose>
                 <l:icon class="icon-clock icon-sm"
                   title="${%Schedule a build}" alt="${%Schedule a build}"
-                  onclick="${onclick}"/>
+                  onclick="${onclick}"
+                  style="float: right; clear: none;"/>
               </a>
               <script>
                 function build_${id}(img) {
