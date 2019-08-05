@@ -1,128 +1,117 @@
-<!--
-The MIT License
-
-Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
--->
-
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-   <j:new className="java.text.DecimalFormat" var="format">
-      <j:arg type="java.lang.String" value="0%" />
-   </j:new>
-      <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
+<j:jelly xmlns:j="jelly:core" xmlns:t="/lib/hudson">
+  <j:new className="java.text.DecimalFormat" var="format">
+    <j:arg type="java.lang.String" value="0%"/>
+  </j:new>
+  <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
 
-      <table id="testgrid" class="sortable pane bigtable"
-				style="margin-top: 0px;">
-         <tr style="border-top: 0px;">
-            <th class="pane-header" align="left" initialSortDir="down">${%Job}</th>
-            <th class="pane-header" align="right">${%Success} #</th>
-            <th class="pane-header" align="right">%</th>
-            <th class="pane-header" align="right">${%Failed} #</th>
-            <th class="pane-header" align="right">%</th>
-            <th class="pane-header" align="right">${%Skipped} #</th>
-            <th class="pane-header" align="right">%</th>
-            <th class="pane-header" align="right">${%Total} #</th>
-         </tr>
-<j:if test="${it.useBackgroundColors}">
-<j:forEach var="tr" items="${summary.testResults}">
-         <tr style="border: 1px #bbb solid;">
-            <td align="left" style="vertical-align:middle" height="50" bgcolor="#${it.getRowColor(tr)}">
-               <font size="+1"><dp:jobLink job="${tr.job}"/></font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.successColor}">
-               <font size="+1">${tr.success}</font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.successColor}">
-               <font size="+1">${it.format(format, tr.successPct)}</font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.failureColor}">
-               <font size="+1">${tr.failed}</font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.failureColor}">
-               <font size="+1">${it.format(format, tr.failedPct)}</font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.skippedColor}">
-               <font size="+1">${tr.skipped}</font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.skippedColor}">
-               <font size="+1">${it.format(format, tr.skippedPct)}</font>
-            </td>
-            <td align="right" style="vertical-align:middle" bgcolor="#${it.getRowColor(tr)}">
-               <font size="+1">${tr.tests}</font>
-            </td>
-         </tr>
-</j:forEach>
+  <table id="testgrid" class="sortable pane bigtable"
+    style="margin-top: 0px;">
+    <tr style="border-top: 0px;">
+      <th class="pane-header" align="left" initialSortDir="down">${%Job}</th>
+      <th class="pane-header" align="right">${%Success} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Failed} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Skipped} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Total} #</th>
+    </tr>
+    <j:if test="${it.useBackgroundColors}">
+      <j:forEach var="tr" items="${summary.testResults}">
+        <tr style="border: 1px #bbb solid;">
+          <td align="left" style="vertical-align:middle" height="50"
+            bgcolor="#${it.getRowColor(tr)}">
+            <font size="+1">
+              <t:jobLink job="${tr.job}"/>
+            </font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.successColor}">
+            <font size="+1">${tr.success}</font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.successColor}">
+            <font size="+1">${it.format(format, tr.successPct)}</font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.failureColor}">
+            <font size="+1">${tr.failed}</font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.failureColor}">
+            <font size="+1">${it.format(format, tr.failedPct)}</font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.skippedColor}">
+            <font size="+1">${tr.skipped}</font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.skippedColor}">
+            <font size="+1">${it.format(format, tr.skippedPct)}</font>
+          </td>
+          <td align="right" style="vertical-align:middle" bgcolor="#${it.getRowColor(tr)}">
+            <font size="+1">${tr.tests}</font>
+          </td>
+        </tr>
+      </j:forEach>
 
-         <tr class="sortbottom">
-            <td class="pane-header" height="50" align="left" style="vertical-align:middle" bgcolor="#${it.getTotalRowColor(summary.testResults)}">
-               <font size="+1">${%Total}</font>
-            </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.successColor}">
-               <font size="+1">${summary.success}</font>
-            </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.successColor}">
-               <font size="+1">${it.format(format, summary.successPct)}</font>
-               </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.failureColor}">
-               <font size="+1">${summary.failed}</font>
-               </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.failureColor}">
-               <font size="+1">${it.format(format, summary.failedPct)}</font>
-               </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.skippedColor}">
-               <font size="+1">${summary.skipped}</font>
-               </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.skippedColor}">
-               <font size="+1">${it.format(format, summary.skippedPct)}</font>
-               </td>
-            <td class="pane-header" align="right" style="vertical-align:middle" bgcolor="#${it.getTotalRowColor(summary.testResults)}">
-               <font size="+1">${summary.tests}</font>
-            </td>
-         </tr>
-</j:if>
-<j:if test="${!it.useBackgroundColors}">
-<j:forEach var="tr" items="${summary.testResults}">
-         <tr style="border: 1px #bbb solid;">
-            <td align="left"><dp:jobLink job="${tr.job}"/></td>
-            <td align="right">${tr.success}</td>
-            <td align="right">${it.format(format, tr.successPct)}</td>
-            <td align="right">${tr.failed}</td>
-            <td align="right">${it.format(format, tr.failedPct)}</td>
-            <td align="right">${tr.skipped}</td>
-            <td align="right">${it.format(format, tr.skippedPct)}</td>
-            <td align="right">${tr.tests}</td>
-         </tr>
-</j:forEach>
+      <tr class="sortbottom">
+        <td class="pane-header" height="50" align="left" style="vertical-align:middle"
+          bgcolor="#${it.getTotalRowColor(summary.testResults)}">
+          <font size="+1">${%Total}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.successColor}">
+          <font size="+1">${summary.success}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.successColor}">
+          <font size="+1">${it.format(format, summary.successPct)}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.failureColor}">
+          <font size="+1">${summary.failed}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.failureColor}">
+          <font size="+1">${it.format(format, summary.failedPct)}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.skippedColor}">
+          <font size="+1">${summary.skipped}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.skippedColor}">
+          <font size="+1">${it.format(format, summary.skippedPct)}</font>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.getTotalRowColor(summary.testResults)}">
+          <font size="+1">${summary.tests}</font>
+        </td>
+      </tr>
+    </j:if>
+    <j:if test="${!it.useBackgroundColors}">
+      <j:forEach var="tr" items="${summary.testResults}">
+        <tr style="border: 1px #bbb solid;">
+          <td align="left">
+            <t:jobLink job="${tr.job}"/>
+          </td>
+          <td align="right">${tr.success}</td>
+          <td align="right">${it.format(format, tr.successPct)}</td>
+          <td align="right">${tr.failed}</td>
+          <td align="right">${it.format(format, tr.failedPct)}</td>
+          <td align="right">${tr.skipped}</td>
+          <td align="right">${it.format(format, tr.skippedPct)}</td>
+          <td align="right">${tr.tests}</td>
+        </tr>
+      </j:forEach>
 
-         <tr class="sortbottom">
-            <td class="pane-header" align="left">${%Total}</td>
-            <td class="pane-header" align="right">${summary.success}</td>
-            <td class="pane-header" align="right">${it.format(format, summary.successPct)}</td>
-            <td class="pane-header" align="right">${summary.failed}</td>
-            <td class="pane-header" align="right">${it.format(format, summary.failedPct)}</td>
-            <td class="pane-header" align="right">${summary.skipped}</td>
-            <td class="pane-header" align="right">${it.format(format, summary.skippedPct)}</td>
-            <td class="pane-header" align="right">${summary.tests}</td>
-         </tr>
-</j:if>
+      <tr class="sortbottom">
+        <td class="pane-header" align="left">${%Total}</td>
+        <td class="pane-header" align="right">${summary.success}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.successPct)}</td>
+        <td class="pane-header" align="right">${summary.failed}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.failedPct)}</td>
+        <td class="pane-header" align="right">${summary.skipped}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.skippedPct)}</td>
+        <td class="pane-header" align="right">${summary.tests}</td>
+      </tr>
+    </j:if>
 
-      </table>
+  </table>
 </j:jelly>
