@@ -112,6 +112,43 @@ Shows statistics based on jobs health.
 
 Shows statistics based on build status.
 
+## Contributing
+
+If you want to contribute to this plugin, you probably will need a Jenkins
+plugin developement environment. This basically means a current version of Java
+(Java 8 should probably be okay for now) and [Apache Maven]. See the
+[Jenkins Plugin Tutorial] for details.
+
+If you have the proper environment, typing:
+
+    $ mvn verify
+
+should create a plugin as `target/*.hpi`, which you can install in your Jenkins
+instance. Running
+
+    $ mvn hpi:run -Djenkins.version=2.164.1
+
+allows you to spin up a test Jenkins instance on [localhost] to test your
+local changes before commiting.
+
+[Apache Maven]: https://maven.apache.org/
+[Jenkins Plugin Tutorial]: https://jenkins.io/doc/developer/tutorial/prepare/
+[localhost]: http://localhost:8080/jenkins/
+
+### Code Style
+
+This plugin tries to migrate to [Google Java Code Style], please try to adhere
+to that style whenever adding new files or making big changes to existing
+files. If your IDE doesn't support this style, you can use the
+[fmt-maven-plugin], like this:
+
+    $ mvn fmt:format -DfilesNamePattern=ChangedFile\.java
+
+to reformat Java code in the proper style.
+
+[Google Java Code Style]: https://google.github.io/styleguide/javaguide.html
+[fmt-maven-plugin]: https://github.com/coveo/fmt-maven-plugin
+
 ## Extending the Dashboard View plugin
 
 Much of the benefit of this plugin will be realized when other plugins that
