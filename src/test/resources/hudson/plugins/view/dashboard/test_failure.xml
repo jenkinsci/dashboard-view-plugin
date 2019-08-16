@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="1" hostname="anniesue" name="com.luciad.format.aixmcommon.view.lightspeed.TLspAIXMStylerAcceptanceTest" skipped="0" tests="2" time="12.829" timestamp="2015-09-14T14:37:11">
-    <properties/>
-    <testcase classname="test" name="failure" time="0.376">
-        <failure message="description" type="junit.framework.AssertionFailedError">
-            detail message
-        </failure>
-    </testcase>
-    <testcase classname="test.case" name="success" time="0.893" />
-    <system-out><![CDATA[System out
+<testsuite errors="0" failures="1" hostname="anniesue"
+  name="com.luciad.format.aixmcommon.view.lightspeed.TLspAIXMStylerAcceptanceTest" skipped="0"
+  tests="2" time="12.829" timestamp="2015-09-14T14:37:11">
+  <properties/>
+  <testcase classname="test" name="failure" time="0.376">
+    <failure message="description" type="junit.framework.AssertionFailedError">
+      detail message
+    </failure>
+  </testcase>
+  <testcase classname="test.case" name="success" time="0.893"/>
+  <system-out><![CDATA[System out
 ]]></system-out>
-    <system-err><![CDATA[System err
+  <system-err><![CDATA[System err
 ]]></system-err>
 </testsuite>
