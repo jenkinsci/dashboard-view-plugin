@@ -266,6 +266,10 @@ If you want to add a plugin:
 3. Only link to the Jenkins plugin site
 -->
 
+## License
+
+This plugin is licensed under the MIT License (MIT), see [LICENSE](LICENSE).
+
 ## TODO
 
 - Use `<div>` instead of `<table>` to place portlets in the page.
