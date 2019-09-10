@@ -15,7 +15,7 @@
         </td>
         <td data="${it.getBuildColumnSortData(build)}">
           <a href="${h.getRelativeLinkTo(build.parent)}/${build.number}"
-            tooltip="${build.description}">
+            tooltip="${empty(build.description) ? null : app.markupFormatter.translate(build.description)}">
             <l:icon alt="${build.iconColor.description}"
               class="${build.buildStatusIconClassName} icon-sm"/>${build.displayName}
           </a>
