@@ -14,7 +14,7 @@
 
   <name>Dashboard View</name>
   <description>Jenkins view that shows various cuts of build information via configured portlets.</description>
-  <url>https://wiki.jenkins.io/display/JENKINS/Dashboard+View</url>
+  <url>https://github.com/jenkinsci/dashboard-view-plugin</url>
   <licenses>
     <license>
       <name>MIT License</name>
