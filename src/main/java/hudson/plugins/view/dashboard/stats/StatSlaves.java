@@ -6,7 +6,6 @@ import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.plugins.view.dashboard.Messages;
-import java.util.List;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
@@ -33,7 +32,7 @@ public class StatSlaves extends DashboardPortlet {
     AgentStats(Jenkins j) {
       agents = j.getNodes().size();
       countAgents(j.getComputers());
-      tasksInQueue = j.getQueue().getApproximateItemsQuickly().size();
+      tasksInQueue = j.getQueue().getItems().length;
       runningJobs = countRunningJobs(j);
     }
 
@@ -51,9 +50,9 @@ public class StatSlaves extends DashboardPortlet {
     }
 
     private int countRunningJobs(Jenkins j) {
-      List<Job> jobs = j.getAllItems(Job.class);
+      // TODO: Might be a faster way to get this info from the computers
       int countRunningJobs = 0;
-      for (Job job : jobs) {
+      for (Job job : j.allItems(Job.class)) {
         if (job.isBuilding()) {
           countRunningJobs++;
         }
