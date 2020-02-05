@@ -6,6 +6,8 @@ import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.plugins.view.dashboard.Messages;
+import hudson.security.ACL;
+import hudson.security.ACLContext;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
@@ -52,9 +54,12 @@ public class StatSlaves extends DashboardPortlet {
     private int countRunningJobs(Jenkins j) {
       // TODO: Might be a faster way to get this info from the computers
       int countRunningJobs = 0;
-      for (Job job : j.allItems(Job.class)) {
-        if (job.isBuilding()) {
-          countRunningJobs++;
+      //We don't really care about security here as all this returns is a count
+      try (ACLContext ctx = ACL.as(ACL.SYSTEM)) {
+        for (Job job : j.allItems(Job.class)) {
+          if (job.isBuilding()) {
+            countRunningJobs++;
+          }
         }
       }
       return countRunningJobs;
