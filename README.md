@@ -279,6 +279,6 @@ This plugin is licensed under the MIT License (MIT), see [LICENSE](LICENSE).
 ## Changelog
 
 * See [GitHub Releases](https://github.com/jenkinsci/dashboard-view-plugin/releases) for recent versions
-* See the [changelog file](/CHANGELOG.md) for versions 2.10 and older
+* See the [changelog file](/CHANGELOG.old.md) for versions 2.10 and older
 
 [pull request]: https://github.com/jenkinsci/dashboard-view-plugin/edit/master/README.md
