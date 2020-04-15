@@ -1,5 +1,12 @@
 package hudson.plugins.view.dashboard.test;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 import hudson.maven.MavenModuleSet;
 import hudson.model.Job;
 import hudson.model.Result;
@@ -19,29 +26,20 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-
 public class TestTrendChartTest {
 
-  @Rule
-  public JenkinsRule j = new JenkinsRule();
+  @Rule public JenkinsRule j = new JenkinsRule();
 
-  @Rule
-  public MockitoRule mockito = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
+  @Rule public MockitoRule mockito = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
 
-  @Mock
-  private Dashboard dashboard;
+  @Mock private Dashboard dashboard;
 
-  // TODO: It would be nice to actually have some "history", but that would involve faking builds on different days
+  // TODO: It would be nice to actually have some "history", but that would involve faking builds on
+  // different days
 
   @Test
   public void summaryIncludesMavenJob() throws Exception {
-    ToolInstallations.configureMaven3();
+    ToolInstallations.configureMaven35();
 
     MavenModuleSet project = j.jenkins.createProject(MavenModuleSet.class, "maven");
     project.setGoals("test");
@@ -61,5 +59,4 @@ public class TestTrendChartTest {
     assertThat(today.getFailed(), is(equalTo(2)));
     assertThat(today.getSuccess(), is(equalTo(2)));
   }
-
 }

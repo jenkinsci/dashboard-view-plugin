@@ -19,7 +19,7 @@ public class TestSummaryForMavenJobs {
 
   @Test
   public void summaryIncludesMavenJob() throws Exception {
-    ToolInstallations.configureMaven3();
+    ToolInstallations.configureMaven35();
 
     MavenModuleSet project = j.jenkins.createProject(MavenModuleSet.class, "maven");
     project.setGoals("test");
