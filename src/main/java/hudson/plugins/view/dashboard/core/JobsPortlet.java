@@ -35,6 +35,10 @@ public class JobsPortlet extends DashboardPortlet {
     return columnCount <= 0 ? MIN_COLUMN_COUNT : columnCount;
   }
 
+  public boolean isFillColumnFirst() {
+    return fillColumnFirst;
+  }
+
   public List<List<Job>> getJobs() {
     List<Job> jobs = this.getDashboard().getJobs();
     Collections.sort(
@@ -54,6 +58,9 @@ public class JobsPortlet extends DashboardPortlet {
 
   private List<List<Job>> transposed(List<Job> jobs) {
     int rowCount = (jobs.size() + 1) / this.getColumnCount();
+    if (jobs.size() % columnCount != 0) {
+      rowCount++;
+    }
     List<List<Job>> result = new ArrayList<List<Job>>(rowCount);
     for (int i = 0; i < rowCount; i++) {
       result.add(new ArrayList<Job>(this.getColumnCount()));
