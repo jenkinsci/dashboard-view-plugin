@@ -57,7 +57,7 @@ public class JobsPortlet extends DashboardPortlet {
   }
 
   private List<List<Job>> transposed(List<Job> jobs) {
-    int rowCount = (jobs.size() + 1) / this.getColumnCount();
+    int rowCount = jobs.size() / this.getColumnCount();
     if (jobs.size() % columnCount != 0) {
       rowCount++;
     }
