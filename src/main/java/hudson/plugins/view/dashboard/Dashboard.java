@@ -30,27 +30,18 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Peter Hayes
  */
 public class Dashboard extends ListView {
-  /*
-   * Use custom CSS style provided by the user
-   */
 
+  /** Use custom CSS style provided by the user */
   private boolean useCssStyle = false;
-  /*
-   * Show standard jobs list at the top of the page
-   */
+  /** Show standard jobs list at the top of the page */
   private boolean includeStdJobList = false;
-  /*
-   * Hide standard Jenkins panels (full screen view)
-   */
+  /** Hide standard Jenkins panels (full screen view) */
   private boolean hideJenkinsPanels = false;
-  /*
-   * The width of the left portlets
-   */
+  /** The width of the left portlets */
   private String leftPortletWidth = "50%";
-  /*
-   * The width of the right portlets
-   */
+  /** The width of the right portlets */
   private String rightPortletWidth = "50%";
+
   private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
   private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
   private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
@@ -67,6 +58,11 @@ public class Dashboard extends ListView {
 
   public boolean isIncludeStdJobList() {
     return includeStdJobList;
+  }
+
+  /** @since 2.13 */
+  public void setIncludeStdJobList(boolean includeStdJobList) {
+    this.includeStdJobList = includeStdJobList;
   }
 
   public boolean isHideJenkinsPanels() {
