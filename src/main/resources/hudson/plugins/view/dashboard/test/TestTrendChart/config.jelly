@@ -23,7 +23,7 @@ THE SOFTWARE.
 -->
 
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
   <f:entry title="${%Display name}">
     <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
@@ -33,29 +33,8 @@ THE SOFTWARE.
   <f:entry title="${%Graph height}">
     <f:textbox name="portlet.graphHeight" field="graphHeight" default="220" />
   </f:entry>
-  <!-- This does not set the variable -->
-  <!--f:entry title="Display" field="displayStatus">
-     <f:enum>${it.description}</f:enum>
-  </f:entry-->
-  <f:entry name="display" title="${%Display}" field="display">
-    <select name="portlet.display">
-      <j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('All')==0}"><option value="ALL" selected="true">${%All tests}</option></j:when>
-         <j:otherwise><option value="ALL">${%All tests}</option></j:otherwise>
-		</j:choose>
-	  	<j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('Success')==0}"><option value="SUCCESS" selected="true">${%Only successful tests}</option></j:when>
-         <j:otherwise><option value="SUCCESS">${%Only successful tests}</option></j:otherwise>
-		</j:choose>
-		<j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('Failed')==0}"><option value="FAILED" selected="true">${%Only failed tests}</option></j:when>
-         <j:otherwise><option value="FAILED">${%Only failed tests}</option></j:otherwise>
-		</j:choose>
-		<j:choose>
-         <j:when test="${instance.getDisplayStatus().compareTo('Skipped')==0}"><option value="SKIPPED" selected="true">${%Only skipped tests}</option></j:when>
-         <j:otherwise><option value="SKIPPED">${%Only skipped tests}</option></j:otherwise>
-		</j:choose>
-    </select>
+  <f:entry title="Display" field="displayStatus">
+     <f:select default="${descriptor.defaultDisplayStatus}"/>
   </f:entry>
   <!--<f:optionalBlock name="dynamic" title="Specify a date range">-->
     <f:entry title="${%Number of latest days to display}">
