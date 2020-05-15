@@ -6,10 +6,11 @@ import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.ModelObject;
 import hudson.model.TopLevelItem;
-import java.util.Comparator;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
+
+import java.util.Comparator;
 
 /**
  * Report that can summarize project data across multiple projects and display the resulting data.
@@ -36,7 +37,7 @@ public abstract class DashboardPortlet
   public Dashboard getDashboard() {
     // TODO Can the dashboard instance be a field on this class -- parent?
     StaplerRequest req = Stapler.getCurrentRequest();
-    return req.findAncestorObject(Dashboard.class);
+    return req != null ? req.findAncestorObject(Dashboard.class) : null;
   }
 
   public String getDisplayName() {
