@@ -10,19 +10,21 @@ import hudson.model.Job;
 import hudson.model.ListView;
 import hudson.model.TopLevelItem;
 import hudson.model.ViewDescriptor;
+import jenkins.security.stapler.StaplerDispatchable;
+import net.sf.json.JSONObject;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.DoNotUse;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
+import org.kohsuke.stapler.StaplerRequest;
+
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.servlet.ServletException;
-import jenkins.security.stapler.StaplerDispatchable;
-import net.sf.json.JSONObject;
-import org.kohsuke.accmod.Restricted;
-import org.kohsuke.accmod.restrictions.DoNotUse;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * View that can be customized with portlets to show the selected jobs information in various ways.
@@ -61,6 +63,7 @@ public class Dashboard extends ListView {
   }
 
   /** @since 2.13 */
+  @DataBoundSetter
   public void setIncludeStdJobList(boolean includeStdJobList) {
     this.includeStdJobList = includeStdJobList;
   }
@@ -89,12 +92,52 @@ public class Dashboard extends ListView {
     return bottomPortlets;
   }
 
-  public String getLeftPortletWidth() {
+  public synchronized String getLeftPortletWidth() {
     return leftPortletWidth;
   }
 
-  public String getRightPortletWidth() {
+  public synchronized String getRightPortletWidth() {
     return rightPortletWidth;
+  }
+
+  @DataBoundSetter
+  public synchronized void setUseCssStyle(boolean useCssStyle) {
+    this.useCssStyle = useCssStyle;
+  }
+
+  @DataBoundSetter
+  public void setHideJenkinsPanels(boolean hideJenkinsPanels) {
+    this.hideJenkinsPanels = hideJenkinsPanels;
+  }
+
+  @DataBoundSetter
+  public synchronized void setLeftPortletWidth(String leftPortletWidth) {
+    this.leftPortletWidth = leftPortletWidth;
+  }
+
+  @DataBoundSetter
+  public synchronized void setRightPortletWidth(String rightPortletWidth) {
+    this.rightPortletWidth = rightPortletWidth;
+  }
+
+  @DataBoundSetter
+  public void setLeftPortlets(List<DashboardPortlet> leftPortlets) {
+    this.leftPortlets = leftPortlets;
+  }
+
+  @DataBoundSetter
+  public void setRightPortlets(List<DashboardPortlet> rightPortlets) {
+    this.rightPortlets = rightPortlets;
+  }
+
+  @DataBoundSetter
+  public void setTopPortlets(List<DashboardPortlet> topPortlets) {
+    this.topPortlets = topPortlets;
+  }
+
+  @DataBoundSetter
+  public void setBottomPortlets(List<DashboardPortlet> bottomPortlets) {
+    this.bottomPortlets = bottomPortlets;
   }
 
   public String getPortletUrl(DashboardPortlet portlet) {
