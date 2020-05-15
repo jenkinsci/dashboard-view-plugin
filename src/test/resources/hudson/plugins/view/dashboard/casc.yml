@@ -1,0 +1,66 @@
+---
+jenkins:
+  views:
+    - dashboard:
+        name: "test"
+        columns:
+          - "status"
+          - "weather"
+          - "jobName"
+          - "lastSuccess"
+          - "lastFailure"
+          - "lastDuration"
+          - "buildButton"
+        recurse: true
+        includeRegex: ".*"
+        includeStdJobList: true
+        hideJenkinsPanels: true
+        useCssStyle: true
+        leftPortletWidth: "50%"
+        rightPortletWidth: "50%"
+        topPortlets:
+          - statSlaves:
+              name: "Agent statistics"
+          - statBuilds:
+              name: "Build statistics"
+          - latestBuilds:
+              name: "Latest builds"
+              numBuilds: 10
+        leftPortlets:
+          - iframePortlet:
+              divStyle: "width:100%;height:1000px;"
+              iframeSource: "test"
+              name: "Iframe Portlet"
+          - imagePortlet:
+              name: "Image"
+              url: "test"
+        rightPortlets:
+          - hudsonStdJobsPortlet:
+              name: "Jenkins jobs list"
+          - statJobs:
+              name: "Job statistics"
+          - jobsPortlet:
+              columnCount: 3
+              fillColumnFirst: false
+              name: "Jobs Grid"
+          - unstableJobsPortlet:
+              name: "Unstable Jobs"
+              recurse: false
+              showOnlyFailedJobs: false
+        bottomPortlets:
+          - testStatisticsChart:
+              name: "Test Statistics Chart"
+          - testStatisticsPortlet:
+              failureColor: "E86850"
+              hideZeroTestProjects: false
+              name: "Test Statistics Grid"
+              skippedColor: "FDB813"
+              successColor: "71E66D"
+              useBackgroundColors: false
+          - testTrendChart:
+              dateRange: 0
+              dateShift: 0
+              displayStatus: ALL
+              graphHeight: 220
+              graphWidth: 300
+              name: "Test Trend Chart"
