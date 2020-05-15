@@ -1,19 +1,9 @@
 package hudson.plugins.view.dashboard.test;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-
 import hudson.maven.MavenModuleSet;
 import hudson.model.Job;
 import hudson.model.Result;
 import hudson.plugins.view.dashboard.Dashboard;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 import org.junit.Rule;
@@ -25,6 +15,17 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 public class TestTrendChartTest {
 
@@ -48,7 +49,7 @@ public class TestTrendChartTest {
     j.assertBuildStatus(Result.UNSTABLE, project.scheduleBuild2(0).get());
 
     when(dashboard.getJobs()).thenReturn(Collections.singletonList((Job) project));
-    TestTrendChart chart = new TestTrendChart("tests", 320, 240, "ALL", 30, 0);
+    TestTrendChart chart = new TestTrendChart("tests", 320, 240, TestTrendChart.DisplayStatus.ALL, 30, 0);
     chart = spy(chart);
     doReturn(dashboard).when(chart).getDashboard();
 

@@ -12,12 +12,9 @@ import hudson.util.ColorPalette;
 import hudson.util.DataSetBuilder;
 import hudson.util.EnumConverter;
 import hudson.util.Graph;
+import hudson.util.ListBoxModel;
 import hudson.util.ShiftedCategoryAxis;
 import hudson.util.StackedAreaRenderer2;
-import java.awt.Color;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -32,6 +29,11 @@ import org.joda.time.LocalDate;
 import org.joda.time.chrono.GregorianChronology;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.Stapler;
+
+import java.awt.Color;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TestTrendChart extends DashboardPortlet {
 
@@ -68,13 +70,13 @@ public class TestTrendChart extends DashboardPortlet {
 
   @DataBoundConstructor
   public TestTrendChart(
-      String name, int graphWidth, int graphHeight, String display, int dateRange, int dateShift) {
+    String name, int graphWidth, int graphHeight, DisplayStatus displayStatus, int dateRange, int dateShift) {
     super(name);
     this.graphWidth = graphWidth;
     this.graphHeight = graphHeight;
     this.dateRange = dateRange;
     this.dateShift = dateShift;
-    this.displayStatus = display != null ? DisplayStatus.valueOf(display) : DisplayStatus.ALL;
+    this.displayStatus = displayStatus;
     DashboardLog.debug("TestTrendChart", "ctor");
   }
 
@@ -94,23 +96,7 @@ public class TestTrendChart extends DashboardPortlet {
     return graphHeight <= 0 ? 220 : graphHeight;
   }
 
-  public String getDisplayStatus() {
-    if (displayStatus == null) {
-      displayStatus = DisplayStatus.ALL;
-      DashboardLog.info("TestTrendChart", "display is null - setting to ALL");
-    }
-    return displayStatus.getDescription();
-  }
-
-  public void setDisplayStatus(String s) {
-    displayStatus = DisplayStatus.valueOf(s);
-  }
-
-  public DisplayStatus getDisplayStatusEnum() {
-    if (displayStatus == null) {
-      displayStatus = DisplayStatus.ALL;
-      DashboardLog.info("TestTrendChart", "display is null - setting to ALL");
-    }
+  public DisplayStatus getDisplayStatus() {
     return displayStatus;
   }
 
@@ -237,7 +223,7 @@ public class TestTrendChart extends DashboardPortlet {
         StackedAreaRenderer ar = new StackedAreaRenderer2();
         plot.setRenderer(ar);
 
-        switch (getDisplayStatusEnum()) {
+        switch (getDisplayStatus()) {
           case SUCCESS:
             ar.setSeriesPaint(0, ColorPalette.BLUE);
             break;
@@ -267,7 +253,7 @@ public class TestTrendChart extends DashboardPortlet {
     for (Map.Entry<LocalDate, TestResultSummary> entry : summaries.entrySet()) {
       LocalDateLabel label = new LocalDateLabel(entry.getKey());
 
-      switch (getDisplayStatusEnum()) {
+      switch (getDisplayStatus()) {
         case SUCCESS:
           dsb.add(entry.getValue().getSuccess(), Messages.Dashboard_Total(), label);
           break;
@@ -310,6 +296,24 @@ public class TestTrendChart extends DashboardPortlet {
     @Override
     public String getDisplayName() {
       return Messages.Dashboard_TestTrendChart();
+    }
+
+    public DisplayStatus getDefaultDisplayStatus() {
+      return DisplayStatus.ALL;
+    }
+
+    /**
+     * Fills the jobExecutionMode drop-down menu.
+     *
+     * @return the jobExecutionMode items
+     */
+    public ListBoxModel doFillDisplayStatusItems() {
+      final ListBoxModel items = new ListBoxModel();
+      items.add(DisplayStatus.ALL.getDescription(), DisplayStatus.ALL.getName());
+      items.add(DisplayStatus.SUCCESS.getDescription(), DisplayStatus.SUCCESS.getName());
+      items.add(DisplayStatus.FAILED.getDescription(), DisplayStatus.FAILED.getName());
+      items.add(DisplayStatus.SKIPPED.getDescription(), DisplayStatus.SKIPPED.getName());
+      return items;
     }
   }
 }
