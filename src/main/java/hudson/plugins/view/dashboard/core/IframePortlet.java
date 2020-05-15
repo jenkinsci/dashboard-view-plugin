@@ -5,10 +5,9 @@ import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.plugins.view.dashboard.Messages;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.Iterator;
-
-import org.kohsuke.stapler.DataBoundConstructor;
 
 public class IframePortlet extends DashboardPortlet {
 
@@ -41,7 +40,7 @@ public class IframePortlet extends DashboardPortlet {
 	}
 
 	private void overridePlaceholdersInUrl() {
-		if (iframeSource != null) {
+		if (iframeSource != null && getDashboard() != null) {
 			effectiveUrl = iframeSource.replaceAll("\\$\\{viewName\\}",
 					getDashboard().getViewName());
 			effectiveUrl = effectiveUrl.replaceAll("\\$\\{jobsList\\}",
