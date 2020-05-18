@@ -40,11 +40,13 @@ public class IframePortlet extends DashboardPortlet {
 	}
 
 	private void overridePlaceholdersInUrl() {
-		if (iframeSource != null && getDashboard() != null) {
-			effectiveUrl = iframeSource.replaceAll("\\$\\{viewName\\}",
-					getDashboard().getViewName());
-			effectiveUrl = effectiveUrl.replaceAll("\\$\\{jobsList\\}",
-					jobsListAsString());
+		if (iframeSource != null) {
+			if (getDashboard() != null) {
+				effectiveUrl = iframeSource.replaceAll("\\$\\{viewName\\}", getDashboard().getViewName());
+				effectiveUrl = effectiveUrl.replaceAll("\\$\\{jobsList\\}", jobsListAsString());
+			} else {
+				effectiveUrl = iframeSource;
+			}
 		} else {
 			effectiveUrl = null;
 		}
