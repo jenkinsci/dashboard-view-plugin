@@ -45,8 +45,8 @@
       </j:choose>
 
       <j:if test="${it.isIncludeStdJobList()}">
-        <t:projectView jobs="${jobs}" jobBaseUrl="" showViewTabs="true"
-          columnExtensions="${it.columns}"/>
+        <t:projectView jobs="${jobs}" showViewTabs="true" columnExtensions="${it.columns}" indenter="${it.indenter}"
+                       itemGroup="${it.owner.itemGroup}"/>
       </j:if>
 
       <!-- Table with 1 cell -->
