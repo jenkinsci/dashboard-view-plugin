@@ -1,7 +1,7 @@
 package hudson.plugins.view.dashboard.test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import hudson.Launcher;
 import hudson.matrix.MatrixBuild;
@@ -10,7 +10,6 @@ import hudson.matrix.TextAxis;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.Result;
-import hudson.model.TopLevelItem;
 import hudson.tasks.junit.JUnitResultArchiver;
 import java.io.IOException;
 import java.util.Collections;
@@ -56,7 +55,7 @@ public class TestSummaryForMatrixJobs {
     j.assertBuildStatus(Result.UNSTABLE, result);
 
     TestResultSummary testSummary =
-        TestUtil.getTestResultSummary(Collections.singleton((TopLevelItem) matrixProject), false);
+        TestUtil.getTestResultSummary(Collections.singleton(matrixProject), false);
     assertThat(testSummary.getFailed(), is((2)));
     assertThat(testSummary.getSuccess(), is((2)));
   }

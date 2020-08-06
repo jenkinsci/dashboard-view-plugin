@@ -15,7 +15,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * Job statistics - number of jobs with given health status
- * 
+ *
  * @author Vojtech Juranek
  */
 public class StatJobs extends DashboardPortlet {
@@ -41,9 +41,9 @@ public class StatJobs extends DashboardPortlet {
       HEALTH_20_TO_39("health-20to39.gif", Messages.Dashboard_RecentBuildsFailed("60", "80")),
       HEALTH_0_TO_19("health-00to19.gif", Messages.Dashboard_AllRecentBuildsFailed()),
       HEALTH_UNKNOWN("empty.gif", Messages.Dashboard_UnknownStatus());
-//		private HealthReport healthReport;
-      private String iconUrl;
-      private String description;
+      // private HealthReport healthReport;
+      private final String iconUrl;
+      private final String description;
 
       HealthStatus(String iconUrl, String description) {
          this.iconUrl = iconUrl;

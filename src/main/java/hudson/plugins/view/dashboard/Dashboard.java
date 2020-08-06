@@ -10,6 +10,12 @@ import hudson.model.Job;
 import hudson.model.ListView;
 import hudson.model.TopLevelItem;
 import hudson.model.ViewDescriptor;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import javax.servlet.ServletException;
 import jenkins.security.stapler.StaplerDispatchable;
 import net.sf.json.JSONObject;
 import org.kohsuke.accmod.Restricted;
@@ -17,14 +23,6 @@ import org.kohsuke.accmod.restrictions.DoNotUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * View that can be customized with portlets to show the selected jobs information in various ways.
@@ -44,10 +42,10 @@ public class Dashboard extends ListView {
   /** The width of the right portlets */
   private String rightPortletWidth = "50%";
 
-  private List<DashboardPortlet> leftPortlets = new ArrayList<DashboardPortlet>();
-  private List<DashboardPortlet> rightPortlets = new ArrayList<DashboardPortlet>();
-  private List<DashboardPortlet> topPortlets = new ArrayList<DashboardPortlet>();
-  private List<DashboardPortlet> bottomPortlets = new ArrayList<DashboardPortlet>();
+  private List<DashboardPortlet> leftPortlets = new ArrayList<>();
+  private List<DashboardPortlet> rightPortlets = new ArrayList<>();
+  private List<DashboardPortlet> topPortlets = new ArrayList<>();
+  private List<DashboardPortlet> bottomPortlets = new ArrayList<>();
 
   @DataBoundConstructor
   public Dashboard(String name) {
@@ -155,24 +153,15 @@ public class Dashboard extends ListView {
   @Deprecated
   public DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>>
       getDashboardPortletDescriptors() {
-    DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list =
-        DashboardPortlet.all();
-    return list;
+    return DashboardPortlet.all();
   }
 
   public List<Descriptor<DashboardPortlet>> getSortedDashboardPortletDescriptors() {
     DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> list =
         DashboardPortlet.all();
-    List<Descriptor<DashboardPortlet>> descriptors =
-        new ArrayList<Descriptor<DashboardPortlet>>(list);
+    List<Descriptor<DashboardPortlet>> descriptors = new ArrayList<>(list);
 
-    Collections.sort(
-        descriptors,
-        new Comparator<Descriptor<DashboardPortlet>>() {
-          public int compare(Descriptor<DashboardPortlet> d1, Descriptor<DashboardPortlet> d2) {
-            return d1.getDisplayName().compareTo(d2.getDisplayName());
-          }
-        });
+    descriptors.sort(Comparator.comparing(Descriptor::getDisplayName));
 
     return descriptors;
   }
@@ -190,7 +179,7 @@ public class Dashboard extends ListView {
 
   /* Use getItems */
   public synchronized List<Job> getJobs() {
-    List<Job> jobs = new ArrayList<Job>();
+    List<Job> jobs = new ArrayList<>();
 
     for (TopLevelItem item : getItems()) {
       if (item instanceof Job) {

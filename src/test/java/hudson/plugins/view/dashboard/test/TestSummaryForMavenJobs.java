@@ -1,12 +1,11 @@
 package hudson.plugins.view.dashboard.test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import hudson.maven.MavenModuleSet;
 import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Result;
-import hudson.model.TopLevelItem;
 import java.util.Collections;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class TestSummaryForMavenJobs {
         j.assertBuildStatus(Result.UNSTABLE, project.scheduleBuild2(0).get());
 
     TestResultSummary testSummary =
-        TestUtil.getTestResultSummary(Collections.singleton((TopLevelItem) project), false);
+        TestUtil.getTestResultSummary(Collections.singleton(project), false);
     assertThat(testSummary.getFailed(), is(2));
     assertThat(testSummary.getSuccess(), is(2));
   }

@@ -1,9 +1,9 @@
 package hudson.plugins.view.dashboard.builds;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertThat;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -44,11 +44,11 @@ public class LatestBuildsTest {
 
           @Override
           protected List<Job> getDashboardJobs() {
-            return Collections.singletonList((Job) p);
+            return Collections.singletonList(p);
           }
         };
 
-    RunLoadCounter.assertMaxLoads(p, numbuilds, () -> latest.getFinishedBuilds());
+    RunLoadCounter.assertMaxLoads(p, numbuilds, latest::getFinishedBuilds);
   }
 
   @Test

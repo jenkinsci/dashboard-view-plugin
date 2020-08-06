@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 
 public class TestStatisticsPortletTest {
@@ -95,7 +96,7 @@ public class TestStatisticsPortletTest {
   }
 
   @Test
-  public void testRowColor() throws Exception {
+  public void testRowColor() {
     TestStatisticsPortlet instance =
         new TestStatisticsPortlet("test", false, "green", "red", null, false);
     assertEquals("green", instance.getRowColor(new TestResult(null, 3, 0, 0)));
@@ -104,16 +105,20 @@ public class TestStatisticsPortletTest {
   }
 
   @Test
-  public void testSummaryRowColorWithOneRow() throws Exception {
+  public void testSummaryRowColorWithOneRow() {
     TestStatisticsPortlet instance =
         new TestStatisticsPortlet("test", false, "green", "red", null, false);
-    assertEquals("green", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 3, 0, 0))));
-    assertEquals("red", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 1, 0))));
-    assertEquals("red", instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 0, 1))));
+    assertEquals(
+        "green",
+        instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 3, 0, 0))));
+    assertEquals(
+        "red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 1, 0))));
+    assertEquals(
+        "red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 0, 1))));
   }
 
   @Test
-  public void testSummaryRowColorWithMultipleRows() throws Exception {
+  public void testSummaryRowColorWithMultipleRows() {
     TestStatisticsPortlet instance =
         new TestStatisticsPortlet("test", false, "green", "red", null, false);
     assertEquals(

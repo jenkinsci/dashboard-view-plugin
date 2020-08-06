@@ -25,7 +25,7 @@ public class UnstableJobsPortlet extends DashboardPortlet {
   private static final Collection<ListViewColumn> COLUMNS =
       Arrays.asList(new StatusColumn(), new WeatherColumn(), new JobColumn());
   private boolean showOnlyFailedJobs = false;
-  private boolean recurse;
+  private final boolean recurse;
 
   @DataBoundConstructor
   public UnstableJobsPortlet(String name, boolean showOnlyFailedJobs, boolean recurse) {
@@ -36,7 +36,7 @@ public class UnstableJobsPortlet extends DashboardPortlet {
 
   /** Given a list of all jobs, return just those that are unstable or worse. */
   public Collection<Job> getUnstableJobs(Collection<? extends Item> allJobs) {
-    ArrayList<Job> unstableJobs = new ArrayList<Job>();
+    ArrayList<Job> unstableJobs = new ArrayList<>();
     Result expected = this.showOnlyFailedJobs ? Result.FAILURE : Result.UNSTABLE;
 
     for (Item item : allJobs) {
@@ -59,8 +59,7 @@ public class UnstableJobsPortlet extends DashboardPortlet {
       }
     }
     if (recurse) {
-      IdentityHashMap<Job, Object> duplicates =
-          new IdentityHashMap<Job, Object>(unstableJobs.size());
+      IdentityHashMap<Job, Object> duplicates = new IdentityHashMap<>(unstableJobs.size());
       for (Iterator<Job> iterator = unstableJobs.iterator(); iterator.hasNext(); ) {
         Job j = iterator.next();
         if (duplicates.containsKey(j)) {

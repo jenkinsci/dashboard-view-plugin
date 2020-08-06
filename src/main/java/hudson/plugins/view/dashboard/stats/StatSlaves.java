@@ -54,7 +54,7 @@ public class StatSlaves extends DashboardPortlet {
     private int countRunningJobs(Jenkins j) {
       // TODO: Might be a faster way to get this info from the computers
       int countRunningJobs = 0;
-      //We don't really care about security here as all this returns is a count
+      // We don't really care about security here as all this returns is a count
       try (ACLContext ctx = ACL.as(ACL.SYSTEM)) {
         for (Job job : j.allItems(Job.class)) {
           if (job.isBuilding()) {
@@ -68,7 +68,7 @@ public class StatSlaves extends DashboardPortlet {
 
   @JavaScriptMethod
   public AgentStats getStats() {
-    return new AgentStats(Jenkins.getActiveInstance());
+    return new AgentStats(Jenkins.get());
   }
 
   @Extension

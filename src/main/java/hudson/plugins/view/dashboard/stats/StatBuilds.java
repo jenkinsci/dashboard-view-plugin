@@ -30,7 +30,7 @@ public class StatBuilds extends DashboardPortlet {
   }
 
   public Map<BallColor, Integer> getBuildStat(List<TopLevelItem> jobs) {
-    SortedMap<BallColor, Integer> colStatBuilds = new TreeMap<BallColor, Integer>();
+    SortedMap<BallColor, Integer> colStatBuilds = new TreeMap<>();
     for (BallColor color : BallColor.values()) {
       colStatBuilds.put(color.noAnime(), 0);
     }
