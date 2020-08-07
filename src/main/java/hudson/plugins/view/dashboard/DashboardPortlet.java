@@ -6,11 +6,10 @@ import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.ModelObject;
 import hudson.model.TopLevelItem;
+import java.util.Comparator;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
-
-import java.util.Comparator;
 
 /**
  * Report that can summarize project data across multiple projects and display the resulting data.
@@ -20,7 +19,7 @@ import java.util.Comparator;
 public abstract class DashboardPortlet
     implements ModelObject, Describable<DashboardPortlet>, ExtensionPoint {
 
-  private String name;
+  private final String name;
 
   public DashboardPortlet(String name) {
     this.name = name;
@@ -54,19 +53,15 @@ public abstract class DashboardPortlet
   }
 
   public Descriptor<DashboardPortlet> getDescriptor() {
-    return (Descriptor<DashboardPortlet>) Jenkins.getActiveInstance().getDescriptor(getClass());
+    return (Descriptor<DashboardPortlet>) Jenkins.get().getDescriptor(getClass());
   }
 
   /** Returns all the registered {@link DashboardPortlet} descriptors. */
   public static DescriptorExtensionList<DashboardPortlet, Descriptor<DashboardPortlet>> all() {
-    return Jenkins.getActiveInstance().getDescriptorList(DashboardPortlet.class);
+    return Jenkins.get().getDescriptorList(DashboardPortlet.class);
   }
 
   public static Comparator getComparator() {
-    return new Comparator<Dashboard>() {
-      public int compare(Dashboard p1, Dashboard p2) {
-        return p1.getDescription().compareTo(p2.getDescription());
-      }
-    };
+    return (Comparator<Dashboard>) (p1, p2) -> p1.getDescription().compareTo(p2.getDescription());
   }
 }

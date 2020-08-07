@@ -3,15 +3,14 @@ package hudson.plugins.view.dashboard.test;
 import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.plugins.view.dashboard.DashboardPortlet;
+import hudson.plugins.view.dashboard.Messages;
 import hudson.util.ColorPalette;
 import hudson.util.Graph;
-
 import java.awt.Color;
 import java.awt.Paint;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;

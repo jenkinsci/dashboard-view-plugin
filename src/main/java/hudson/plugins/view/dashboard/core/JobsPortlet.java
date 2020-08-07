@@ -8,7 +8,6 @@ import hudson.plugins.view.dashboard.DashboardPortlet;
 import hudson.plugins.view.dashboard.Messages;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -21,7 +20,7 @@ public class JobsPortlet extends DashboardPortlet {
 
   private static final int MIN_COLUMN_COUNT = 3;
 
-  private int columnCount;
+  private final int columnCount;
   private boolean fillColumnFirst = false;
 
   @DataBoundConstructor
@@ -38,12 +37,7 @@ public class JobsPortlet extends DashboardPortlet {
   public List<List<Job>> getJobs() {
     List<Job> jobs = this.getDashboard().getJobs();
     Collections.sort(
-        jobs,
-        new Comparator<Job>() {
-          public int compare(Job p1, Job p2) {
-            return p1.getDisplayName().compareToIgnoreCase(p2.getDisplayName());
-          }
-        });
+        jobs, (p1, p2) -> p1.getDisplayName().compareToIgnoreCase(p2.getDisplayName()));
 
     if (this.fillColumnFirst) {
       return transposed(jobs);
@@ -54,9 +48,9 @@ public class JobsPortlet extends DashboardPortlet {
 
   private List<List<Job>> transposed(List<Job> jobs) {
     int rowCount = (jobs.size() + 1) / this.getColumnCount();
-    List<List<Job>> result = new ArrayList<List<Job>>(rowCount);
+    List<List<Job>> result = new ArrayList<>(rowCount);
     for (int i = 0; i < rowCount; i++) {
-      result.add(new ArrayList<Job>(this.getColumnCount()));
+      result.add(new ArrayList<>(this.getColumnCount()));
     }
     int c = 0;
     for (Job job : jobs) {

@@ -4,10 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import hudson.model.BallColor;
 import hudson.model.FreeStyleProject;
-import hudson.model.TopLevelItem;
 import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
@@ -30,13 +28,7 @@ public class StatBuildsTest {
         RunLoadCounter.assertMaxLoads(
                 p,
                 StatBuilds.MAX_BUILDS + /* margin for AbstractLazyLoadRunMap.headMap */ 2,
-                new Callable<Integer>() {
-                  public Integer call() throws Exception {
-                    return stats
-                        .getBuildStat(Collections.<TopLevelItem>singletonList(p))
-                        .get(BallColor.BLUE);
-                  }
-                })
+                () -> stats.getBuildStat(Collections.singletonList(p)).get(BallColor.BLUE))
             .intValue());
   }
 
@@ -46,7 +38,7 @@ public class StatBuildsTest {
     RunLoadCounter.prepare(project);
     final StatBuilds stats = new StatBuilds("-");
     final Map<BallColor, Integer> buildStats =
-        stats.getBuildStat(Collections.<TopLevelItem>singletonList(project));
+        stats.getBuildStat(Collections.singletonList(project));
     for (BallColor color : BallColor.values()) {
       assertEquals((Integer) 0, buildStats.get(color.noAnime()));
     }

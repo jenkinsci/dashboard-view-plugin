@@ -13,7 +13,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
  */
 public class ImagePortlet extends DashboardPortlet {
 
-  private String url;
+  private final String url;
 
   @DataBoundConstructor
   public ImagePortlet(String name, String url) {

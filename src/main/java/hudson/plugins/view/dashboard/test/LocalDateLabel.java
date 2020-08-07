@@ -54,14 +54,10 @@ public class LocalDateLabel implements Comparable<LocalDateLabel> {
         }
         LocalDateLabel other = (LocalDateLabel)obj;
         if (date == null) {
-            if (other.date != null) {
-                return false;
-            }
+          return other.date == null;
         }
-        else if (!date.equals(other.date)) {
-            return false;
-        }
-        return true;
+        else
+          return date.equals(other.date);
     }
 }
 

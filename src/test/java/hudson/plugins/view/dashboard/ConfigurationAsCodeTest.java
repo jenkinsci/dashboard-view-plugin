@@ -1,5 +1,11 @@
 package hudson.plugins.view.dashboard;
 
+import static io.jenkins.plugins.casc.misc.Util.getJenkinsRoot;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+
 import hudson.plugins.view.dashboard.builds.LatestBuilds;
 import hudson.plugins.view.dashboard.core.HudsonStdJobsPortlet;
 import hudson.plugins.view.dashboard.core.IframePortlet;
@@ -18,16 +24,9 @@ import io.jenkins.plugins.casc.misc.ConfiguredWithCode;
 import io.jenkins.plugins.casc.misc.JenkinsConfiguredWithCodeRule;
 import io.jenkins.plugins.casc.misc.Util;
 import io.jenkins.plugins.casc.model.CNode;
+import java.util.List;
 import org.junit.ClassRule;
 import org.junit.Test;
-
-import java.util.List;
-
-import static io.jenkins.plugins.casc.misc.Util.getJenkinsRoot;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 
 public class ConfigurationAsCodeTest {
 
@@ -37,7 +36,8 @@ public class ConfigurationAsCodeTest {
 
   @Test
   public void testImportConfiguration() {
-    Dashboard.DescriptorImpl descriptor = rule.jenkins.getDescriptorByType(Dashboard.DescriptorImpl.class);
+    Dashboard.DescriptorImpl descriptor =
+        rule.jenkins.getDescriptorByType(Dashboard.DescriptorImpl.class);
     assertThat(descriptor, notNullValue());
 
     Dashboard dashboard = (Dashboard) rule.jenkins.getView("test");

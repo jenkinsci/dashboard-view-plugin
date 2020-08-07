@@ -3,10 +3,8 @@ package hudson.plugins.view.dashboard.core;
 import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.plugins.view.dashboard.DashboardPortlet;
-
-import org.kohsuke.stapler.DataBoundConstructor;
-
 import hudson.plugins.view.dashboard.Messages;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * Portlet displays standard Jenkins job list

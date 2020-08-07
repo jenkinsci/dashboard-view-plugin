@@ -48,7 +48,7 @@ public class LatestBuilds extends DashboardPortlet {
    public List<Run> getFinishedBuilds() {
         List<Job> jobs = getDashboardJobs();
 
-        PriorityQueue<Run> queue = new PriorityQueue<Run>(numBuilds, Run.ORDER_BY_DATE);
+        PriorityQueue<Run> queue = new PriorityQueue<>(numBuilds, Run.ORDER_BY_DATE);
         for (Job job : jobs) {
             Run lb = job.getLastBuild();
             if (lb != null) {
@@ -56,7 +56,7 @@ public class LatestBuilds extends DashboardPortlet {
             }
         }
 
-        List<Run> recentBuilds = new ArrayList<Run>(numBuilds);
+        List<Run> recentBuilds = new ArrayList<>(numBuilds);
         Run build;
         while ((build = queue.poll()) != null) {
             recentBuilds.add(build);
@@ -68,7 +68,7 @@ public class LatestBuilds extends DashboardPortlet {
                 queue.add(pb);
             }
         }
-        
+
         return recentBuilds;
    }
 
