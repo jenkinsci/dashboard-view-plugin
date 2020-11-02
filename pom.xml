@@ -112,7 +112,7 @@
     <dependency>
       <groupId>io.jenkins.configuration-as-code</groupId>
       <artifactId>test-harness</artifactId>
-      <version>1.36</version>
+      <version>1.45</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
