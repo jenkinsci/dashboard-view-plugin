@@ -1,6 +1,5 @@
 package hudson.plugins.view.dashboard.test;
 
-import hudson.matrix.MatrixConfiguration;
 import hudson.matrix.MatrixProject;
 import hudson.model.Job;
 import hudson.model.Run;
@@ -10,25 +9,23 @@ import hudson.tasks.test.TestResultProjectAction;
 import java.util.Collection;
 
 public class TestUtil {
+  /** "Cache" if matrix plugin is installed, so exception handling is only triggered once. */
+  private static boolean matrixPluginInstalled = true;
 
   /**
    * Summarize the last test results from the passed set of jobs. If a job doesn't include any
    * tests, add a 0 summary.
-   *
-   * @param jobs
-   * @return
    */
   public static TestResultSummary getTestResultSummary(
       Collection<TopLevelItem> jobs, boolean hideZeroTestProjects) {
     TestResultSummary summary = new TestResultSummary();
 
     for (TopLevelItem item : jobs) {
-      if (item instanceof MatrixProject) {
+      if (isMatrixJob(item)) {
         MatrixProject mp = (MatrixProject) item;
 
-        for (MatrixConfiguration configuration : mp.getActiveConfigurations()) {
-          MatrixConfiguration job = mp.getItem(configuration.getCombination());
-          summarizeJob(job, summary, hideZeroTestProjects);
+        for (Job configuration : mp.getActiveConfigurations()) {
+          summarizeJob(configuration, summary, hideZeroTestProjects);
         }
       } else if (item instanceof Job) {
         Job job = (Job) item;
@@ -69,5 +66,17 @@ public class TestUtil {
     }
 
     return new TestResult(run.getParent(), 0, 0, 0);
+  }
+
+  private static final boolean isMatrixJob(TopLevelItem item) {
+    if (!matrixPluginInstalled) {
+      return false;
+    }
+    try {
+      return item instanceof MatrixProject;
+    } catch (NoClassDefFoundError x) {
+      matrixPluginInstalled = false;
+    }
+    return false;
   }
 }
