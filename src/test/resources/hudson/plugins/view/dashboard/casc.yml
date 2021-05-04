@@ -33,7 +33,7 @@ jenkins:
               name: "Iframe Portlet"
           - imagePortlet:
               name: "Image"
-              url: "test"
+              imageUrl: "test"
         rightPortlets:
           - hudsonStdJobsPortlet:
               name: "Jenkins jobs list"

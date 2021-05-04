@@ -1,0 +1,27 @@
+dashboard:
+  columns:
+  - "status"
+  - "weather"
+  - "jobName"
+  - "lastSuccess"
+  - "lastFailure"
+  - "lastDuration"
+  - "buildButton"
+  hideJenkinsPanels: true
+  includeRegex: ".*"
+  includeStdJobList: true
+  leftPortlets:
+  - imagePortlet:
+      imageUrl: "test-backcompat"
+      name: "Image"
+  name: "test"
+  recurse: true
+  topPortlets:
+  - statSlaves:
+      name: "Agent statistics"
+  - statBuilds:
+      name: "Build statistics"
+  - latestBuilds:
+      name: "Latest builds"
+      numBuilds: 10
+  useCssStyle: true

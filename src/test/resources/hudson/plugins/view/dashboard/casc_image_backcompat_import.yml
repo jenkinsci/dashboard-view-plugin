@@ -1,0 +1,34 @@
+---
+configuration-as-code:
+  deprecated: warn
+jenkins:
+  views:
+    - dashboard:
+        name: "test"
+        columns:
+          - "status"
+          - "weather"
+          - "jobName"
+          - "lastSuccess"
+          - "lastFailure"
+          - "lastDuration"
+          - "buildButton"
+        recurse: true
+        includeRegex: ".*"
+        includeStdJobList: true
+        hideJenkinsPanels: true
+        useCssStyle: true
+        leftPortletWidth: "50%"
+        rightPortletWidth: "50%"
+        topPortlets:
+          - statSlaves:
+              name: "Agent statistics"
+          - statBuilds:
+              name: "Build statistics"
+          - latestBuilds:
+              name: "Latest builds"
+              numBuilds: 10
+        leftPortlets:
+          - imagePortlet:
+              name: "Image"
+              url: "test-backcompat"
