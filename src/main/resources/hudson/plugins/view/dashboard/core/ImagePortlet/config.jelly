@@ -28,6 +28,6 @@ THE SOFTWARE.
     <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
   <f:entry title="URL">
-    <f:textbox name="portlet.url" field="url" default="" />
+    <f:textbox name="portlet.imageUrl" field="imageUrl" default="" />
   </f:entry>
 </j:jelly>

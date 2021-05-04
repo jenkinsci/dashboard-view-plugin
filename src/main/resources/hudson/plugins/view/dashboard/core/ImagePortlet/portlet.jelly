@@ -27,7 +27,14 @@ THE SOFTWARE.
   <dp:decorate portlet="${it}" width="3">
     <tr>
       <td>
-        <img src="${it.getUrl()}"/>
+        <j:choose>
+          <j:when test="${it.urlValid}">
+            <img src="${it.getImageUrl()}"/>
+          </j:when>
+          <j:otherwise>
+            <div class="error">${%Display error: Image URL is invalid}</div>
+          </j:otherwise>
+        </j:choose>
       </td>
     </tr>
   </dp:decorate>
