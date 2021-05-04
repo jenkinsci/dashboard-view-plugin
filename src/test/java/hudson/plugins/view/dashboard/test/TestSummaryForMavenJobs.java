@@ -8,6 +8,7 @@ import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Result;
 import hudson.model.TopLevelItem;
 import java.util.Collections;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.ExtractResourceSCM;
@@ -18,6 +19,7 @@ public class TestSummaryForMavenJobs {
   @Rule public JenkinsRule j = new JenkinsRule();
 
   @Test
+  @Ignore("repo1 no longer allows plain HTTP downloads and the project does that")
   public void summaryIncludesMavenJob() throws Exception {
     ToolInstallations.configureMaven3();
 

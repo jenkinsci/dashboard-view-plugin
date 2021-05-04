@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Map;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.ExtractResourceSCM;
@@ -39,6 +40,7 @@ public class TestTrendChartTest {
 
   // TODO: It would be nice to actually have some "history", but that would involve faking builds on different days
 
+  @Ignore("repo1 no longer allows plain HTTP downloads and the project does that")
   @Test
   public void summaryIncludesMavenJob() throws Exception {
     ToolInstallations.configureMaven3();
