@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
     <version>4.18</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <artifactId>dashboard-view</artifactId>
@@ -43,7 +44,7 @@
     <revision>2.17</revision>
     <changelist>-SNAPSHOT</changelist>
     <gitHubRepo>${project.artifactId}-plugin</gitHubRepo>
-    <jenkins.version>2.164.3</jenkins.version>
+    <jenkins.version>2.277.1</jenkins.version>
     <java.level>8</java.level>
   </properties>
 
@@ -51,17 +52,20 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>commons-net</groupId>
-        <artifactId>commons-net</artifactId>
-        <version>3.8.0</version>
+        <groupId>com.github.ben-manes.caffeine</groupId>
+        <artifactId>caffeine</artifactId>
+        <version>2.9.1</version>
       </dependency>
       <dependency>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-annotations</artifactId>
-        <version>3.1.12</version>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.277.x</artifactId>
+        <version>807.v6d348e44c987</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>joda-time</groupId>
@@ -69,32 +73,23 @@
       <version>2.10.10</version>
     </dependency>
     <dependency>
-      <groupId>io.jenkins.stapler</groupId>
-      <artifactId>jenkins-stapler-support</artifactId>
-      <version>1.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>junit</artifactId>
-      <version>1.21</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>matrix-project</artifactId>
-      <version>1.14</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.main</groupId>
       <artifactId>maven-plugin</artifactId>
-      <version>3.6</version>
+      <version>3.10</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>mailer</artifactId>
-      <version>1.23</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -111,13 +106,11 @@
     <dependency>
       <groupId>io.jenkins</groupId>
       <artifactId>configuration-as-code</artifactId>
-      <version>1.36</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.jenkins.configuration-as-code</groupId>
       <artifactId>test-harness</artifactId>
-      <version>1.36</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -131,6 +124,7 @@
       </exclusions>
     </dependency>
   </dependencies>
+
 
   <repositories>
     <repository>
