@@ -138,16 +138,16 @@ local changes before commiting.
 ### Code Style
 
 This plugin tries to migrate to [Google Java Code Style], please try to adhere
-to that style whenever adding new files or making big changes to existing
-files. If your IDE doesn't support this style, you can use the
-[fmt-maven-plugin], like this:
+to that style whenever adding new files or making changes to existing files.
+The style is enforced using the [spotless] plugin, if the build fails because
+you were using the "wrong" style, you can fix it by running:
 
-    $ mvn fmt:format -DfilesNamePattern=ChangedFile\.java
+    $ mvn spotless:apply
 
 to reformat Java code in the proper style.
 
 [Google Java Code Style]: https://google.github.io/styleguide/javaguide.html
-[fmt-maven-plugin]: https://github.com/coveo/fmt-maven-plugin
+[spotless]: https://github.com/diffplug/spotless
 
 ## Extending the Dashboard View plugin
 
