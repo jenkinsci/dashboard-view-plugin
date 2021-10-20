@@ -15,6 +15,15 @@ import hudson.util.Graph;
 import hudson.util.ListBoxModel;
 import hudson.util.ShiftedCategoryAxis;
 import hudson.util.StackedAreaRenderer2;
+import java.awt.Color;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -27,15 +36,6 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.ui.RectangleInsets;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.Stapler;
-
-import java.awt.Color;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class TestTrendChart extends DashboardPortlet {
 
@@ -72,7 +72,12 @@ public class TestTrendChart extends DashboardPortlet {
 
   @DataBoundConstructor
   public TestTrendChart(
-    String name, int graphWidth, int graphHeight, DisplayStatus displayStatus, int dateRange, int dateShift) {
+      String name,
+      int graphWidth,
+      int graphHeight,
+      DisplayStatus displayStatus,
+      int dateRange,
+      int dateShift) {
     super(name);
     this.graphWidth = graphWidth;
     this.graphHeight = graphHeight;
@@ -125,28 +130,40 @@ public class TestTrendChart extends DashboardPortlet {
     // We need a custom comparator for LocalDate objects
     final Map<LocalDate, TestResultSummary> summaries =
         new TreeMap<LocalDate, TestResultSummary>(localDateComparator);
-    LocalDate today = LocalDate.now().minus(dateShift * 6000, ChronoUnit.MILLIS);
+    LocalDate today = LocalDateTime.now().minus(dateShift * 6000, ChronoUnit.MILLIS).toLocalDate();
 
     // for each job, for each day, add last build of the day to summary
     for (Job job : getDashboard().getJobs()) {
       Run run = job.getFirstBuild();
 
       if (run != null) { // execute only if job has builds
-        LocalDate runDay = Instant.ofEpochMilli(run.getTimeInMillis()).atZone(ZoneId.systemDefault()).toLocalDate().minus(dateShift * 60000L, ChronoUnit.MILLIS);
+        LocalDate runDay =
+            Instant.ofEpochMilli(run.getTimeInMillis())
+                .atZone(ZoneId.systemDefault())
+                .minus(dateShift * 60000L, ChronoUnit.MILLIS)
+                .toLocalDate();
         LocalDate firstDay =
             (dateRange != 0)
-                ? LocalDate.now().minus(dateShift * 6000, ChronoUnit.MILLIS)
+                ? LocalDateTime.now()
+                    .minus(dateShift * 6000, ChronoUnit.MILLIS)
+                    .toLocalDate()
                     .minusDays(dateRange)
                 : runDay;
 
         while (run != null) {
           runDay =
-              Instant.ofEpochMilli(run.getTimeInMillis()).atZone(ZoneId.systemDefault()).toLocalDate().minus(dateShift * 60000L, ChronoUnit.MILLIS);
+              Instant.ofEpochMilli(run.getTimeInMillis())
+                  .atZone(ZoneId.systemDefault())
+                  .minus(dateShift * 60000L, ChronoUnit.MILLIS)
+                  .toLocalDate();
           Run nextRun = run.getNextBuild();
 
           if (nextRun != null) {
             LocalDate nextRunDay =
-                Instant.ofEpochMilli(nextRun.getTimeInMillis()).atZone(ZoneId.systemDefault()).toLocalDate().minus(- dateShift * 60000L, ChronoUnit.MILLIS);
+                Instant.ofEpochMilli(nextRun.getTimeInMillis())
+                    .atZone(ZoneId.systemDefault())
+                    .minus(-dateShift * 60000L, ChronoUnit.MILLIS)
+                    .toLocalDate();
             // skip run before firstDay, but keep if next build is
             // after start date
             if (!runDay.isBefore(firstDay)
