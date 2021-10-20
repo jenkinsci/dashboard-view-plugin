@@ -162,7 +162,7 @@ public class TestTrendChart extends DashboardPortlet {
             LocalDate nextRunDay =
                 Instant.ofEpochMilli(nextRun.getTimeInMillis())
                     .atZone(ZoneId.systemDefault())
-                    .minus(-dateShift * 60000L, ChronoUnit.MILLIS)
+                    .minus(dateShift * 60000L, ChronoUnit.MILLIS)
                     .toLocalDate();
             // skip run before firstDay, but keep if next build is
             // after start date
