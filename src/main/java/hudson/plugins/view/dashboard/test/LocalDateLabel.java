@@ -1,6 +1,7 @@
 package hudson.plugins.view.dashboard.test;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Graph label showing the build date.
@@ -8,6 +9,9 @@ import org.joda.time.LocalDate;
  * @author Ulli Hafner
  */
 public class LocalDateLabel implements Comparable<LocalDateLabel> {
+
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd");
+
     private final LocalDate date;
 
     /**
@@ -28,7 +32,7 @@ public class LocalDateLabel implements Comparable<LocalDateLabel> {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return date.toString("MM-dd");
+        return format.format(date);
     }
 
     /** {@inheritDoc} */
