@@ -14,7 +14,8 @@
   <packaging>hpi</packaging>
 
   <name>Dashboard View</name>
-  <description>Jenkins view that shows various cuts of build information via configured portlets.</description>
+  <description>Jenkins view that shows various cuts of build information via configured portlets.
+  </description>
   <url>https://github.com/jenkinsci/dashboard-view-plugin</url>
   <licenses>
     <license>
@@ -134,16 +135,29 @@
   </pluginRepositories>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>com.coveo</groupId>
-          <artifactId>fmt-maven-plugin</artifactId>
-          <version>2.9.1</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.17.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- get better with time -->
+          <ratchetFrom>origin/master</ratchetFrom>
+          <java>
+            <endWithNewline/>
+            <importOrder/>
+            <removeUnusedImports/>
+            <googleJavaFormat/>
+          </java>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
