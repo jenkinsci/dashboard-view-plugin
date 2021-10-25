@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>dashboard-view</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>2.18</version>
   <packaging>hpi</packaging>
 
   <name>Dashboard View</name>
@@ -37,7 +37,7 @@
     <connection>scm:git:git://github.com/jenkinsci/${gitHubRepo}.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${gitHubRepo}.git</developerConnection>
     <url>https://github.com/jenkinsci/${gitHubRepo}</url>
-    <tag>${scmTag}</tag>
+    <tag>dashboard-view-2.18</tag>
   </scm>
 
   <properties>
@@ -151,10 +151,10 @@
           <!-- get better with time -->
           <ratchetFrom>origin/master</ratchetFrom>
           <java>
-            <endWithNewline/>
-            <importOrder/>
-            <removeUnusedImports/>
-            <googleJavaFormat/>
+            <endWithNewline />
+            <importOrder />
+            <removeUnusedImports />
+            <googleJavaFormat />
           </java>
         </configuration>
       </plugin>
