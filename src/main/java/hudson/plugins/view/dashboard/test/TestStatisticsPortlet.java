@@ -84,13 +84,24 @@ public class TestStatisticsPortlet extends DashboardPortlet {
   }
 
   public String getRowColor(TestResult testResult) {
-    return testResult.success == testResult.tests ? successColor : failureColor;
+    if (testResult.failed > 0){
+      return failureColor;
+    }
+    else if (testResult.skipped > 0){
+      return skippedColor;
+    }
+    else{
+      return successColor;
+    }
   }
 
   public String getTotalRowColor(List<TestResult> testResults) {
     for (TestResult testResult : testResults) {
-      if (testResult.success != testResult.tests) {
+      if (testResult.failed > 0){
         return failureColor;
+      }
+      else if (testResult.skipped > 0){
+        return skippedColor;
       }
     }
     return successColor;
