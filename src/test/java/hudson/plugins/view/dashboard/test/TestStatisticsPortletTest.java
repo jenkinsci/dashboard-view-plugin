@@ -114,7 +114,8 @@ public class TestStatisticsPortletTest {
     assertEquals(
         "red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 1, 0))));
     assertEquals(
-        "orange", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 0, 1))));
+        "orange",
+        instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 0, 1))));
   }
 
   @Test
