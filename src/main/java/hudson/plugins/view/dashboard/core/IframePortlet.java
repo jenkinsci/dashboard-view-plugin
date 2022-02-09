@@ -20,6 +20,10 @@ public class IframePortlet extends DashboardPortlet {
   private String iframeSource;
   private String effectiveUrl;
   private final String divStyle;
+  private static boolean DO_NOT_USE_SANDBOX =
+      Boolean.getBoolean(IframePortlet.class.getName() + ".doNotUseSandbox");
+  private static String SANDBOX_VALUE =
+      System.getProperty(IframePortlet.class.getName() + ".sandboxAttributeValue", "");
 
   @DataBoundConstructor
   public IframePortlet(String name, String divStyle) {
@@ -47,6 +51,14 @@ public class IframePortlet extends DashboardPortlet {
 
   public boolean isIframeSourceValid() {
     return getUrlError(iframeSource) == null;
+  }
+
+  public boolean isUseSandbox() {
+    return !DO_NOT_USE_SANDBOX;
+  }
+
+  public String getSandboxValue() {
+    return SANDBOX_VALUE;
   }
 
   private void overridePlaceholdersInUrl() {

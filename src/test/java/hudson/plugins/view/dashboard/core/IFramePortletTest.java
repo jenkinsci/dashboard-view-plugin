@@ -2,13 +2,14 @@ package hudson.plugins.view.dashboard.core;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
 import com.gargoylesoftware.htmlunit.html.DomNode;
-import com.gargoylesoftware.htmlunit.html.FrameWindow;
+import com.gargoylesoftware.htmlunit.html.HtmlInlineFrame;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.plugins.view.dashboard.Dashboard;
 import java.util.Arrays;
@@ -73,7 +74,32 @@ public class IFramePortletTest {
     assertThat(IframePortlet.getUrlError("javascript:alert(1)"), notNullValue());
   }
 
-  private List<FrameWindow> findIFrame(HtmlPage page) {
+  @Test
+  @Issue("SECURITY-2565")
+  public void iframePortletSandbox() throws Exception {
+    j.createFreeStyleProject("bar");
+
+    Dashboard dashboard = new Dashboard("dash2");
+    dashboard.setIncludeRegex(".*");
+    j.jenkins.addView(dashboard);
+
+    for (String valid : Arrays.asList(j.getURL().toString(), j.getURL().toString() + "/job/bar")) {
+      IframePortlet iframePortlet = new IframePortlet("bar", valid);
+      iframePortlet.setIframeSource(valid);
+      dashboard.getBottomPortlets().clear();
+      dashboard.getBottomPortlets().add(iframePortlet);
+      assertThat(valid + " is not valid", iframePortlet.isIframeSourceValid(), is(true));
+      HtmlPage page = j.createWebClient().goTo("view/dash2/");
+      assertThat(findError(page), is(emptyIterable()));
+      assertThat(findIFrame(page), hasSize(1));
+      HtmlInlineFrame frameWindow = findIFrame(page).get(0);
+      String sanboxValue = frameWindow.getAttribute("sandbox");
+      assertThat("sandbox attribute not found", sanboxValue, notNullValue());
+      assertThat("sandbox attribute not empty", sanboxValue, emptyString());
+    }
+  }
+
+  private List<HtmlInlineFrame> findIFrame(HtmlPage page) {
     return page.getByXPath("//table[@id='portlet-bottomPortlets-0']//iframe");
   }
 
