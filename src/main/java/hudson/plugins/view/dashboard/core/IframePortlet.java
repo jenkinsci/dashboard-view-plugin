@@ -98,7 +98,7 @@ public class IframePortlet extends DashboardPortlet {
    * @return Localized error message or null if URL is valid.
    */
   @CheckForNull
-  private static final String getUrlError(String url) {
+  protected static final String getUrlError(String url) {
     if (StringUtils.isBlank(url)) {
       return Messages.Dashboard_UrlEmpty();
     }

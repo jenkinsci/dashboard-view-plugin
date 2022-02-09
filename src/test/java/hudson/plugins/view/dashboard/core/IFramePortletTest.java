@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.FrameWindow;
@@ -15,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.WithoutJenkins;
 
 public class IFramePortletTest {
   @Rule public JenkinsRule j = new JenkinsRule();
@@ -28,9 +30,11 @@ public class IFramePortletTest {
     dashboard.setIncludeRegex(".*");
     j.jenkins.addView(dashboard);
 
-    for (String invalid :
+    List<String> invalidUrls =
         Arrays.asList(
-            "", "<img/src/onerror=alert(\"XSS\")>", "ftp://foo.com", "javascript:alert(1)")) {
+            "", "<img/src/onerror=alert(\"XSS\")>", "ftp://foo.com", "javascript:alert(1)");
+
+    for (String invalid : invalidUrls) {
       IframePortlet iframePortlet = new IframePortlet("bar", "");
       iframePortlet.setIframeSource(invalid);
       dashboard.getBottomPortlets().clear();
@@ -41,7 +45,10 @@ public class IFramePortletTest {
       assertThat(findIFrame(page), is(emptyIterable()));
     }
 
-    for (String valid : Arrays.asList(j.getURL().toString(), j.getURL().toString() + "/job/bar")) {
+    List<String> validUrls =
+        Arrays.asList(j.getURL().toString(), j.getURL().toString() + "/job/bar");
+
+    for (String valid : validUrls) {
       IframePortlet iframePortlet = new IframePortlet("bar", valid);
       iframePortlet.setIframeSource(valid);
       dashboard.getBottomPortlets().clear();
@@ -51,6 +58,12 @@ public class IFramePortletTest {
       assertThat(findError(page), is(emptyIterable()));
       assertThat(findIFrame(page), hasSize(1));
     }
+  }
+
+  @WithoutJenkins
+  public void validateUri() throws Exception {
+    assertThat(IframePortlet.getUrlError("https://internal_host.example.com/foo"), nullValue());
+    assertThat(IframePortlet.getUrlError("//internal_host.example.com/foo"), nullValue());
   }
 
   private List<FrameWindow> findIFrame(HtmlPage page) {
