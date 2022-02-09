@@ -1,21 +1,20 @@
 package hudson.plugins.view.dashboard.core;
 
-import com.gargoylesoftware.htmlunit.html.DomNode;
-import com.gargoylesoftware.htmlunit.html.FrameWindow;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import hudson.plugins.view.dashboard.Dashboard;
-import org.junit.Rule;
-import org.junit.Test;
-import org.jvnet.hudson.test.Issue;
-import org.jvnet.hudson.test.JenkinsRule;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+
+import com.gargoylesoftware.htmlunit.html.DomNode;
+import com.gargoylesoftware.htmlunit.html.FrameWindow;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import hudson.plugins.view.dashboard.Dashboard;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Rule;
+import org.junit.Test;
+import org.jvnet.hudson.test.Issue;
+import org.jvnet.hudson.test.JenkinsRule;
 
 public class IFramePortletTest {
   @Rule public JenkinsRule j = new JenkinsRule();
@@ -30,7 +29,8 @@ public class IFramePortletTest {
     j.jenkins.addView(dashboard);
 
     for (String invalid :
-      Arrays.asList("", "<img/src/onerror=alert(\"XSS\")>", "ftp://foo.com", "javascript:alert(1)")) {
+        Arrays.asList(
+            "", "<img/src/onerror=alert(\"XSS\")>", "ftp://foo.com", "javascript:alert(1)")) {
       IframePortlet iframePortlet = new IframePortlet("bar", "");
       iframePortlet.setIframeSource(invalid);
       dashboard.getBottomPortlets().clear();
@@ -41,8 +41,7 @@ public class IFramePortletTest {
       assertThat(findIFrame(page), is(emptyIterable()));
     }
 
-    for (String valid :
-      Arrays.asList(j.getURL().toString(), j.getURL().toString() + "/job/bar")) {
+    for (String valid : Arrays.asList(j.getURL().toString(), j.getURL().toString() + "/job/bar")) {
       IframePortlet iframePortlet = new IframePortlet("bar", valid);
       iframePortlet.setIframeSource(valid);
       dashboard.getBottomPortlets().clear();
