@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
 import com.gargoylesoftware.htmlunit.html.DomNode;
@@ -64,6 +65,12 @@ public class IFramePortletTest {
   public void validateUri() throws Exception {
     assertThat(IframePortlet.getUrlError("https://internal_host.example.com/foo"), nullValue());
     assertThat(IframePortlet.getUrlError("//internal_host.example.com/foo"), nullValue());
+    assertThat(IframePortlet.getUrlError("file://internal_host.example.com/foo"), notNullValue());
+    assertThat(IframePortlet.getUrlError("ftp://internal_host.example.com/foo"), notNullValue());
+    assertThat(IframePortlet.getUrlError("//Users/foo/bar/beer"), nullValue());
+    assertThat(IframePortlet.getUrlError("ssh://internal_host.example.com/foo"), notNullValue());
+    assertThat(IframePortlet.getUrlError("<img/src/onerror=alert(\"XSS\")>"), notNullValue());
+    assertThat(IframePortlet.getUrlError("javascript:alert(1)"), notNullValue());
   }
 
   private List<FrameWindow> findIFrame(HtmlPage page) {
