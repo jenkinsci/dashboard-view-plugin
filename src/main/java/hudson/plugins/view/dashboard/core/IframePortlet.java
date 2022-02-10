@@ -10,7 +10,6 @@ import hudson.util.FormValidation;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
-
 import jenkins.util.SystemProperties;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
