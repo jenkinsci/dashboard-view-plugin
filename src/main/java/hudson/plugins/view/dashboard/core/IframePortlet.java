@@ -10,7 +10,6 @@ import hudson.util.FormValidation;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
-import jenkins.util.SystemProperties;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -22,9 +21,9 @@ public class IframePortlet extends DashboardPortlet {
   private String effectiveUrl;
   private final String divStyle;
   private static boolean DO_NOT_USE_SANDBOX =
-      SystemProperties.getBoolean(IframePortlet.class.getName() + ".doNotUseSandbox");
+      Boolean.getBoolean(IframePortlet.class.getName() + ".doNotUseSandbox");
   private static String SANDBOX_VALUE =
-      SystemProperties.getString(IframePortlet.class.getName() + ".sandboxAttributeValue", "");
+      System.getProperty(IframePortlet.class.getName() + ".sandboxAttributeValue", "");
 
   @DataBoundConstructor
   public IframePortlet(String name, String divStyle) {
