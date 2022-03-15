@@ -41,7 +41,7 @@
   </scm>
 
   <properties>
-    <revision>2.19</revision>
+    <revision>2.20</revision>
     <changelist>-SNAPSHOT</changelist>
     <gitHubRepo>${project.artifactId}-plugin</gitHubRepo>
     <jenkins.version>2.277.1</jenkins.version>
