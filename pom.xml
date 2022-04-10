@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>dashboard-view</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>${revision}.${changelist}</version>
   <packaging>hpi</packaging>
 
   <name>Dashboard View</name>
@@ -41,8 +41,8 @@
   </scm>
 
   <properties>
-    <revision>2.20</revision>
-    <changelist>-SNAPSHOT</changelist>
+    <revision>2</revision>
+    <changelist>999999-SNAPSHOT</changelist>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <jenkins.version>2.277.1</jenkins.version>
     <java.level>8</java.level>
