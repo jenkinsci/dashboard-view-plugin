@@ -98,29 +98,30 @@ public class TestStatisticsPortletTest {
   @Test
   public void testRowColor() {
     TestStatisticsPortlet instance =
-        new TestStatisticsPortlet("test", false, "green", "red", null, false);
+        new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
     assertEquals("green", instance.getRowColor(new TestResult(null, 3, 0, 0)));
     assertEquals("red", instance.getRowColor(new TestResult(null, 1, 1, 0)));
-    assertEquals("red", instance.getRowColor(new TestResult(null, 1, 0, 1)));
+    assertEquals("orange", instance.getRowColor(new TestResult(null, 1, 0, 1)));
   }
 
   @Test
   public void testSummaryRowColorWithOneRow() {
     TestStatisticsPortlet instance =
-        new TestStatisticsPortlet("test", false, "green", "red", null, false);
+        new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
     assertEquals(
         "green",
         instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 3, 0, 0))));
     assertEquals(
         "red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 1, 0))));
     assertEquals(
-        "red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 0, 1))));
+        "orange",
+        instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 0, 1))));
   }
 
   @Test
   public void testSummaryRowColorWithMultipleRows() {
     TestStatisticsPortlet instance =
-        new TestStatisticsPortlet("test", false, "green", "red", null, false);
+        new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
     assertEquals(
         "green",
         instance.getTotalRowColor(
@@ -130,7 +131,7 @@ public class TestStatisticsPortletTest {
         instance.getTotalRowColor(
             Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 1, 0))));
     assertEquals(
-        "red",
+        "orange",
         instance.getTotalRowColor(
             Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 0, 1))));
   }
