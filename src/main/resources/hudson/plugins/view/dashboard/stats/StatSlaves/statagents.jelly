@@ -9,19 +9,19 @@
         if (t.status === 200) {
           err = 0;
           var stats = t.responseObject();
-          document.getElementById('agents-${it.id}').innerHTML = stats.agents;
-          document.getElementById('onlineAgents-${it.id}').innerHTML = stats.onlineAgents;
-          document.getElementById('offlineAgents-${it.id}').innerHTML = stats.offlineAgents;
-          document.getElementById('disconnectedAgents-${it.id}').innerHTML = stats.disconnectedAgents;
-          document.getElementById('tasksInQueue-${it.id}').innerHTML = stats.tasksInQueue;
-          document.getElementById('runningJobs-${it.id}').innerHTML = stats.runningJobs;
+          document.getElementById('agents-${it.id}').innerText = stats.agents;
+          document.getElementById('onlineAgents-${it.id}').innerText = stats.onlineAgents;
+          document.getElementById('offlineAgents-${it.id}').innerText = stats.offlineAgents;
+          document.getElementById('disconnectedAgents-${it.id}').innerText = stats.disconnectedAgents;
+          document.getElementById('tasksInQueue-${it.id}').innerText = stats.tasksInQueue;
+          document.getElementById('runningJobs-${it.id}').innerText = stats.runningJobs;
         } else if (t.status === 503 || t.status === 0) {
           // Consider these recoverable and don't update error count
-          document.getElementById('runningJobs-${it.id}').innerHTML = 'ERR-' +
+          document.getElementById('runningJobs-${it.id}').innerText = 'ERR-' +
             (t.status === 0)? 'OFFLINE' : 'PROXY';
         } else {
           err++;
-          document.getElementById('runningJobs-${it.id}').innerHTML = 'ERR-' + err;
+          document.getElementById('runningJobs-${it.id}').innerText = 'ERR-' + err;
         }
 
         if (err &lt; 5) {
