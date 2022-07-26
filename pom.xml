@@ -14,14 +14,13 @@
   <packaging>hpi</packaging>
 
   <name>Dashboard View</name>
-  <description>Jenkins view that shows various cuts of build information via configured portlets.
-  </description>
+  <description>Jenkins view that shows various cuts of build information via configured portlets.</description>
   <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
   <licenses>
     <license>
       <name>MIT License</name>
-      <distribution>repo</distribution>
       <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
     </license>
   </licenses>
 
@@ -36,8 +35,8 @@
   <scm>
     <connection>scm:git:git://github.com/${gitHubRepo}.git</connection>
     <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
-    <url>https://github.com/${gitHubRepo}</url>
     <tag>${scmTag}</tag>
+    <url>https://github.com/${gitHubRepo}</url>
   </scm>
 
   <properties>
@@ -53,9 +52,9 @@
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-2.289.x</artifactId>
-        <version>1280.vd669827e38cd</version>
-        <scope>import</scope>
+        <version>1500.ve4d05cd32975</version>
         <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>commons-net</groupId>
@@ -97,6 +96,12 @@
       <artifactId>jenkins-test-harness-tools</artifactId>
       <version>2.2</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jenkins-ci.main</groupId>
+          <artifactId>jenkins-test-harness</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -112,9 +117,14 @@
       <groupId>io.jenkins.configuration-as-code</groupId>
       <artifactId>test-harness</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jenkins-ci.main</groupId>
+          <artifactId>jenkins-test-harness</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
-
 
   <repositories>
     <repository>
@@ -134,14 +144,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>2.22.8</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
+        <version>2.23.0</version>
         <configuration>
           <!-- get better with time -->
           <ratchetFrom>origin/master</ratchetFrom>
@@ -149,9 +152,27 @@
             <endWithNewline />
             <importOrder />
             <removeUnusedImports />
-            <googleJavaFormat />
+            <googleJavaFormat>
+              <!-- Last version that supports Java 8, the plugin does handle this internally
+              but it will give different versions based off of the JVM version, not good for CI -->
+              <version>1.7</version>
+            </googleJavaFormat>
           </java>
+          <pom>
+            <sortPom>
+              <expandEmptyElements>false</expandEmptyElements>
+              <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
+            </sortPom>
+          </pom>
         </configuration>
+        <!-- executions> Disabled for now, since ratchet doesn't work in CI
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions -->
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
