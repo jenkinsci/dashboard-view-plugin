@@ -1,0 +1,49 @@
+<!--
+The MIT License
+
+Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+  <f:entry title="${%Display name}">
+    <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
+  </f:entry>
+  <f:entry title="${%Graph width}">
+    <f:textbox name="portlet.graphWidth" field="graphWidth" default="300" />
+  </f:entry>
+  <f:entry title="${%Graph height}">
+    <f:textbox name="portlet.graphHeight" field="graphHeight" default="220" />
+  </f:entry>
+  <f:entry title="Display" field="displayStatus">
+     <f:select default="${descriptor.defaultDisplayStatus}"/>
+  </f:entry>
+  <!--<f:optionalBlock name="dynamic" title="Specify a date range">-->
+    <f:entry title="${%Number of latest days to display}">
+      <f:textbox name="dateRange" field="dateRange" value="${it.dateRange}" default="15"/>
+    </f:entry>
+  <!--</f:optionalBlock>-->
+  <!--<f:optionalBlock name="dynamic" title="Specify a time shift">-->
+    <f:entry title="Number of Minutes the date is shifted" help="/plugin/dashboard-view/help/help-configTestTrendDateshift.html">
+      <f:textbox name="dateShift" field="dateShift" value="${it.dateShift}" default="0"/>
+    </f:entry>
+  <!--</f:optionalBlock>-->
+</j:jelly>

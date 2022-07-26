@@ -1,0 +1,179 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:t="/lib/hudson">
+  <j:new className="java.text.DecimalFormat" var="format">
+    <j:arg type="java.lang.String" value="0%"/>
+  </j:new>
+  <j:set var="summary" value="${it.getAllureResultSummary(jobs)}"/>
+
+  <style>
+  .blink {
+    animation: blinker 2s linear infinite;
+  }
+  @keyframes blinker {
+    50% {
+      opacity: 0.3;
+    }
+  }
+  </style>
+
+  <table id="alluregrid" class="sortable pane bigtable"
+    style="margin-top: 0px;">
+    <tr style="border-top: 0px;">
+      <th class="pane-header" align="left" initialSortDir="down">${%Job}</th>
+      <th class="pane-header" align="right">${%Passed} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Failed} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Broken} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Skipped} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Unknown} #</th>
+      <th class="pane-header" align="right">%</th>
+      <th class="pane-header" align="right">${%Total} #</th>
+    </tr>
+    <j:if test="${it.useBackgroundColors}">
+      <j:forEach var="ar" items="${summary.allureResults}">
+        <j:set var="blinking" value=""/>
+        <j:if test="${ar.job.isBuilding()}">
+          <j:set var="blinking" value="blink"/>
+        </j:if>
+        <tr style="border: 1px #bbb solid;" bgcolor="#${it.getRowColor(ar)}" class="${blinking}">
+          <td align="left">
+              <t:jobLink job="${ar.job}"/>
+          </td>
+          <td align="right">
+              ${ar.passed}
+          </td>
+          <td align="right" style="vertical-align:middle">
+            <i>
+              ${it.format(format, ar.passedPct)}
+            </i>
+          </td>
+          <td align="right" style="vertical-align:middle">
+              ${ar.failed}
+          </td>
+          <td align="right" style="vertical-align:middle">
+            <i>
+              ${it.format(format, ar.failedPct)}
+            </i>
+          </td>
+          <td align="right" style="vertical-align:middle">
+              ${ar.broken}
+          </td>
+          <td align="right" style="vertical-align:middle">
+            <i>
+              ${it.format(format, ar.brokenPct)}
+            </i>
+          </td>
+          <td align="right" style="vertical-align:middle">
+              ${ar.skipped}
+          </td>
+          <td align="right" style="vertical-align:middle">
+             <i>
+               ${it.format(format, ar.skippedPct)}
+             </i>
+          </td>
+          <td align="right" style="vertical-align:middle">
+              ${ar.unknown}
+          </td>
+          <td align="right" style="vertical-align:middle">
+              <i>
+                ${it.format(format, ar.unknownPct)}
+              </i>
+          </td>
+          <td align="right" style="vertical-align:middle">
+              ${ar.total}
+          </td>
+        </tr>
+      </j:forEach>
+
+      <tr class="sortbottom">
+        <td class="pane-header" align="left" style="vertical-align:middle"
+          bgcolor="#${it.getTotalRowColor(summary.allureResults)}">
+          ${%Aggregated Total}
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.passedColor}">
+          ${summary.passed}
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.passedColor}">
+          <i>${it.format(format, summary.passedPct)}</i>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.failedColor}">
+          ${summary.failed}
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.failedColor}">
+          <i>${it.format(format, summary.failedPct)}</i>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+            bgcolor="#${it.brokenColor}">
+          ${summary.broken}
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+            bgcolor="#${it.brokenColor}">
+          <i>${it.format(format, summary.brokenPct)}</i>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.skippedColor}">
+          ${summary.skipped}
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.skippedColor}">
+          <i>${it.format(format, summary.skippedPct)}</i>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+            bgcolor="#${it.unknownColor}">
+          ${summary.unknown}
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+            bgcolor="#${it.unknownColor}">
+          <i>${it.format(format, summary.unknownPct)}</i>
+        </td>
+        <td class="pane-header" align="right" style="vertical-align:middle"
+          bgcolor="#${it.getTotalRowColor(summary.testResults)}">
+          ${summary.total}
+        </td>
+      </tr>
+    </j:if>
+    <j:if test="${!it.useBackgroundColors}">
+      <j:forEach var="ar" items="${summary.allureResults}">
+        <tr style="border: 1px #bbb solid;">
+          <td align="left">
+            <t:jobLink job="${ar.job}"/>
+          </td>
+          <td align="right">${ar.passed}</td>
+          <td align="right">${it.format(format, ar.passedPct)}</td>
+          <td align="right">${ar.failed}</td>
+          <td align="right">${it.format(format, ar.failedPct)}</td>
+          <td align="right">${ar.broken}</td>
+          <td align="right">${it.format(format, ar.brokenPct)}</td>
+          <td align="right">${ar.skipped}</td>
+          <td align="right">${it.format(format, ar.skippedPct)}</td>
+          <td align="right">${ar.unknown}</td>
+          <td align="right">${it.format(format, ar.unknownPct)}</td>
+          <td align="right">${ar.total}</td>
+        </tr>
+      </j:forEach>
+
+      <tr class="sortbottom">
+        <td class="pane-header" align="left">${%Total}</td>
+        <td class="pane-header" align="right">${summary.passed}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.passedPct)}</td>
+        <td class="pane-header" align="right">${summary.failed}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.failedPct)}</td>
+        <td class="pane-header" align="right">${summary.broken}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.brokenPct)}</td>
+        <td class="pane-header" align="right">${summary.skipped}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.skippedPct)}</td>
+        <td class="pane-header" align="right">${summary.unknown}</td>
+        <td class="pane-header" align="right">${it.format(format, summary.unknownPct)}</td>
+        <td class="pane-header" align="right">${summary.total}</td>
+      </tr>
+    </j:if>
+
+  </table>
+</j:jelly>
