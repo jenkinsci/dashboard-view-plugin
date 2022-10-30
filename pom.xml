@@ -142,7 +142,7 @@
         <version>2.27.2</version>
         <configuration>
           <!-- get better with time -->
-          <ratchetFrom>origin/master</ratchetFrom>
+          <ratchetFrom>origin/main</ratchetFrom>
           <java>
             <endWithNewline />
             <importOrder />
