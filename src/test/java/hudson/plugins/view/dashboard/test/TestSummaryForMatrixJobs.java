@@ -21,47 +21,41 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.TestBuilder;
 
 public class TestSummaryForMatrixJobs {
-  @Rule public JenkinsRule j = new JenkinsRule();
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
-  private MatrixProject matrixProject;
+    private MatrixProject matrixProject;
 
-  @Before
-  public void createMatrixJob() throws IOException {
-    matrixProject = j.jenkins.createProject(MatrixProject.class, "top");
-    matrixProject.getAxes().add(new TextAxis("param", "one", "two"));
-    matrixProject
-        .getBuildersList()
-        .add(
-            new TestBuilder() {
-              @Override
-              public boolean perform(
-                  AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
-                  throws InterruptedException, IOException {
-                build
-                    .getWorkspace()
-                    .child("testresult.xml")
-                    .copyFrom(
-                        TestSummaryForMatrixJobs.class.getResource(
-                            "/hudson/plugins/view/dashboard/test_failure.xml"));
+    @Before
+    public void createMatrixJob() throws IOException {
+        matrixProject = j.jenkins.createProject(MatrixProject.class, "top");
+        matrixProject.getAxes().add(new TextAxis("param", "one", "two"));
+        matrixProject.getBuildersList().add(new TestBuilder() {
+            @Override
+            public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
+                    throws InterruptedException, IOException {
+                build.getWorkspace()
+                        .child("testresult.xml")
+                        .copyFrom(TestSummaryForMatrixJobs.class.getResource(
+                                "/hudson/plugins/view/dashboard/test_failure.xml"));
                 return true;
-              }
-            });
-    matrixProject.getPublishersList().add(new JUnitResultArchiver("testresult.xml"));
-  }
+            }
+        });
+        matrixProject.getPublishersList().add(new JUnitResultArchiver("testresult.xml"));
+    }
 
-  @Test
-  public void summaryIncludesMatrixJobs() throws Exception {
-    MatrixBuild result = matrixProject.scheduleBuild2(0).get();
-    j.assertBuildStatus(Result.UNSTABLE, result);
+    @Test
+    public void summaryIncludesMatrixJobs() throws Exception {
+        MatrixBuild result = matrixProject.scheduleBuild2(0).get();
+        j.assertBuildStatus(Result.UNSTABLE, result);
 
-    TestResultSummary testSummary =
-        TestUtil.getTestResultSummary(Collections.singleton(matrixProject), false);
-    assertThat(testSummary.getFailed(), is((2)));
-    assertThat(testSummary.getSuccess(), is((2)));
-  }
+        TestResultSummary testSummary = TestUtil.getTestResultSummary(Collections.singleton(matrixProject), false);
+        assertThat(testSummary.getFailed(), is((2)));
+        assertThat(testSummary.getSuccess(), is((2)));
+    }
 
-  @After
-  public void cleanupMatrixJob() throws IOException, InterruptedException {
-    matrixProject.delete();
-  }
+    @After
+    public void cleanupMatrixJob() throws IOException, InterruptedException {
+        matrixProject.delete();
+    }
 }

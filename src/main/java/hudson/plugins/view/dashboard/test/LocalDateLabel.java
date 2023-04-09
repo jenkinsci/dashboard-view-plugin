@@ -25,6 +25,7 @@ public class LocalDateLabel implements Comparable<LocalDateLabel> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int compareTo(final LocalDateLabel o) {
         return date.compareTo(o.date);
     }
@@ -56,12 +57,11 @@ public class LocalDateLabel implements Comparable<LocalDateLabel> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        LocalDateLabel other = (LocalDateLabel)obj;
+        LocalDateLabel other = (LocalDateLabel) obj;
         if (date == null) {
-          return other.date == null;
+            return other.date == null;
+        } else {
+            return date.equals(other.date);
         }
-        else
-          return date.equals(other.date);
     }
 }
-

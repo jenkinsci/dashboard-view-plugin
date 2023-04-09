@@ -20,74 +20,75 @@ import org.kohsuke.stapler.QueryParameter;
  */
 public class ImagePortlet extends DashboardPortlet {
 
-  private String url;
+    private String url;
 
-  @DataBoundConstructor
-  public ImagePortlet(String name) {
-    super(name);
-  }
-
-  @Deprecated
-  public ImagePortlet(String name, String url) {
-    super(name);
-    this.url = url;
-  }
-
-  public String getImageUrl() {
-    return this.url;
-  }
-
-  @DataBoundSetter
-  public void setImageUrl(final String url) {
-    this.url = url;
-  }
-
-  @Deprecated @DataBoundSetter
-  public void setUrl(final String url) {
-    this.url = url;
-  }
-
-  public boolean isUrlValid() {
-    return getUrlError(url) == null;
-  }
-
-  @Extension
-  public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
-
-    @Override
-    public String getDisplayName() {
-      return Messages.Dashboard_Image();
+    @DataBoundConstructor
+    public ImagePortlet(String name) {
+        super(name);
     }
 
-    public FormValidation doCheckImageUrl(@QueryParameter String value) {
-      String error = getUrlError(value);
-      if (error != null) {
-        return FormValidation.error(error);
-      }
-      return FormValidation.ok();
+    @Deprecated
+    public ImagePortlet(String name, String url) {
+        super(name);
+        this.url = url;
     }
-  }
 
-  /**
-   * Checks if the passed string is a valid HTTP or relative URL.
-   *
-   * @return Localized error message or null if URL is valid.
-   */
-  @CheckForNull
-  private static final String getUrlError(String url) {
-    if (StringUtils.isBlank(url)) {
-      return Messages.Dashboard_ImageUrlEmpty();
+    public String getImageUrl() {
+        return this.url;
     }
-    try {
-      final URI allowedUrl = new URI(url);
-      final String protocol = allowedUrl.getScheme();
-      if (!allowedUrl.isAbsolute() || protocol.equals("http") || protocol.equals("https")) {
-        return null;
-      } else {
-        return Messages.Dashboard_ImageUrlHttp();
-      }
-    } catch (URISyntaxException e) {
-      return Messages.Dashboard_ImageUrlInvalid(e.getMessage());
+
+    @DataBoundSetter
+    public void setImageUrl(final String url) {
+        this.url = url;
     }
-  }
+
+    @Deprecated
+    @DataBoundSetter
+    public void setUrl(final String url) {
+        this.url = url;
+    }
+
+    public boolean isUrlValid() {
+        return getUrlError(url) == null;
+    }
+
+    @Extension
+    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+
+        @Override
+        public String getDisplayName() {
+            return Messages.Dashboard_Image();
+        }
+
+        public FormValidation doCheckImageUrl(@QueryParameter String value) {
+            String error = getUrlError(value);
+            if (error != null) {
+                return FormValidation.error(error);
+            }
+            return FormValidation.ok();
+        }
+    }
+
+    /**
+     * Checks if the passed string is a valid HTTP or relative URL.
+     *
+     * @return Localized error message or null if URL is valid.
+     */
+    @CheckForNull
+    private static final String getUrlError(String url) {
+        if (StringUtils.isBlank(url)) {
+            return Messages.Dashboard_ImageUrlEmpty();
+        }
+        try {
+            final URI allowedUrl = new URI(url);
+            final String protocol = allowedUrl.getScheme();
+            if (!allowedUrl.isAbsolute() || protocol.equals("http") || protocol.equals("https")) {
+                return null;
+            } else {
+                return Messages.Dashboard_ImageUrlHttp();
+            }
+        } catch (URISyntaxException e) {
+            return Messages.Dashboard_ImageUrlInvalid(e.getMessage());
+        }
+    }
 }

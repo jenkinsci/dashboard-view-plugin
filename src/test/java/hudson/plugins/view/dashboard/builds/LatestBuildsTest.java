@@ -22,53 +22,52 @@ import org.jvnet.hudson.test.RunLoadCounter;
 
 public class LatestBuildsTest {
 
-  @ClassRule public static JenkinsRule j = new JenkinsRule();
+    @ClassRule
+    public static JenkinsRule j = new JenkinsRule();
 
-  static FreeStyleProject p;
+    static FreeStyleProject p;
 
-  @BeforeClass
-  public static void prepareBuilds() throws Exception {
-    p = j.createFreeStyleProject();
-    for (int i = 0; i < 5; i++) {
-      j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+    @BeforeClass
+    public static void prepareBuilds() throws Exception {
+        p = j.createFreeStyleProject();
+        for (int i = 0; i < 5; i++) {
+            j.assertBuildStatusSuccess(p.scheduleBuild2(0));
+        }
     }
-  }
 
-  @Test
-  public void testAvoidEagerLoading() throws Exception {
-    RunLoadCounter.prepare(p);
+    @Test
+    public void testAvoidEagerLoading() throws Exception {
+        RunLoadCounter.prepare(p);
 
-    int numbuilds = 3;
-    final LatestBuilds latest =
-        new LatestBuilds("-", numbuilds) {
+        int numbuilds = 3;
+        final LatestBuilds latest = new LatestBuilds("-", numbuilds) {
 
-          @Override
-          protected List<Job> getDashboardJobs() {
-            return Collections.singletonList(p);
-          }
+            @Override
+            protected List<Job> getDashboardJobs() {
+                return Collections.singletonList(p);
+            }
         };
 
-    RunLoadCounter.assertMaxLoads(p, numbuilds, latest::getFinishedBuilds);
-  }
+        RunLoadCounter.assertMaxLoads(p, numbuilds, latest::getFinishedBuilds);
+    }
 
-  @Test
-  @Issue("SECURITY-1489")
-  public void testTooltipIsEscaped() throws Exception {
-    FreeStyleBuild lastBuild = p.getLastBuild();
-    lastBuild.setDescription("<i/onmouseover=confirm(1)>test");
-    Dashboard dashboard = new Dashboard("foo");
-    dashboard.setIncludeRegex(".*");
-    dashboard.getLeftPortlets().add(new LatestBuilds("foo", 10));
-    j.jenkins.addView(dashboard);
-    HtmlPage page = j.createWebClient().goTo("view/foo/");
-    HtmlAnchor link =
-        page.getAnchors().stream()
-            .filter(a -> a.getHrefAttribute().endsWith("/" + lastBuild.number))
-            .findAny()
-            .orElseThrow(IllegalStateException::new);
-    String tooltip = link.getAttribute("tooltip");
-    // The default formatter just escapes all HTML
-    assertThat(tooltip, not(containsString("<")));
-    assertThat(tooltip, startsWith("&lt;"));
-  }
+    @Test
+    @Issue("SECURITY-1489")
+    public void testTooltipIsEscaped() throws Exception {
+        FreeStyleBuild lastBuild = p.getLastBuild();
+        lastBuild.setDescription("<i/onmouseover=confirm(1)>test");
+        Dashboard dashboard = new Dashboard("foo");
+        dashboard.setIncludeRegex(".*");
+        dashboard.getLeftPortlets().add(new LatestBuilds("foo", 10));
+        j.jenkins.addView(dashboard);
+        HtmlPage page = j.createWebClient().goTo("view/foo/");
+        HtmlAnchor link = page.getAnchors().stream()
+                .filter(a -> a.getHrefAttribute().endsWith("/" + lastBuild.number))
+                .findAny()
+                .orElseThrow(IllegalStateException::new);
+        String tooltip = link.getAttribute("tooltip");
+        // The default formatter just escapes all HTML
+        assertThat(tooltip, not(containsString("<")));
+        assertThat(tooltip, startsWith("&lt;"));
+    }
 }
