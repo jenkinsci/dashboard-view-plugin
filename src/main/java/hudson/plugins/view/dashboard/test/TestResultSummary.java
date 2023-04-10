@@ -5,25 +5,24 @@ import java.util.List;
 
 public class TestResultSummary extends TestResult {
 
-  private final List<TestResult> testResults = new ArrayList<>();
+    private final List<TestResult> testResults = new ArrayList<>();
 
-  public TestResultSummary() {
-    super(null, 0, 0, 0);
-  }
+    public TestResultSummary() {
+        super(null, 0, 0, 0);
+    }
 
-  public TestResultSummary addTestResult(TestResult testResult) {
-    testResults.add(testResult);
+    public TestResultSummary addTestResult(TestResult testResult) {
+        testResults.add(testResult);
 
-    tests += testResult.getTests();
-    success += testResult.getSuccess();
-    failed += testResult.getFailed();
-    skipped += testResult.getSkipped();
+        tests += testResult.getTests();
+        success += testResult.getSuccess();
+        failed += testResult.getFailed();
+        skipped += testResult.getSkipped();
 
-    return this;
-  }
+        return this;
+    }
 
-  public List<TestResult> getTestResults() {
-    return testResults;
-  }
+    public List<TestResult> getTestResults() {
+        return testResults;
+    }
 }
-

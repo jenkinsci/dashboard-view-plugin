@@ -30,63 +30,62 @@ import org.junit.Test;
 
 public class ConfigurationAsCodeTest {
 
-  @ClassRule
-  @ConfiguredWithCode("casc.yml")
-  public static JenkinsConfiguredWithCodeRule rule = new JenkinsConfiguredWithCodeRule();
+    @ClassRule
+    @ConfiguredWithCode("casc.yml")
+    public static JenkinsConfiguredWithCodeRule rule = new JenkinsConfiguredWithCodeRule();
 
-  @Test
-  public void testImportConfiguration() {
-    Dashboard.DescriptorImpl descriptor =
-        rule.jenkins.getDescriptorByType(Dashboard.DescriptorImpl.class);
-    assertThat(descriptor, notNullValue());
+    @Test
+    public void testImportConfiguration() {
+        Dashboard.DescriptorImpl descriptor = rule.jenkins.getDescriptorByType(Dashboard.DescriptorImpl.class);
+        assertThat(descriptor, notNullValue());
 
-    Dashboard dashboard = (Dashboard) rule.jenkins.getView("test");
-    assertThat(dashboard.getViewName(), is("test"));
+        Dashboard dashboard = (Dashboard) rule.jenkins.getView("test");
+        assertThat(dashboard.getViewName(), is("test"));
 
-    assertThat(dashboard.isRecurse(), is(true));
-    assertThat(dashboard.isUseCssStyle(), is(true));
-    assertThat(dashboard.isIncludeStdJobList(), is(true));
-    assertThat(dashboard.isHideJenkinsPanels(), is(true));
-    assertThat(dashboard.getIncludeRegex(), is(".*"));
-    assertThat(dashboard.getLeftPortletWidth(), is("50%"));
-    assertThat(dashboard.getRightPortletWidth(), is("50%"));
+        assertThat(dashboard.isRecurse(), is(true));
+        assertThat(dashboard.isUseCssStyle(), is(true));
+        assertThat(dashboard.isIncludeStdJobList(), is(true));
+        assertThat(dashboard.isHideJenkinsPanels(), is(true));
+        assertThat(dashboard.getIncludeRegex(), is(".*"));
+        assertThat(dashboard.getLeftPortletWidth(), is("50%"));
+        assertThat(dashboard.getRightPortletWidth(), is("50%"));
 
-    List<DashboardPortlet> topPortlets = dashboard.getTopPortlets();
-    List<DashboardPortlet> leftPortlets = dashboard.getLeftPortlets();
-    List<DashboardPortlet> rightPortlets = dashboard.getRightPortlets();
-    List<DashboardPortlet> bottomPortlets = dashboard.getBottomPortlets();
+        List<DashboardPortlet> topPortlets = dashboard.getTopPortlets();
+        List<DashboardPortlet> leftPortlets = dashboard.getLeftPortlets();
+        List<DashboardPortlet> rightPortlets = dashboard.getRightPortlets();
+        List<DashboardPortlet> bottomPortlets = dashboard.getBottomPortlets();
 
-    assertThat(topPortlets.size(), is(3));
-    assertThat(leftPortlets.size(), is(2));
-    assertThat(rightPortlets.size(), is(4));
-    assertThat(bottomPortlets.size(), is(3));
+        assertThat(topPortlets.size(), is(3));
+        assertThat(leftPortlets.size(), is(2));
+        assertThat(rightPortlets.size(), is(4));
+        assertThat(bottomPortlets.size(), is(3));
 
-    assertThat(topPortlets.get(0), instanceOf(StatSlaves.class));
-    assertThat(topPortlets.get(1), instanceOf(StatBuilds.class));
-    assertThat(topPortlets.get(2), instanceOf(LatestBuilds.class));
+        assertThat(topPortlets.get(0), instanceOf(StatSlaves.class));
+        assertThat(topPortlets.get(1), instanceOf(StatBuilds.class));
+        assertThat(topPortlets.get(2), instanceOf(LatestBuilds.class));
 
-    assertThat(leftPortlets.get(0), instanceOf(IframePortlet.class));
-    assertThat(leftPortlets.get(1), instanceOf(ImagePortlet.class));
+        assertThat(leftPortlets.get(0), instanceOf(IframePortlet.class));
+        assertThat(leftPortlets.get(1), instanceOf(ImagePortlet.class));
 
-    assertThat(rightPortlets.get(0), instanceOf(HudsonStdJobsPortlet.class));
-    assertThat(rightPortlets.get(1), instanceOf(StatJobs.class));
-    assertThat(rightPortlets.get(2), instanceOf(JobsPortlet.class));
-    assertThat(rightPortlets.get(3), instanceOf(UnstableJobsPortlet.class));
+        assertThat(rightPortlets.get(0), instanceOf(HudsonStdJobsPortlet.class));
+        assertThat(rightPortlets.get(1), instanceOf(StatJobs.class));
+        assertThat(rightPortlets.get(2), instanceOf(JobsPortlet.class));
+        assertThat(rightPortlets.get(3), instanceOf(UnstableJobsPortlet.class));
 
-    assertThat(bottomPortlets.get(0), instanceOf(TestStatisticsChart.class));
-    assertThat(bottomPortlets.get(1), instanceOf(TestStatisticsPortlet.class));
-    assertThat(bottomPortlets.get(2), instanceOf(TestTrendChart.class));
-  }
+        assertThat(bottomPortlets.get(0), instanceOf(TestStatisticsChart.class));
+        assertThat(bottomPortlets.get(1), instanceOf(TestStatisticsPortlet.class));
+        assertThat(bottomPortlets.get(2), instanceOf(TestTrendChart.class));
+    }
 
-  @Test
-  public void testExportConfiguration() throws Exception {
-    final ConfiguratorRegistry registry = ConfiguratorRegistry.get();
-    final ConfigurationContext context = new ConfigurationContext(registry);
-    CNode node = getJenkinsRoot(context).get("views").asSequence().get(0).asMapping();
+    @Test
+    public void testExportConfiguration() throws Exception {
+        final ConfiguratorRegistry registry = ConfiguratorRegistry.get();
+        final ConfigurationContext context = new ConfigurationContext(registry);
+        CNode node = getJenkinsRoot(context).get("views").asSequence().get(0).asMapping();
 
-    final String exported = Util.toYamlString(node);
-    final String expected = Util.toStringFromYamlFile(this, "casc-export.yml");
+        final String exported = Util.toYamlString(node);
+        final String expected = Util.toStringFromYamlFile(this, "casc-export.yml");
 
-    assertThat(exported, is(expected));
-  }
+        assertThat(exported, is(expected));
+    }
 }

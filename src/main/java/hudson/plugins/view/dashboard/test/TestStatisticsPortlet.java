@@ -17,115 +17,115 @@ import org.kohsuke.stapler.DataBoundSetter;
  * @author Peter Hayes
  */
 public class TestStatisticsPortlet extends DashboardPortlet {
-  private boolean useBackgroundColors;
-  private String skippedColor;
-  private String successColor;
-  private String failureColor;
-  private final boolean hideZeroTestProjects;
-  private boolean useAlternatePercentagesOnLimits;
+    private boolean useBackgroundColors;
+    private String skippedColor;
+    private String successColor;
+    private String failureColor;
+    private final boolean hideZeroTestProjects;
+    private boolean useAlternatePercentagesOnLimits;
 
-  @DataBoundConstructor
-  public TestStatisticsPortlet(
-      String name,
-      final boolean hideZeroTestProjects,
-      String successColor,
-      String failureColor,
-      String skippedColor,
-      boolean useBackgroundColors) {
-    super(name);
-    this.successColor = successColor;
-    this.failureColor = failureColor;
-    this.skippedColor = skippedColor;
-    this.useBackgroundColors = useBackgroundColors;
-    this.hideZeroTestProjects = hideZeroTestProjects;
-  }
-
-  public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
-    return TestUtil.getTestResultSummary(jobs, hideZeroTestProjects);
-  }
-
-  public boolean getHideZeroTestProjects() {
-    return this.hideZeroTestProjects;
-  }
-
-  public String format(DecimalFormat df, double val) {
-    if (val < 1d && val > .99d) {
-      return useAlternatePercentagesOnLimits ? ">99%" : "<100%";
+    @DataBoundConstructor
+    public TestStatisticsPortlet(
+            String name,
+            final boolean hideZeroTestProjects,
+            String successColor,
+            String failureColor,
+            String skippedColor,
+            boolean useBackgroundColors) {
+        super(name);
+        this.successColor = successColor;
+        this.failureColor = failureColor;
+        this.skippedColor = skippedColor;
+        this.useBackgroundColors = useBackgroundColors;
+        this.hideZeroTestProjects = hideZeroTestProjects;
     }
-    if (val > 0d && val < .01d) {
-      return useAlternatePercentagesOnLimits ? "<1%" : ">0%";
+
+    public TestResultSummary getTestResultSummary(Collection<TopLevelItem> jobs) {
+        return TestUtil.getTestResultSummary(jobs, hideZeroTestProjects);
     }
-    return df.format(val);
-  }
 
-  public boolean isUseBackgroundColors() {
-    return useBackgroundColors;
-  }
-
-  public String getSuccessColor() {
-    return successColor;
-  }
-
-  public String getFailureColor() {
-    return failureColor;
-  }
-
-  public String getSkippedColor() {
-    return skippedColor;
-  }
-
-  @DataBoundSetter
-  public void setUseAlternatePercentagesOnLimits(boolean useAlternatePercentagesOnLimits) {
-    this.useAlternatePercentagesOnLimits = useAlternatePercentagesOnLimits;
-  }
-
-  public boolean isUseAlternatePercentagesOnLimits() {
-    return useAlternatePercentagesOnLimits;
-  }
-
-  public String getRowColor(TestResult testResult) {
-    if (testResult.failed > 0) {
-      return failureColor;
-    } else if (testResult.skipped > 0) {
-      return skippedColor;
-    } else {
-      return successColor;
+    public boolean getHideZeroTestProjects() {
+        return this.hideZeroTestProjects;
     }
-  }
 
-  public String getTotalRowColor(List<TestResult> testResults) {
-    for (TestResult testResult : testResults) {
-      if (testResult.failed > 0) {
+    public String format(DecimalFormat df, double val) {
+        if (val < 1d && val > .99d) {
+            return useAlternatePercentagesOnLimits ? ">99%" : "<100%";
+        }
+        if (val > 0d && val < .01d) {
+            return useAlternatePercentagesOnLimits ? "<1%" : ">0%";
+        }
+        return df.format(val);
+    }
+
+    public boolean isUseBackgroundColors() {
+        return useBackgroundColors;
+    }
+
+    public String getSuccessColor() {
+        return successColor;
+    }
+
+    public String getFailureColor() {
         return failureColor;
-      } else if (testResult.skipped > 0) {
+    }
+
+    public String getSkippedColor() {
         return skippedColor;
-      }
     }
-    return successColor;
-  }
 
-  public void setUseBackgroundColors(boolean useBackgroundColors) {
-    this.useBackgroundColors = useBackgroundColors;
-  }
-
-  public void setSkippedColor(String skippedColor) {
-    this.skippedColor = skippedColor;
-  }
-
-  public void setSuccessColor(String successColor) {
-    this.successColor = successColor;
-  }
-
-  public void setFailureColor(String failureColor) {
-    this.failureColor = failureColor;
-  }
-
-  @Extension
-  public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
-
-    @Override
-    public String getDisplayName() {
-      return Messages.Dashboard_TestStatisticsGrid();
+    @DataBoundSetter
+    public void setUseAlternatePercentagesOnLimits(boolean useAlternatePercentagesOnLimits) {
+        this.useAlternatePercentagesOnLimits = useAlternatePercentagesOnLimits;
     }
-  }
+
+    public boolean isUseAlternatePercentagesOnLimits() {
+        return useAlternatePercentagesOnLimits;
+    }
+
+    public String getRowColor(TestResult testResult) {
+        if (testResult.failed > 0) {
+            return failureColor;
+        } else if (testResult.skipped > 0) {
+            return skippedColor;
+        } else {
+            return successColor;
+        }
+    }
+
+    public String getTotalRowColor(List<TestResult> testResults) {
+        for (TestResult testResult : testResults) {
+            if (testResult.failed > 0) {
+                return failureColor;
+            } else if (testResult.skipped > 0) {
+                return skippedColor;
+            }
+        }
+        return successColor;
+    }
+
+    public void setUseBackgroundColors(boolean useBackgroundColors) {
+        this.useBackgroundColors = useBackgroundColors;
+    }
+
+    public void setSkippedColor(String skippedColor) {
+        this.skippedColor = skippedColor;
+    }
+
+    public void setSuccessColor(String successColor) {
+        this.successColor = successColor;
+    }
+
+    public void setFailureColor(String failureColor) {
+        this.failureColor = failureColor;
+    }
+
+    @Extension
+    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
+
+        @Override
+        public String getDisplayName() {
+            return Messages.Dashboard_TestStatisticsGrid();
+        }
+    }
 }
