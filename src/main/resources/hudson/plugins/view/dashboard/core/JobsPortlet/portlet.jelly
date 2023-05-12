@@ -1,5 +1,11 @@
+<!--
+SPDX-FileCopyrightText: © 2009 Peter Hayes
+SPDX-FileCopyrightText: © 2010 Marco Ambu
+SPDX-FileCopyrightText: © 2023 TobiX <tobias-git@23.gs>
+SPDX-License-Identifier: MIT
+-->
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
   xmlns:dp="/hudson/plugins/view/dashboard">
   <dp:decorate portlet="${it}" width="${w}">
     <j:forEach var="row" items="${it.jobs}">
@@ -7,29 +13,27 @@
         <j:forEach var="job" items="${row}">
           <td style="border: 1px solid #bbb;">
             <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-              <j:set var="id" value="${h.generateId()}"/>
-              <a href="${job.shortUrl}build?delay=0sec">
-                <j:choose>
-                  <j:when test="${job.parameterized}">
-                    <j:set var="onclick" value="${null}"/>
-                  </j:when>
-                  <j:otherwise>
-                    <j:set var="onclick"
-                      value="return build_${id}(this)"/>
-                  </j:otherwise>
-                </j:choose>
-                <l:icon class="icon-clock icon-sm"
-                  title="${%Schedule a build}" alt="${%Schedule a build}"
-                  onclick="${onclick}"
-                  style="float: right; clear: none;"/>
+              <j:choose>
+                <j:when test="${job.parameterized}">
+                  <j:set var="title" value="${%Schedule_a_task_with_parameters(h.getRelativeDisplayNameFrom(job, itemGroup),job.taskNoun)}"/>
+                  <j:set var="buildNotification" value=""/>
+                  <j:set var="behaviourClass" value=""/>
+                </j:when>
+                <j:otherwise>
+                  <j:set var="title" value="${%Schedule_a_task(h.getRelativeDisplayNameFrom(job, itemGroup),job.taskNoun)}"/>
+                  <j:set var="buildNotification" value="${%Task_scheduled(job.taskNoun)}"/>
+                  <j:set var="behaviourClass" value="dashboard-view-job-portlet-build-button"/>
+                  <st:adjunct includes="hudson.plugins.view.dashboard.core.buildbutton"/>
+                </j:otherwise>
+              </j:choose>
+              <j:set var="isQueued" value="${app.queue.contains(job)}"/>
+              <a tooltip="${title}" class="${behaviourClass} jenkins-!-build-color"
+                data-notification="${buildNotification}"
+                href="${jobBaseUrl}${job.shortUrl}build?delay=0sec">
+                <span class="${isQueued ? 'pulse-animation': ''}">
+                  <l:icon src="symbol-play" class="icon-sm"/>
+                </span>
               </a>
-              <script>
-                function build_${id}(img) {
-                  new Ajax.Request(img.parentNode.href);
-                  hoverNotification('${%Build scheduled}', img, -100);
-                  return false;
-                }
-              </script>
             </j:if>
             <t:jobLink job="${job}"/>
           </td>
