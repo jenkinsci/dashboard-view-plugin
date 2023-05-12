@@ -25,7 +25,10 @@
               </a>
               <script>
                 function build_${id}(img) {
-                  new Ajax.Request(img.parentNode.href);
+                  fetch(img.parentNode.href, {
+                    method: "post",
+                    headers: crumb.wrap({}),
+                  });
                   hoverNotification('${%Build scheduled}', img, -100);
                   return false;
                 }
