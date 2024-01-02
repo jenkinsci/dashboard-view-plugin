@@ -3,7 +3,7 @@
 [![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/dashboard-view.svg)](https://plugins.jenkins.io/dashboard-view)
 [![GitHub release](https://img.shields.io/github/release/jenkinsci/dashboard-view-plugin.svg?label=release)](https://github.com/jenkinsci/dashboard-view-plugin/releases/latest)
 [![Jenkins Plugin Installs](https://img.shields.io/jenkins/plugin/i/dashboard-view.svg?color=blue)](https://plugins.jenkins.io/dashboard-view)
-[![Maintenance](https://img.shields.io/maintenance/yes/2023.svg)]()
+[![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)]()
 
 This plugin contributes a new view implementation that provides a dashboard /
 portal-like view for your Jenkins instance.
