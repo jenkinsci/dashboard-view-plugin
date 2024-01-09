@@ -50,7 +50,7 @@ public class ImagePortletTest {
     }
 
     private List<DomNode> findImage(HtmlPage page) {
-        return page.getByXPath("//table[@id='portlet-bottomPortlets-0']//img");
+        return page.getByXPath("//div[@id='portlet-bottomPortlets-0']//img");
     }
 
     private List<DomNode> findError(HtmlPage page) {

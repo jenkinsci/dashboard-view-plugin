@@ -23,34 +23,38 @@ THE SOFTWARE.
 -->
 
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" 
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
 	xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
 	<j:set var="iconSize" value="16x16" />
-	<j:set var="statsBuild" value="${it.getBuildStat(jobs)}" /> 
+	<j:set var="statsBuild" value="${it.getBuildStat(jobs)}" />
 	<j:set var="nBuilds" value="0" />
-			<table id="statistics" class="sortable pane bigtable"
-				style="margin-top: 0px;">
-				<tr style="border-top: 0px;">
-					<th tooltip="${%Status of the build}" align="left">${%Status of the build}</th>
-					<th tooltip="${%Description}" align="left">${%Description}</th>
-					<th tooltip="${%Number of builds with status}" align="left">${%Number of builds with status}</th>
-                                        <th tooltip="${%Percentage Of total builds}" align="left">${%Percentage of total builds}</th>
-				</tr>
-				<j:forEach var="col" items="${statsBuild}">
-					<j:set var="nBuilds" value="${nBuilds+col.value}" />
-				</j:forEach>
-				<j:forEach var="col" items="${statsBuild}">
-					<tr>
-						<t:ballColorTd it="${col.key}" iconSizeClass="icon-sm" />
-						<td>${col.key.description}</td>
-						<td>${col.value}</td>
-						<td>${it.roundFloatDecimal((col.value/nBuilds)*100)}</td>
-					</tr>
-				</j:forEach>
-				<tr>
-					<td><b>${%Total builds}</b></td>
-					<td>${%All builds}</td>
-					<td>${nBuilds}</td>
-				</tr>
+			<table id="statistics" class="sortable jenkins-table jenkins-table--small">
+        <thead>
+          <tr>
+            <th tooltip="${%Status of the build}" align="left" class="jenkins-table__cell--tight">${%S}</th>
+            <th tooltip="${%Description}" align="left">${%Description}</th>
+            <th tooltip="${%Number of builds with status}" align="left">${%Number of builds with status}</th>
+                                          <th tooltip="${%Percentage Of total builds}" align="left">${%Percentage of total builds}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <j:forEach var="col" items="${statsBuild}">
+            <j:set var="nBuilds" value="${nBuilds+col.value}" />
+          </j:forEach>
+          <j:forEach var="col" items="${statsBuild}">
+            <tr>
+              <t:ballColorTd it="${col.key}" iconSizeClass="icon-sm" />
+              <td>${col.key.description}</td>
+              <td>${col.value}</td>
+              <td>${it.roundFloatDecimal((col.value/nBuilds)*100)}</td>
+            </tr>
+          </j:forEach>
+          <tr class="sortbottom">
+            <th></th>
+            <th align="left" class="dbv-table__bottom--left">${%Total builds}</th>
+            <th align="left" class="dbv-table__bottom--left">${nBuilds}</th>
+            <th></th>
+          </tr>
+        </tbody>
 			</table>
 </j:jelly>

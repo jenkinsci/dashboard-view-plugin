@@ -29,19 +29,31 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:st="jelly:stapler" xmlns:l="/lib/layout"
          xmlns:dp="/hudson/plugins/view/dashboard">
   <st:documentation>
-    Deprecated. Instead use <code>decorate-plain</code>.<br/>
-    Portlet border decoration. The body is wrapper inside a table.
+    Portlet border decoration without a table. Use this when the portlet itself renders a table
     <st:attribute name="portlet" use="required">
       The portlet being rendered
     </st:attribute>
-    <st:attribute name="width" type="number" deprecated="true">
-      Unused
-    </st:attribute>
   </st:documentation>
-  <div align="center" class="dbv-portlet">
-    <dp:title portlet="${attrs.portlet}"/>
-    <table class="jenkins-table dbv-portlet__content" id="${attrs.portlet.id}">
-      <d:invokeBody />
-    </table>
+  <st:adjunct includes="hudson.plugins.view.dashboard.portlet"/>
+  <div id="title-${attrs.portlet.id}" class="dbv-portlet__title" align="left">
+    <div>
+      ${attrs.portlet.displayName}
+    </div>
+    <div class="dbv-portlet__title--icons dbv-cell">
+      <l:icon src="symbol-arrow-up-outline plugin-ionicons-api"
+              alt="${%Click to collapse portlet}"
+              tooltip="${%Click to collapse portlet}"
+              class="icon-sm jenkins-hidden dbv-portlet__title-button--collapse"/>
+      <l:icon src="symbol-arrow-down-outline plugin-ionicons-api"
+              alt="${%Click to expand portlet}"
+              tooltip="${%Click to expand portlet}"
+              class="icon-sm jenkins-hidden dbv-portlet__title-button--expand"/>
+      <a href="${attrs.portlet.url}" class="dbv-cell">
+        <l:icon src="symbol-expand plugin-ionicons-api"
+                alt="${%Click to show full-screen portlet}"
+                tooltip="${%Click to show full-screen portlet}"
+                class="icon-sm jenkins-hidden dbv-portlet__title-button--maximize" />
+      </a>
+    </div>
   </div>
 </j:jelly>

@@ -210,16 +210,10 @@ class MyPortlet extends DashboardPortlet {
   xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout"
   xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-  <dp:decorate portlet="${it}"> <!-- This is to say that this is a dashboard view portlet -->
-    <tr><td> <!-- This is needed because everything is formatted as a table - ugly, I know -->
-
+  <dp:decorate-plain portlet="${it}"> <!-- This is to say that this is a dashboard view portlet -->
       <!-- you can include a separate file with the logic to display your data or you can write here directly -->
-      <div align="center">
         <st:include page="myportlet.jelly"/>
-       </div>
-
-     </td></tr>
-  </dp:decorate>
+  </dp:decorate-plain>
 </j:jelly>
 ```
 

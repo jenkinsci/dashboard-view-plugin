@@ -99,7 +99,7 @@ public class IFramePortletTest {
     }
 
     private List<HtmlInlineFrame> findIFrame(HtmlPage page) {
-        return page.getByXPath("//table[@id='portlet-bottomPortlets-0']//iframe");
+        return page.getByXPath("//div[@id='portlet-bottomPortlets-0']//iframe");
     }
 
     private List<DomNode> findError(HtmlPage page) {

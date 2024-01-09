@@ -1,0 +1,33 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:dp="/hudson/plugins/view/dashboard">
+  <td>
+    <div class="dbv-cell">
+      <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
+        <j:choose>
+          <j:when test="${job.parameterized}">
+            <j:set var="title" value="${%Schedule_a_task_with_parameters(h.getRelativeDisplayNameFrom(job, itemGroup),job.taskNoun)}"/>
+            <j:set var="buildNotification" value=""/>
+            <j:set var="behaviourClass" value=""/>
+          </j:when>
+          <j:otherwise>
+            <j:set var="title" value="${%Schedule_a_task(h.getRelativeDisplayNameFrom(job, itemGroup),job.taskNoun)}"/>
+            <j:set var="buildNotification" value="${%Task_scheduled(job.taskNoun)}"/>
+            <j:set var="behaviourClass" value="dashboard-view-job-portlet-build-button"/>
+            <st:adjunct includes="hudson.plugins.view.dashboard.core.buildbutton"/>
+          </j:otherwise>
+        </j:choose>
+        <j:set var="isQueued" value="${app.queue.contains(job)}"/>
+        <j:set var="relativeLinkToJob" value="${h.getRelativeLinkTo(job)}"/>
+        <j:set var="jobBaseUrl" value="${relativeLinkToJob.substring(0, relativeLinkToJob.length() - job.shortUrl.length())}"/>
+        <a tooltip="${title}" class="${behaviourClass} jenkins-!-build-color ${isQueued ? 'pulse-animation': ''} dbv-cell"
+           data-notification="${buildNotification}"
+           href="${jobBaseUrl}${job.shortUrl}build?delay=0sec">
+          <l:icon src="symbol-play" class="icon-sm"/>
+        </a>
+      </j:if>
+      <t:jobLink job="${job}"/>
+    </div>
+  </td>
+
+</j:jelly>

@@ -7,38 +7,15 @@ SPDX-License-Identifier: MIT
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
   xmlns:dp="/hudson/plugins/view/dashboard">
-  <dp:decorate portlet="${it}" width="${w}">
-    <j:forEach var="row" items="${it.jobs}">
-      <tr>
-        <j:forEach var="job" items="${row}">
-          <td style="border: 1px solid #bbb;">
-            <j:if test="${job.buildable and job.hasPermission(job.BUILD)}">
-              <j:choose>
-                <j:when test="${job.parameterized}">
-                  <j:set var="title" value="${%Schedule_a_task_with_parameters(h.getRelativeDisplayNameFrom(job, itemGroup),job.taskNoun)}"/>
-                  <j:set var="buildNotification" value=""/>
-                  <j:set var="behaviourClass" value=""/>
-                </j:when>
-                <j:otherwise>
-                  <j:set var="title" value="${%Schedule_a_task(h.getRelativeDisplayNameFrom(job, itemGroup),job.taskNoun)}"/>
-                  <j:set var="buildNotification" value="${%Task_scheduled(job.taskNoun)}"/>
-                  <j:set var="behaviourClass" value="dashboard-view-job-portlet-build-button"/>
-                  <st:adjunct includes="hudson.plugins.view.dashboard.core.buildbutton"/>
-                </j:otherwise>
-              </j:choose>
-              <j:set var="isQueued" value="${app.queue.contains(job)}"/>
-              <a tooltip="${title}" class="${behaviourClass} jenkins-!-build-color"
-                data-notification="${buildNotification}"
-                href="${jobBaseUrl}${job.shortUrl}build?delay=0sec">
-                <span class="${isQueued ? 'pulse-animation': ''}">
-                  <l:icon src="symbol-play" class="icon-sm"/>
-                </span>
-              </a>
-            </j:if>
-            <t:jobLink job="${job}"/>
-          </td>
-        </j:forEach>
-      </tr>
-    </j:forEach>
-  </dp:decorate>
+  <dp:decorate-plain portlet="${it}" class="dbv-portlet__table--compact dbv-portlet__table--gap jenkins-table--small">
+    <table class="jenkins-table dbv-portlet__table--compact dbv-portlet__table--gap jenkins-table--small">
+      <j:forEach var="row" items="${it.jobs}">
+        <tr>
+          <j:forEach var="job" items="${row}">
+            <dp:jobCell/>
+          </j:forEach>
+        </tr>
+      </j:forEach>
+    </table>
+  </dp:decorate-plain>
 </j:jelly>

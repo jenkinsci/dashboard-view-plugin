@@ -2,7 +2,6 @@ package hudson.plugins.view.dashboard.stats;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.model.Job;
 import hudson.model.TopLevelItem;
 import hudson.plugins.view.dashboard.DashboardPortlet;
@@ -34,19 +33,22 @@ public class StatJobs extends DashboardPortlet {
      */
     @Deprecated
     public enum HealthStatus {
-        HEALTH_OVER_80("health-80plus.gif", Messages.Dashboard_NoRecentBuildsFailed()),
-        HEALTH_60_TO_79("health-60to79.gif", Messages.Dashboard_RecentBuildsFailed("20", "40")),
-        HEALTH_40_TO_59("health-40to59.gif", Messages.Dashboard_RecentBuildsFailed("40", "60")),
-        HEALTH_20_TO_39("health-20to39.gif", Messages.Dashboard_RecentBuildsFailed("60", "80")),
-        HEALTH_0_TO_19("health-00to19.gif", Messages.Dashboard_AllRecentBuildsFailed()),
-        HEALTH_UNKNOWN("empty.gif", Messages.Dashboard_UnknownStatus());
+        HEALTH_OVER_80("symbol-weather-icon-health-80plus", Messages.Dashboard_NoRecentBuildsFailed(), 100),
+        HEALTH_60_TO_79("symbol-weather-icon-health-60to79", Messages.Dashboard_RecentBuildsFailed("20", "40"), 80),
+        HEALTH_40_TO_59("symbol-weather-icon-health-40to59", Messages.Dashboard_RecentBuildsFailed("40", "60"), 60),
+        HEALTH_20_TO_39("symbol-weather-icon-health-20to39", Messages.Dashboard_RecentBuildsFailed("60", "80"), 40),
+        HEALTH_0_TO_19("symbol-weather-icon-health-00to19", Messages.Dashboard_AllRecentBuildsFailed(), 20),
+        HEALTH_UNKNOWN("symbol-indeterminate", Messages.Dashboard_UnknownStatus(), 0);
         // private HealthReport healthReport;
-        private final String iconUrl;
+        private final String iconClassName;
         private final String description;
 
-        HealthStatus(String iconUrl, String description) {
-            this.iconUrl = iconUrl;
+        private int score;
+
+        HealthStatus(String iconClassName, String description, int score) {
+            this.iconClassName = iconClassName;
             this.description = description;
+            this.score = score;
         }
 
         public static HealthStatus getHealthStatus(Job job) {
@@ -67,18 +69,12 @@ public class StatJobs extends DashboardPortlet {
             return job.getFirstBuild() != null ? HEALTH_OVER_80 : HEALTH_UNKNOWN;
         }
 
-        public String getIconUrl() {
-            return Hudson.RESOURCE_PATH + "/images/32x32/" + iconUrl;
+        public String getIconClassName() {
+            return iconClassName;
         }
 
-        public String getIconUrl(String size) {
-            if (iconUrl == null) {
-                return Hudson.RESOURCE_PATH + "/images/" + size + "/" + HEALTH_UNKNOWN.getIconUrl();
-            }
-            if (iconUrl.startsWith("/")) {
-                return iconUrl.replace("/32x32/", "/" + size + "/");
-            }
-            return Hudson.RESOURCE_PATH + "/images/" + size + "/" + iconUrl;
+        public int getScore() {
+            return score;
         }
 
         public String getDescription() {

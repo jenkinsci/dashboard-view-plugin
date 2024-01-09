@@ -27,10 +27,10 @@ THE SOFTWARE.
   <f:entry title="${%Display name}">
     <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}" />
   </f:entry>
-  <f:entry title="${%Parameters}">
+  <f:entry title="${%Show only Failed Jobs}">
     <f:checkbox name="portlet.showOnlyFailedJobs" field="showOnlyFailedJobs" />
-	${%Show only Failed Jobs} <br/>
+  </f:entry>
+  <f:entry title="${%Recurse within folders}">
     <f:checkbox name="portlet.recurse" field="recurse" />
-	${%Recurse within folders} <br/>
   </f:entry>
 </j:jelly>
