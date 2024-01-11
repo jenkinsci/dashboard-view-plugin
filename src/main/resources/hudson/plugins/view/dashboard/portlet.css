@@ -1,6 +1,7 @@
 .dbv-container {
   display: grid;
   gap: 5px 10px;
+  min-width: fit-content;
 }
 
 .dbv-container__top{
