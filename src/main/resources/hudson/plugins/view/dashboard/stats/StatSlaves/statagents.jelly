@@ -3,8 +3,7 @@
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
   <st:bind var="buildStat" value="${it}"/>
   <st:adjunct includes="hudson.plugins.view.dashboard.stats.StatSlaves.poller"/>
-  <table class="jenkins-table jenkins-table--small dbv-agents-table" data-id="${it.id}">
-    <thead>
+  <thead>
     <tr>
       <th align="left">${%Agents}</th>
       <th align="left">${%Online agents}</th>
@@ -13,28 +12,27 @@
       <th align="left">${%Tasks in queue}</th>
       <th align="left">${%Running jobs}</th>
     </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <div id="agents-${it.id}" />
-        </td>
-        <td>
-          <div id="onlineAgents-${it.id}" />
-        </td>
-        <td>
-          <div id="offlineAgents-${it.id}" />
-        </td>
-        <td>
-          <div id="disconnectedAgents-${it.id}" />
-        </td>
-        <td>
-          <div id="tasksInQueue-${it.id}" />
-        </td>
-        <td>
-          <div id="runningJobs-${it.id}" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div id="agents-${it.id}" />
+      </td>
+      <td>
+        <div id="onlineAgents-${it.id}" />
+      </td>
+      <td>
+        <div id="offlineAgents-${it.id}" />
+      </td>
+      <td>
+        <div id="disconnectedAgents-${it.id}" />
+      </td>
+      <td>
+        <div id="tasksInQueue-${it.id}" />
+      </td>
+      <td>
+        <div id="runningJobs-${it.id}" />
+      </td>
+    </tr>
+  </tbody>
 </j:jelly>

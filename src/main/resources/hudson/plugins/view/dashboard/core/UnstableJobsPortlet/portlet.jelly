@@ -7,26 +7,24 @@ SPDX-License-Identifier: MIT
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
   xmlns:dp="/hudson/plugins/view/dashboard">
-  <dp:decorate-plain portlet="${it}" >
-    <table class="jenkins-table jenkins-table--small">
-      <j:set var="columnExtensions" value="${it.columns}"/>
-      <j:set var="unstableJobs" value="${it.getUnstableJobs(jobs)}"/>
-      <j:choose>
-        <j:when test="${empty(unstableJobs)}">
+  <dp:decorate-table portlet="${it}" class="jenkins-table--small">
+    <j:set var="columnExtensions" value="${it.columns}"/>
+    <j:set var="unstableJobs" value="${it.getUnstableJobs(jobs)}"/>
+    <j:choose>
+      <j:when test="${empty(unstableJobs)}">
+        <tr>
+          <td>
+            ${%No unstable jobs}
+          </td>
+        </tr>
+      </j:when>
+      <j:otherwise>
+        <j:forEach var="job" items="${unstableJobs}">
           <tr>
-            <td>
-              ${%No unstable jobs}
-            </td>
+            <dp:jobCell/>
           </tr>
-        </j:when>
-        <j:otherwise>
-          <j:forEach var="job" items="${unstableJobs}">
-            <tr>
-              <dp:jobCell/>
-            </tr>
-          </j:forEach>
-        </j:otherwise>
-      </j:choose>
-    </table>
-  </dp:decorate-plain>
+        </j:forEach>
+      </j:otherwise>
+    </j:choose>
+  </dp:decorate-table>
 </j:jelly>

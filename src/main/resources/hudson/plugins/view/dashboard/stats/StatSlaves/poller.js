@@ -3,7 +3,7 @@ function repeat() {
   buildStat.getStats(function(t) {
     let tables = document.querySelectorAll(".dbv-agents-table");
     for (let table of tables) {
-      let tableId = table.dataset.id;
+      let tableId = table.id;
       if (t.status === 200) {
         err = 0;
         let stats = t.responseObject();

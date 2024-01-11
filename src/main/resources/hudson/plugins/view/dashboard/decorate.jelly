@@ -29,7 +29,7 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:st="jelly:stapler" xmlns:l="/lib/layout"
          xmlns:dp="/hudson/plugins/view/dashboard">
   <st:documentation>
-    Deprecated. Instead use <code>decorate-plain</code>.<br/>
+    Deprecated. Instead use <code>decorate-plain</code> or <code>decorate-table</code>.<br/>
     Portlet border decoration. The body is wrapper inside a table.
     <st:attribute name="portlet" use="required">
       The portlet being rendered
@@ -40,7 +40,7 @@ THE SOFTWARE.
   </st:documentation>
   <div align="center" class="dbv-portlet">
     <dp:title portlet="${attrs.portlet}"/>
-    <table class="jenkins-table dbv-portlet__content" id="${attrs.portlet.id}">
+    <table class="dbv-portlet__content" id="${attrs.portlet.id}">
       <d:invokeBody />
     </table>
   </div>

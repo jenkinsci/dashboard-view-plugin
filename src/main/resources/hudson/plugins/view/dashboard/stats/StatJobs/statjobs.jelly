@@ -28,34 +28,32 @@ THE SOFTWARE.
 	xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
 	<j:set var="statsJob" value="${it.getJobStat(jobs)}" />
 	<j:set var="nProjects" value="0" />
-			<table id="statistics" class="sortable jenkins-table jenkins-table--small">
-        <thead>
-				<tr>
-					<th tooltip="${%Project health}" align="left" class="jenkins-table__cell--tight">${%W}</th>
-					<th tooltip="${%Description}" align="left">${%Description}</th>
-					<th tooltip="${%Number of projects}" align="right">${%Number of projects}</th>
-				</tr>
-        </thead>
-        <tbody>
-				<j:forEach var="col" items="${statsJob}">
-					<tr>
-						<td data="${col.key.score}" class="jenkins-table__cell--tight">
-              <div class="jenkins-table__cell__button-wrapper">
-                <l:icon src="${col.key.iconClassName}"
-                alt="${col.key.description}" class="icon-sm"/>
-              </div>
-            </td>
-						<td data="${col.key.score}">${col.key.description}</td>
-						<td data="${col.value}" align="right">${col.value}</td>
-					</tr>
-					<j:set var="nProjects" value="${nProjects+col.value}" />
-				</j:forEach>
-				<tr class="sortbottom">
-					<th/>
-					<th align="left" class="dbv-table__bottom--left">${%Total projects}</th>
-					<!-- td>${items.size()}</td -->
-					<th align="right">${nProjects}</th>
-				</tr>
-        </tbody>
-			</table>
+    <thead>
+      <tr>
+        <th tooltip="${%Project health}" align="left" class="jenkins-table__cell--tight">${%W}</th>
+        <th tooltip="${%Description}" align="left">${%Description}</th>
+        <th tooltip="${%Number of projects}" align="right">${%Number of projects}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <j:forEach var="col" items="${statsJob}">
+        <tr>
+          <td data="${col.key.score}" class="jenkins-table__cell--tight">
+            <div class="jenkins-table__cell__button-wrapper">
+              <l:icon src="${col.key.iconClassName}"
+              alt="${col.key.description}" class="icon-sm"/>
+            </div>
+          </td>
+          <td data="${col.key.score}">${col.key.description}</td>
+          <td data="${col.value}" align="right">${col.value}</td>
+        </tr>
+        <j:set var="nProjects" value="${nProjects+col.value}" />
+      </j:forEach>
+      <tr class="sortbottom">
+        <th/>
+        <th align="left" class="dbv-table__bottom--left">${%Total projects}</th>
+        <!-- td>${items.size()}</td -->
+        <th align="right">${nProjects}</th>
+      </tr>
+    </tbody>
 </j:jelly>

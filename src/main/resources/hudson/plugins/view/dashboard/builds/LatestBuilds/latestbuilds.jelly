@@ -1,7 +1,6 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
   <j:set var="builds" value="${it.finishedBuilds}"/>
-  <table id="statistics" class="sortable jenkins-table jenkins-table--small">
     <thead>
       <tr>
         <th tooltip="${%Build name}" align="left">${%Build name}</th>
@@ -31,5 +30,4 @@
         </tr>
       </j:forEach>
     </tbody>
-  </table>
 </j:jelly>
