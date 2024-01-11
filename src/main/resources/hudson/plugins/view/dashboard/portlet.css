@@ -27,6 +27,11 @@
   margin-bottom: var(--section-padding);
 }
 
+.dbv-portlet__content--border {
+  border: 2px solid var(--table-background);
+  border-radius: calc(var(--table-border-radius) + 2px);
+}
+
 .dbv-portlet__content--center {
   text-align: center;
 }

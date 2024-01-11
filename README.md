@@ -210,12 +210,17 @@ class MyPortlet extends DashboardPortlet {
   xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout"
   xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-  <dp:decorate-plain portlet="${it}"> <!-- This is to say that this is a dashboard view portlet -->
+  <dp:decorate-plain portlet="${it}" class="dbv-portlet__content--center dbv-portlet__content--border"> <!-- This is to say that this is a dashboard view portlet -->
       <!-- you can include a separate file with the logic to display your data or you can write here directly -->
         <st:include page="myportlet.jelly"/>
   </dp:decorate-plain>
 </j:jelly>
 ```
+There are 2 css classes available that you can pass via the argument `class` to `decorate-plain`:
+- dbv-portlet__content--center: center to content
+- dbv-portlet__content--border: draw a border around the content (should not be used when you directly use a table)
+Of course you can also pass any other class for your needs.
+
 
 ## Other plugins that support the Dashboard View
 
@@ -267,7 +272,6 @@ This plugin is licensed under the MIT License (MIT), see [LICENSE](LICENSE).
 
 ## TODO
 
-- Use `<div>` instead of `<table>` to place portlets in the page.
 - Update this README with more screenshots.
 
 

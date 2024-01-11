@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:dp="/hudson/plugins/view/dashboard">
-  <dp:decorate-plain portlet="${it}">
+  <dp:decorate-plain portlet="${it}" class="dbv-portlet__content--center dbv-portlet__content--border">
     <j:choose>
       <j:when test="${it.urlValid}">
         <img src="${it.getImageUrl()}"/>
