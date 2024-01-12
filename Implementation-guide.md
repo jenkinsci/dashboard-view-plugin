@@ -58,10 +58,22 @@ You can pass additional classes to be set on the table, e.g. to make it sortable
 ```
 <j:jelly xmlns:j="jelly:core" xmlns:dp="/hudson/plugins/view/dashboard">
 
-  <dp:decorate-plain portlet="${it}" class="sortable"> <!-- This is to say that this is a dashboard view portlet for a table-->
-  <!-- you can include a separate file with the logic to display your data or you can write here directly -->
-    <st:include page="myportlet.jelly"/>
-  </dp:decorate-plain>
+  <dp:decorate-table portlet="${it}" class="sortable"> <!-- This is to say that this is a dashboard view portlet for a table-->
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <j:forEach var="col"  items="${it.myitems}">
+        <tr>
+          <td>${col.name}</td>
+          <td>${col.description}</td>
+        </tr>
+      </j:forEach>
+    </tbody>
+  </dp:decorate-table>
 </j:jelly>
 ```
 
