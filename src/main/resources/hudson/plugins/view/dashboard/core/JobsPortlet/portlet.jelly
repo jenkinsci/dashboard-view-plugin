@@ -11,7 +11,9 @@ SPDX-License-Identifier: MIT
     <j:forEach var="row" items="${it.jobs}">
       <tr>
         <j:forEach var="job" items="${row}">
-          <dp:jobCell/>
+          <td>
+            <dp:jobCell job="${job}" weather="true"/>
+          </td>
         </j:forEach>
       </tr>
     </j:forEach>

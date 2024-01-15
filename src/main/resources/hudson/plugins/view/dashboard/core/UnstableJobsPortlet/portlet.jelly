@@ -21,7 +21,9 @@ SPDX-License-Identifier: MIT
       <j:otherwise>
         <j:forEach var="job" items="${unstableJobs}">
           <tr>
-            <dp:jobCell/>
+            <td>
+              <dp:jobCell job="${job}" weather="true"/>
+            </td>
           </tr>
         </j:forEach>
       </j:otherwise>

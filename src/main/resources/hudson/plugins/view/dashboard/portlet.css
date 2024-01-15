@@ -72,12 +72,20 @@
 .dbv-cell {
   display: flex;
   align-items: center;
-  width: fit-content;
-  gap: 3px;
+  gap: 0.4rem;
+}
+
+.dbv-cell .jenkins-icon-adjacent {
+  margin-left: 0;
 }
 
 .dbv-cell > a.model-link {
   text-align: left;
+  width: fit-content;
+}
+
+.dbv-cell > .jenkins-table__cell--tight {
+  width: fit-content;
 }
 
 .dbv-cell svg {
