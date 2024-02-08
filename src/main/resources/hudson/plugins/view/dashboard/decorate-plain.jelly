@@ -22,11 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
+<!--
+	adds a table with header row and caller adds additional rows to body
+-->
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <dp:decorate-plain portlet="${it}">
-    <div class="center">
-      <img id="graph" src="${it.url}summaryGraph/png?width=${it.graphWidth}&amp;height=${it.graphHeight}" lazymap="${it.url}summaryGraph/map" alt="[${%Test Summary graph}]"/>
+<j:jelly xmlns:j="jelly:core" xmlns:d="jelly:define" xmlns:st="jelly:stapler" xmlns:l="/lib/layout"
+         xmlns:dp="/hudson/plugins/view/dashboard">
+  <st:documentation>
+    Portlet border decoration without a table. Use this to show other content like charts.
+    <st:attribute name="portlet" use="required">
+      The portlet being rendered
+    </st:attribute>
+    <st:attribute name="width" type="number" deprecated="true">
+      Unused
+    </st:attribute>
+  </st:documentation>
+  <div class="dbv-portlet">
+    <dp:title portlet="${attrs.portlet}"/>
+    <div id="${attrs.portlet.id}" class="dbv-portlet__content">
+      <d:invokeBody />
     </div>
-  </dp:decorate-plain>
+  </div>
 </j:jelly>

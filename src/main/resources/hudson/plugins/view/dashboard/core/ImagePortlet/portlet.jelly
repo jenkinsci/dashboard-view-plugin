@@ -24,18 +24,16 @@ THE SOFTWARE.
 
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:dp="/hudson/plugins/view/dashboard">
-  <dp:decorate portlet="${it}" width="3">
-    <tr>
-      <td>
-        <j:choose>
-          <j:when test="${it.urlValid}">
-            <img src="${it.getImageUrl()}"/>
-          </j:when>
-          <j:otherwise>
-            <div class="error">${%Display error: Image URL is invalid}</div>
-          </j:otherwise>
-        </j:choose>
-      </td>
-    </tr>
-  </dp:decorate>
+  <dp:decorate-plain portlet="${it}">
+    <j:choose>
+      <j:when test="${it.urlValid}">
+        <div class="center">
+          <img src="${it.getImageUrl()}"/>
+        </div>
+      </j:when>
+      <j:otherwise>
+        <div class="error">${%Display error: Image URL is invalid}</div>
+      </j:otherwise>
+    </j:choose>
+  </dp:decorate-plain>
 </j:jelly>

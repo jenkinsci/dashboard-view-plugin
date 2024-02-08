@@ -45,85 +45,49 @@
       </j:choose>
 
       <j:if test="${it.isIncludeStdJobList()}">
-        <t:projectView jobs="${jobs}" showViewTabs="true" columnExtensions="${it.columns}" indenter="${it.indenter}"
+        <t:projectView jobs="${it.jobs}" showViewTabs="true" columnExtensions="${it.columns}" indenter="${it.indenter}"
                        itemGroup="${it.owner.itemGroup}"/>
       </j:if>
+      <j:if test="${!empty(it.leftPortlets) &amp;&amp; !empty(it.rightPortlets)}">
+        <j:set var="gridTemplateColumns" value="grid-template-columns: ${leftWidth} ${rightWidth}"/>
+      </j:if>
+      <div class="dbv-container" style="${gridTemplateColumns}">
+        <div class="dbv-container__top">
+          <j:if test="${!empty(it.topPortlets)}">
+            <j:forEach var="p" items="${it.topPortlets}">
+              <st:include it="${p}" page="portlet.jelly"/>
+            </j:forEach>
+          </j:if>
+        </div>
 
-      <!-- Table with 1 cell -->
-      <table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
-        <tbody>
-          <tr>
-
-            <j:if test="${!empty(it.topPortlets)}">
-              <td valign="top" width="100%"> <!-- column -->
-
-                <!-- For each left column portlet, display view -->
-                <j:forEach var="p" items="${it.topPortlets}">
-                  <st:include it="${p}" page="portlet.jelly"/>
-                  <p/>
-                </j:forEach>
-
-              </td> <!-- End column -->
-            </j:if>
-
-          </tr>
-        </tbody>
-      </table> <!-- End 1 cell table -->
-      <p/>
-
-      <!-- Table with 2 cells -->
-      <table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
-        <tbody>
-          <tr>
-
-            <j:if test="${!empty(it.leftPortlets)}">
-              <td valign="top" width="${leftWidth}"> <!-- Left column -->
-
+        <j:if test="${!empty(it.leftPortlets)}">
+          <div class="${empty(it.rightPortlets)?'dbv-container__middle':'dbv-container__left'}" style="">
                 <!-- For each left column portlet, display view -->
                 <j:forEach var="p" items="${it.leftPortlets}">
                   <st:include it="${p}" page="portlet.jelly"/>
-                  <p/>
                 </j:forEach>
+          </div>
+        </j:if>
 
-              </td> <!-- End left column -->
-            </j:if>
+        <j:if test="${!empty(it.rightPortlets)}">
+          <div class="${empty(it.leftPortlets)?'dbv-container__middle':'dbv-container__right'}" style="">
+              <!-- For each right column portlet, display view -->
+              <j:forEach var="p" items="${it.rightPortlets}">
+                <st:include it="${p}" page="portlet.jelly"/>
+              </j:forEach>
+          </div>
+        </j:if>
+        <!-- Table with 1 cell -->
 
-            <j:if test="${!empty(it.rightPortlets)}">
-              <td valign="top" width="${rightWidth}"> <!-- Right Column -->
-                <!-- For each right column portlet, display view -->
-                <j:forEach var="p" items="${it.rightPortlets}">
-                  <st:include it="${p}" page="portlet.jelly"/>
-                  <p/>
-                </j:forEach>
-
-              </td><!-- End right column -->
-            </j:if>
-
-          </tr>
-        </tbody>
-      </table> <!-- End 2 cell table -->
-
-      <!-- Table with 1 cell -->
-      <table align="center" border="0" cellpadding="5" cellspacing="0" width="100%">
-        <tbody>
-          <tr>
-
-            <j:if test="${!empty(it.bottomPortlets)}">
-              <td valign="top" width="100%"> <!-- column -->
-
-                <!-- For each left column portlet, display view -->
-                <j:forEach var="p" items="${it.bottomPortlets}">
-                  <st:include it="${p}" page="portlet.jelly"/>
-                  <p/>
-                </j:forEach>
-
-              </td> <!-- End column -->
-            </j:if>
-
-          </tr>
-        </tbody>
-      </table> <!-- End 1 cell table -->
-      <p/>
+        <div class="dbv-container__bottom">
+          <j:if test="${!empty(it.bottomPortlets)}">
+              <!-- For each left column portlet, display view -->
+              <j:forEach var="p" items="${it.bottomPortlets}">
+                <st:include it="${p}" page="portlet.jelly"/>
+              </j:forEach>
+          </j:if>
+        </div>
+      </div>
 
       <script type="text/javascript"
         src="${rootURL}/plugin/dashboard-view/js/dashboard-view.js"></script>

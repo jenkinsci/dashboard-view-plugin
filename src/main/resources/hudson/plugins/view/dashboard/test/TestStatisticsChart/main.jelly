@@ -24,11 +24,7 @@ THE SOFTWARE.
 
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <dp:decorate portlet="${it}">
-    <tr><td>
-      <div align="center">
-        <img id="graph" src="${it.url}../../summaryGraph/png?width=600&amp;height=440" lazymap="${it.url}../../summaryGraph/map" alt="[Test Summary graph]"/>
-       </div>
-     </td></tr>
-  </dp:decorate>
+  <dp:decorate-plain portlet="${it}">
+    <img id="graph" src="${it.url}../../summaryGraph/png?width=600&amp;height=440" lazymap="${it.url}../../summaryGraph/map" alt="[Test Summary graph]"/>
+  </dp:decorate-plain>
 </j:jelly>

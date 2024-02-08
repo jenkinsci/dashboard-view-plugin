@@ -21,6 +21,7 @@ public class JobsPortlet extends DashboardPortlet {
     private static final int MIN_COLUMN_COUNT = 3;
 
     private final int columnCount;
+
     private boolean fillColumnFirst = false;
 
     @DataBoundConstructor
@@ -30,13 +31,17 @@ public class JobsPortlet extends DashboardPortlet {
         this.fillColumnFirst = fillColumnFirst;
     }
 
+    public boolean isFillColumnFirst() {
+        return fillColumnFirst;
+    }
+
     public int getColumnCount() {
         return columnCount <= 0 ? MIN_COLUMN_COUNT : columnCount;
     }
 
     public List<List<Job>> getJobs() {
         List<Job> jobs = this.getDashboard().getJobs();
-        Collections.sort(jobs, (p1, p2) -> p1.getDisplayName().compareToIgnoreCase(p2.getDisplayName()));
+        Collections.sort(jobs, (p1, p2) -> p1.getFullDisplayName().compareToIgnoreCase(p2.getFullDisplayName()));
 
         if (this.fillColumnFirst) {
             return transposed(jobs);

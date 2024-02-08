@@ -152,76 +152,7 @@ to reformat Java code in the proper style.
 
 ## Extending the Dashboard View plugin
 
-Much of the benefit of this plugin will be realized when other plugins that
-enhance Jenkins offer support for it.
-
-Add support in your plugin:
-
-- Extend the DashboardPortlet class and provide a descriptor that
-  extends the `Descriptor<DashboardPortlet>`
-- Create a jelly view called portlet.jelly
-- Optionally create a jelly view called main.jelly to be used when the portlet
-  is in maximized mode (otherwise the same portlet.jelly view will be used)
-
-It is possible to define custom parameters for the DashboardPortlet. The
-displayName is always required. To add new parameters:
-
-- create a jelly file called config.jelly to be used when the portlet is
-  configured (added to the view in 'Edit View' config page);
-- modify constructor (with `@DataBoundConstructor`) to receive the new
-  parameters.
-
-Looking at the source code of this plugin will show a number of examples
-of doing this. The core portlets do the same thing that your plugin
-would do.
-
-Please update the list below with a [pull request] against this repository.
-
-Sample files:
-
-**MyPortlet.java**:
-
-```
-import hudson.plugins.view.dashboard.DashboardPortlet;
-
-class MyPortlet extends DashboardPortlet {
-
-    @DataBoundConstructor
-    public MyPortlet(String name) {
-        super(name);
-    }
-
-// do whatever you want
-
-    @Extension
-    public static class DescriptorImpl extends Descriptor<DashboardPortlet> {
-        @Override
-        public String getDisplayName() {
-            return "MyPortlet";
-        }
-    }
-};
-```
-
-**portlet.jelly**:
-
-```
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
-  xmlns:dp="/hudson/plugins/view/dashboard" xmlns:l="/lib/layout"
-  xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-
-  <dp:decorate portlet="${it}"> <!-- This is to say that this is a dashboard view portlet -->
-    <tr><td> <!-- This is needed because everything is formatted as a table - ugly, I know -->
-
-      <!-- you can include a separate file with the logic to display your data or you can write here directly -->
-      <div align="center">
-        <st:include page="myportlet.jelly"/>
-       </div>
-
-     </td></tr>
-  </dp:decorate>
-</j:jelly>
-```
+Read the [Implementation guide](Implementation-guide.md) if you want to write your own portlet for your plugin.
 
 ## Other plugins that support the Dashboard View
 
@@ -273,7 +204,6 @@ This plugin is licensed under the MIT License (MIT), see [LICENSE](LICENSE).
 
 ## TODO
 
-- Use `<div>` instead of `<table>` to place portlets in the page.
 - Update this README with more screenshots.
 
 

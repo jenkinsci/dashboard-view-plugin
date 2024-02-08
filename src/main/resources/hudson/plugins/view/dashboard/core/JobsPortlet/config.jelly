@@ -25,14 +25,13 @@ THE SOFTWARE.
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
   <f:entry title="${%Display name}">
-    <f:textbox name="portlet.name" field="name" default="${descriptor.getDisplayName()}"/>
+    <f:textbox field="name" default="${descriptor.getDisplayName()}"/>
   </f:entry>
   <f:entry title="${%Number of columns}">
-    <f:textbox name="portlet.columnCount" field="columnCount"
+    <f:textbox field="columnCount"
       default="${descriptor.getDefaultColumnCount()}"/>
   </f:entry>
-  <f:block>
-    <f:checkbox name="portlet.fillColumnFirst" field="fillColumnFirst"/>
-    ${%Fill column first}
-  </f:block>
+  <f:entry title="${%Fill column first}">
+    <f:checkbox field="fillColumnFirst"/>
+  </f:entry>
 </j:jelly>

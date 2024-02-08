@@ -1,70 +1,34 @@
-function getElementFromEvent(e) {
-  var targ;
-  if (e.target)
-    targ = e.target;
-  else if (e.srcElement)
-    targ = e.srcElement;
-  if (targ.nodeType == 3) // defeat Safari bug
-    targ = targ.parentNode;
-  return targ;
-}
-
-function updateIcons(elemName, param)
+function togglePortlet(portlet, show)
 {
-  var cmds = window.document.getElementsByTagName('img');
-  var collapse;
-  var expand;
-  for (var cmdIndex in cmds) {
-    cmd = cmds[cmdIndex];
-    if (cmd.id && cmd.id == ('cmdExp-'+elemName)) {
-      expand = cmd;
-    } else if (cmd.id && cmd.id == ('cmdCol-'+elemName)) {
-      collapse = cmd;
+  let content = portlet.querySelector(".dbv-portlet__content");
+  let collapse = portlet.querySelector(".dbv-portlet__title-button--collapse");
+  let expand = portlet.querySelector(".dbv-portlet__title-button--expand");
+  if (show) {
+    content.classList.remove("jenkins-hidden");
+    expand.classList.add("jenkins-hidden");
+    collapse.classList.remove("jenkins-hidden");
+  } else {
+    content.classList.add("jenkins-hidden");
+    expand.classList.remove("jenkins-hidden");
+    collapse.classList.add("jenkins-hidden");
+  }
+}
+
+Behaviour.specify(".dbv-portlet__title-button--maximize", "dbv-maximize", 0, function(cmd) {
+    cmd.classList.remove("jenkins-hidden");
+});
+
+Behaviour.specify(".dbv-portlet__title-button--collapse", "dbv-collapse", 0, function(cmd) {
+    let portlet = cmd.closest(".dbv-portlet");
+    cmd.onclick = function() {
+      togglePortlet(portlet, false);
     }
-  }
-  expand.style.visibility = (param == 'e') ? 'hidden' : 'visible';
-  expand.style.display = (param == 'e') ? 'none' : '';
-  collapse.style.visibility = (param == 'c') ? 'hidden' : 'visible';
-  collapse.style.display = (param == 'c') ? 'none' : '';
-}
+    cmd.classList.remove("jenkins-hidden")
+});
 
-function myshow(e) {
-  if (!e) var e = window.event;
-  var receiver = getElementFromEvent(e);
-  var portletId = receiver.id.substring(7);
-  var elem = document.getElementById(portletId);
-  elem.style.visibility = 'visible';
-  elem.style.display = '';
-
-  updateIcons(portletId, 'e');
-}
-
-function myhide(e) {
-  if (!e) var e = window.event;
-  var receiver = getElementFromEvent(e);
-  var portletId = receiver.id.substring(7);
-  var elem = document.getElementById(portletId);
-  elem.style.visibility = 'hidden';
-  elem.style.display = 'none';
-
-  updateIcons(portletId, 'c');
-}
-
-function startsWith(str, substr) {
-  return (str.match("^"+substr) == substr);
-}
-
-var cmds = window.document.getElementsByTagName('img');
-for (var cmdIndex in cmds) {
-  cmd = cmds[cmdIndex];
-  if (cmd.id && startsWith(cmd.id, 'cmdExp-portlet-')) {
-    cmd.onclick = myshow;
-  } else if (cmd.id && startsWith(cmd.id, 'cmdCol-portlet-')) {
-    cmd.onclick = myhide;
-    cmd.style.visibility = 'visible';
-    cmd.style.display = '';
-  } else if (cmd.id && startsWith(cmd.id, 'cmdMax-portlet-')) {
-    cmd.style.visibility = 'visible';
-    cmd.style.display = '';
-  }
-}
+Behaviour.specify(".dbv-portlet__title-button--expand", "dbv-expand", 0, function(cmd) {
+    let portlet = cmd.closest(".dbv-portlet");
+    cmd.onclick = function() {
+      togglePortlet(portlet, true);
+    }
+});

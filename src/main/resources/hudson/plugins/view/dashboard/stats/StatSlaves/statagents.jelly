@@ -1,38 +1,10 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
   xmlns:l="/lib/layout" xmlns:t="/lib/hudson">
-  <script>
-    var buildStat = <st:bind value="${it}"/>;
-    var err = 0;
-    function repeat() {
-      buildStat.getStats(function(t) {
-        if (t.status === 200) {
-          err = 0;
-          var stats = t.responseObject();
-          document.getElementById('agents-${it.id}').innerText = stats.agents;
-          document.getElementById('onlineAgents-${it.id}').innerText = stats.onlineAgents;
-          document.getElementById('offlineAgents-${it.id}').innerText = stats.offlineAgents;
-          document.getElementById('disconnectedAgents-${it.id}').innerText = stats.disconnectedAgents;
-          document.getElementById('tasksInQueue-${it.id}').innerText = stats.tasksInQueue;
-          document.getElementById('runningJobs-${it.id}').innerText = stats.runningJobs;
-        } else if (t.status === 503 || t.status === 0) {
-          // Consider these recoverable and don't update error count
-          document.getElementById('runningJobs-${it.id}').innerText = 'ERR-' +
-            (t.status === 0)? 'OFFLINE' : 'PROXY';
-        } else {
-          err++;
-          document.getElementById('runningJobs-${it.id}').innerText = 'ERR-' + err;
-        }
-
-        if (err &lt; 5) {
-          setTimeout('repeat()', 2500);
-        }
-      });
-    }
-    repeat();
-  </script>
-  <table id="statistics" class="sortable pane bigtable" style="margin-top: 0px;">
-    <tr style="border-top: 0px;">
+  <st:bind var="buildStat" value="${it}"/>
+  <st:adjunct includes="hudson.plugins.view.dashboard.stats.StatSlaves.poller"/>
+  <thead>
+    <tr>
       <th align="left">${%Agents}</th>
       <th align="left">${%Online agents}</th>
       <th align="left">${%Offline agents}</th>
@@ -40,6 +12,8 @@
       <th align="left">${%Tasks in queue}</th>
       <th align="left">${%Running jobs}</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td>
         <div id="agents-${it.id}" />
@@ -60,5 +34,5 @@
         <div id="runningJobs-${it.id}" />
       </td>
     </tr>
-  </table>
+  </tbody>
 </j:jelly>
