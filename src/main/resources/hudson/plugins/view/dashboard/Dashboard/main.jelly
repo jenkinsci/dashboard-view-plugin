@@ -45,7 +45,7 @@
       </j:choose>
 
       <j:if test="${it.isIncludeStdJobList()}">
-        <t:projectView jobs="${it.jobs}" showViewTabs="true" columnExtensions="${it.columns}" indenter="${it.indenter}"
+        <t:projectView jobs="${it.items}" showViewTabs="true" columnExtensions="${it.columns}" indenter="${it.indenter}"
                        itemGroup="${it.owner.itemGroup}"/>
       </j:if>
       <j:if test="${!empty(it.leftPortlets) &amp;&amp; !empty(it.rightPortlets)}">
