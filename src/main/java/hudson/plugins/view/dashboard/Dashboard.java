@@ -10,19 +10,19 @@ import hudson.model.Job;
 import hudson.model.ListView;
 import hudson.model.TopLevelItem;
 import hudson.model.ViewDescriptor;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import javax.servlet.ServletException;
 import jenkins.security.stapler.StaplerDispatchable;
 import net.sf.json.JSONObject;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.DoNotUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 /**
  * View that can be customized with portlets to show the selected jobs information in various ways.
@@ -197,7 +197,7 @@ public class Dashboard extends ListView {
     }
 
     @Override
-    protected synchronized void submit(StaplerRequest req) throws IOException, ServletException, FormException {
+    protected synchronized void submit(StaplerRequest2 req) throws IOException, ServletException, FormException {
         super.submit(req);
 
         try {
