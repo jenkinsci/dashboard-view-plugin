@@ -9,7 +9,7 @@ import hudson.model.TopLevelItem;
 import java.util.Comparator;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.Stapler;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 /**
  * Report that can summarize project data across multiple projects and display the resulting data.
@@ -34,7 +34,7 @@ public abstract class DashboardPortlet implements ModelObject, Describable<Dashb
 
     public Dashboard getDashboard() {
         // TODO Can the dashboard instance be a field on this class -- parent?
-        StaplerRequest req = Stapler.getCurrentRequest();
+        StaplerRequest2 req = Stapler.getCurrentRequest2();
         return req != null ? req.findAncestorObject(Dashboard.class) : null;
     }
 
