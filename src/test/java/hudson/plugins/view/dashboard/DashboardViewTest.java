@@ -8,27 +8,27 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import hudson.model.FreeStyleProject;
-import java.io.IOException;
 import java.util.function.Predicate;
 import org.htmlunit.html.HtmlAnchor;
 import org.htmlunit.html.HtmlPage;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.MockFolder;
-import org.xml.sax.SAXException;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class DashboardViewTest {
+@WithJenkins
+class DashboardViewTest {
 
-    @ClassRule
-    public static JenkinsRule j = new JenkinsRule();
+    private static JenkinsRule j;
 
-    static FreeStyleProject p1;
-    static FreeStyleProject p2;
+    private static FreeStyleProject p1;
+    private static FreeStyleProject p2;
 
-    @BeforeClass
-    public static void prepareJobs() throws Exception {
+    @BeforeAll
+    static void setUp(JenkinsRule rule) throws Exception {
+        j = rule;
+
         p1 = j.createFreeStyleProject("p1");
         j.assertBuildStatusSuccess(p1.scheduleBuild2(0));
         MockFolder f = j.createFolder("f1");
@@ -49,7 +49,7 @@ public class DashboardViewTest {
     }
 
     @Test
-    public void verifyDisplayNameInFolders() throws IOException, SAXException, InterruptedException {
+    void verifyDisplayNameInFolders() throws Exception {
         HtmlPage page = j.createWebClient().goTo("view/foo0/");
         HtmlAnchor p1Link = findLink(page, a -> a.getHrefAttribute().equals("job/p1/"));
         assertThat(p1Link.getTextContent(), is(equalTo("p1")));

@@ -15,32 +15,35 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.jvnet.hudson.test.ExtractResourceSCM;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.ToolInstallations;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.quality.Strictness;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class TestTrendChartTest {
+@WithJenkins
+@ExtendWith(MockitoExtension.class)
+class TestTrendChartTest {
 
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
-
-    @Rule
-    public MockitoRule mockito = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
+    private JenkinsRule j;
 
     @Mock
     private Dashboard dashboard;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        j = rule;
+    }
 
     // TODO: It would be nice to actually have some "history", but that would involve faking builds on
     // different days
 
     @Test
-    public void summaryIncludesMavenJob() throws Exception {
+    void summaryIncludesMavenJob() throws Exception {
         ToolInstallations.configureMaven35();
 
         MavenModuleSet project = j.jenkins.createProject(MavenModuleSet.class, "maven");

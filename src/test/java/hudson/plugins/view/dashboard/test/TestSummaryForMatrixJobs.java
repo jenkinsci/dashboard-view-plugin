@@ -13,21 +13,24 @@ import hudson.model.Result;
 import hudson.tasks.junit.JUnitResultArchiver;
 import java.io.IOException;
 import java.util.Collections;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.TestBuilder;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class TestSummaryForMatrixJobs {
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+@WithJenkins
+class TestSummaryForMatrixJobs {
+
+    private JenkinsRule j;
 
     private MatrixProject matrixProject;
 
-    @Before
-    public void createMatrixJob() throws IOException {
+    @BeforeEach
+    void setUp(JenkinsRule rule) throws Exception {
+        j = rule;
+
         matrixProject = j.jenkins.createProject(MatrixProject.class, "top");
         matrixProject.getAxes().add(new TextAxis("param", "one", "two"));
         matrixProject.getBuildersList().add(new TestBuilder() {
@@ -45,7 +48,7 @@ public class TestSummaryForMatrixJobs {
     }
 
     @Test
-    public void summaryIncludesMatrixJobs() throws Exception {
+    void summaryIncludesMatrixJobs() throws Exception {
         MatrixBuild result = matrixProject.scheduleBuild2(0).get();
         j.assertBuildStatus(Result.UNSTABLE, result);
 
@@ -54,8 +57,8 @@ public class TestSummaryForMatrixJobs {
         assertThat(testSummary.getSuccess(), is((2)));
     }
 
-    @After
-    public void cleanupMatrixJob() throws IOException, InterruptedException {
+    @AfterEach
+    void cleanupMatrixJob() throws Exception {
         matrixProject.delete();
     }
 }

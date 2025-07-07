@@ -13,22 +13,24 @@ import java.util.Collections;
 import java.util.List;
 import org.htmlunit.html.HtmlAnchor;
 import org.htmlunit.html.HtmlPage;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.RunLoadCounter;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class LatestBuildsTest {
+@WithJenkins
+class LatestBuildsTest {
 
-    @ClassRule
-    public static JenkinsRule j = new JenkinsRule();
+    private static JenkinsRule j;
 
-    static FreeStyleProject p;
+    private static FreeStyleProject p;
 
-    @BeforeClass
-    public static void prepareBuilds() throws Exception {
+    @BeforeAll
+    static void setUp(JenkinsRule rule) throws Exception {
+        j = rule;
+
         p = j.createFreeStyleProject();
         for (int i = 0; i < 5; i++) {
             j.assertBuildStatusSuccess(p.scheduleBuild2(0));
@@ -36,7 +38,7 @@ public class LatestBuildsTest {
     }
 
     @Test
-    public void testAvoidEagerLoading() throws Exception {
+    void testAvoidEagerLoading() throws Exception {
         RunLoadCounter.prepare(p);
 
         int numbuilds = 3;
@@ -53,7 +55,7 @@ public class LatestBuildsTest {
 
     @Test
     @Issue("SECURITY-1489")
-    public void testTooltipIsEscaped() throws Exception {
+    void testTooltipIsEscaped() throws Exception {
         FreeStyleBuild lastBuild = p.getLastBuild();
         lastBuild.setDescription("<i/onmouseover=confirm(1)>test");
         Dashboard dashboard = new Dashboard("foo");

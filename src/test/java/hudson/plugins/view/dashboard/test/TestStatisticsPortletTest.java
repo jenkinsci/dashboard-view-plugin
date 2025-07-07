@@ -1,17 +1,17 @@
 package hudson.plugins.view.dashboard.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TestStatisticsPortletTest {
+class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testFormatLessThan1Percent() {
+    void testFormatLessThan1Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         DecimalFormat df = new DecimalFormat("0%");
         double val = 0.003d;
@@ -22,7 +22,7 @@ public class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testAlternateFormatLessThan1Percent() {
+    void testAlternateFormatLessThan1Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         instance.setUseAlternatePercentagesOnLimits(true);
         DecimalFormat df = new DecimalFormat("0%");
@@ -34,7 +34,7 @@ public class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testFormatBetween1PercentAnd99Percent() {
+    void testFormatBetween1PercentAnd99Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         DecimalFormat df = new DecimalFormat("0%");
         double val = 0.5d;
@@ -45,7 +45,7 @@ public class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testFormatGreaterThan99Percent() {
+    void testFormatGreaterThan99Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         DecimalFormat df = new DecimalFormat("0%");
         double val = 0.996d;
@@ -56,7 +56,7 @@ public class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testAlternateFormatGreaterThan99Percent() {
+    void testAlternateFormatGreaterThan99Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         instance.setUseAlternatePercentagesOnLimits(true);
         DecimalFormat df = new DecimalFormat("0%");
@@ -68,7 +68,7 @@ public class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testFormatEqualTo100Percent() {
+    void testFormatEqualTo100Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         DecimalFormat df = new DecimalFormat("0%");
         double val = 1d;
@@ -79,7 +79,7 @@ public class TestStatisticsPortletTest {
 
     /** Test of format method, of class TestStatisticsPortlet. */
     @Test
-    public void testFormatEqualTo0Percent() {
+    void testFormatEqualTo0Percent() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, false);
         DecimalFormat df = new DecimalFormat("0%");
         double val = 0d;
@@ -89,7 +89,7 @@ public class TestStatisticsPortletTest {
     }
 
     @Test
-    public void testRowColor() {
+    void testRowColor() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
         assertEquals("green", instance.getRowColor(new TestResult(null, 3, 0, 0)));
         assertEquals("red", instance.getRowColor(new TestResult(null, 1, 1, 0)));
@@ -97,7 +97,7 @@ public class TestStatisticsPortletTest {
     }
 
     @Test
-    public void testSummaryRowColorWithOneRow() {
+    void testSummaryRowColorWithOneRow() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
         assertEquals("green", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 3, 0, 0))));
         assertEquals("red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 1, 0))));
@@ -105,7 +105,7 @@ public class TestStatisticsPortletTest {
     }
 
     @Test
-    public void testSummaryRowColorWithMultipleRows() {
+    void testSummaryRowColorWithMultipleRows() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
         assertEquals(
                 "green",
