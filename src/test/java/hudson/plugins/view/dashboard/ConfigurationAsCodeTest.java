@@ -23,19 +23,17 @@ import io.jenkins.plugins.casc.ConfiguratorRegistry;
 import io.jenkins.plugins.casc.misc.ConfiguredWithCode;
 import io.jenkins.plugins.casc.misc.JenkinsConfiguredWithCodeRule;
 import io.jenkins.plugins.casc.misc.Util;
+import io.jenkins.plugins.casc.misc.junit.jupiter.WithJenkinsConfiguredWithCode;
 import io.jenkins.plugins.casc.model.CNode;
 import java.util.List;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ConfigurationAsCodeTest {
-
-    @ClassRule
-    @ConfiguredWithCode("casc.yml")
-    public static JenkinsConfiguredWithCodeRule rule = new JenkinsConfiguredWithCodeRule();
+@WithJenkinsConfiguredWithCode
+class ConfigurationAsCodeTest {
 
     @Test
-    public void testImportConfiguration() {
+    @ConfiguredWithCode("casc.yml")
+    void testImportConfiguration(JenkinsConfiguredWithCodeRule rule) {
         Dashboard.DescriptorImpl descriptor = rule.jenkins.getDescriptorByType(Dashboard.DescriptorImpl.class);
         assertThat(descriptor, notNullValue());
 
@@ -78,7 +76,8 @@ public class ConfigurationAsCodeTest {
     }
 
     @Test
-    public void testExportConfiguration() throws Exception {
+    @ConfiguredWithCode("casc.yml")
+    void testExportConfiguration(JenkinsConfiguredWithCodeRule rule) throws Exception {
         final ConfiguratorRegistry registry = ConfiguratorRegistry.get();
         final ConfigurationContext context = new ConfigurationContext(registry);
         CNode node = getJenkinsRoot(context).get("views").asSequence().get(0).asMapping();

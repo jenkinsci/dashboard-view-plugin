@@ -1,23 +1,29 @@
 package hudson.plugins.view.dashboard.stats;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import hudson.model.BallColor;
 import hudson.model.FreeStyleProject;
 import java.util.Collections;
 import java.util.Map;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.RunLoadCounter;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class StatBuildsTest {
+@WithJenkins
+class StatBuildsTest {
 
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+    private JenkinsRule j;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        j = rule;
+    }
 
     @Test
-    public void avoidEagerLoading() throws Exception {
+    void avoidEagerLoading() throws Exception {
         final FreeStyleProject p = j.createFreeStyleProject();
         RunLoadCounter.prepare(p);
         for (int i = 0; i < 25; i++) {
@@ -35,7 +41,7 @@ public class StatBuildsTest {
     }
 
     @Test
-    public void testGettingBuildStatsWithZeroBuild() throws Exception {
+    void testGettingBuildStatsWithZeroBuild() throws Exception {
         final FreeStyleProject project = j.createFreeStyleProject();
         RunLoadCounter.prepare(project);
         final StatBuilds stats = new StatBuilds("-");

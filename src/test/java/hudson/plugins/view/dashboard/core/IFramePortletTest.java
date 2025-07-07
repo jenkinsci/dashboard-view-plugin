@@ -14,19 +14,26 @@ import java.util.List;
 import org.htmlunit.html.DomNode;
 import org.htmlunit.html.HtmlInlineFrame;
 import org.htmlunit.html.HtmlPage;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.WithoutJenkins;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class IFramePortletTest {
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+@WithJenkins
+class IFramePortletTest {
+
+    private JenkinsRule j;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        j = rule;
+    }
 
     @Test
     @Issue("SECURITY-2559")
-    public void iframePortletValidation() throws Exception {
+    void iframePortletValidation() throws Exception {
         j.createFreeStyleProject("bar");
 
         Dashboard dashboard = new Dashboard("dash1");
@@ -62,7 +69,8 @@ public class IFramePortletTest {
     }
 
     @WithoutJenkins
-    public void validateUri() throws Exception {
+    @Test
+    void validateUri() {
         assertThat(IframePortlet.getUrlError("https://internal_host.example.com/foo"), nullValue());
         assertThat(IframePortlet.getUrlError("//internal_host.example.com/foo"), nullValue());
         assertThat(IframePortlet.getUrlError("file://internal_host.example.com/foo"), notNullValue());
@@ -75,7 +83,7 @@ public class IFramePortletTest {
 
     @Test
     @Issue("SECURITY-2565")
-    public void iframePortletSandbox() throws Exception {
+    void iframePortletSandbox() throws Exception {
         j.createFreeStyleProject("bar");
 
         Dashboard dashboard = new Dashboard("dash2");
@@ -92,9 +100,9 @@ public class IFramePortletTest {
             assertThat(findError(page), is(emptyIterable()));
             assertThat(findIFrame(page), hasSize(1));
             HtmlInlineFrame frameWindow = findIFrame(page).get(0);
-            String sanboxValue = frameWindow.getAttribute("sandbox");
-            assertThat("sandbox attribute not found", sanboxValue, notNullValue());
-            assertThat("sandbox attribute not empty", sanboxValue, emptyString());
+            String sandboxValue = frameWindow.getAttribute("sandbox");
+            assertThat("sandbox attribute not found", sandboxValue, notNullValue());
+            assertThat("sandbox attribute not empty", sandboxValue, emptyString());
         }
     }
 

@@ -18,24 +18,22 @@ import io.jenkins.plugins.casc.ObsoleteConfigurationMonitor;
 import io.jenkins.plugins.casc.misc.ConfiguredWithCode;
 import io.jenkins.plugins.casc.misc.JenkinsConfiguredWithCodeRule;
 import io.jenkins.plugins.casc.misc.Util;
+import io.jenkins.plugins.casc.misc.junit.jupiter.WithJenkinsConfiguredWithCode;
 import io.jenkins.plugins.casc.model.CNode;
 import java.util.List;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 
-public class ConfigurationAsCodeBackCompatTest {
-
-    @Rule
-    public JenkinsConfiguredWithCodeRule j = new JenkinsConfiguredWithCodeRule();
+@WithJenkinsConfiguredWithCode
+class ConfigurationAsCodeBackCompatTest {
 
     @Test
     @Issue("SECURITY-2233")
     @ConfiguredWithCode("casc_image_backcompat_import.yml")
-    public void testOldImagePortletUrl() throws Exception {
+    void testOldImagePortletUrl(JenkinsConfiguredWithCodeRule j) throws Exception {
         Dashboard.DescriptorImpl descriptor = j.jenkins.getDescriptorByType(Dashboard.DescriptorImpl.class);
         assertThat(descriptor, notNullValue());
 

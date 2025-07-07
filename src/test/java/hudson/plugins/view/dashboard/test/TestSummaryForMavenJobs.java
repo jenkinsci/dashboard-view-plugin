@@ -7,18 +7,25 @@ import hudson.maven.MavenModuleSet;
 import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Result;
 import java.util.Collections;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.ExtractResourceSCM;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.ToolInstallations;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class TestSummaryForMavenJobs {
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+@WithJenkins
+class TestSummaryForMavenJobs {
+
+    private JenkinsRule j;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        j = rule;
+    }
 
     @Test
-    public void summaryIncludesMavenJob() throws Exception {
+    void summaryIncludesMavenJob() throws Exception {
         ToolInstallations.configureMaven35();
 
         MavenModuleSet project = j.jenkins.createProject(MavenModuleSet.class, "maven");
