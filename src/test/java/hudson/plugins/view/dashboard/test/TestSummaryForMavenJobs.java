@@ -3,6 +3,7 @@ package hudson.plugins.view.dashboard.test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import hudson.Functions;
 import hudson.maven.MavenModuleSet;
 import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Result;
@@ -34,8 +35,18 @@ class TestSummaryForMavenJobs {
         MavenModuleSetBuild build =
                 j.assertBuildStatus(Result.UNSTABLE, project.scheduleBuild2(0).get());
 
+        if (Functions.isWindows()) {
+            // Allow some time for files to close, reduce test failures
+            Thread.sleep(3307);
+        }
+
         TestResultSummary testSummary = TestUtil.getTestResultSummary(Collections.singleton(project), false);
         assertThat(testSummary.getFailed(), is(2));
         assertThat(testSummary.getSuccess(), is(2));
+
+        if (Functions.isWindows()) {
+            // Allow some time for files to close, reduce test failures
+            Thread.sleep(3307);
+        }
     }
 }
