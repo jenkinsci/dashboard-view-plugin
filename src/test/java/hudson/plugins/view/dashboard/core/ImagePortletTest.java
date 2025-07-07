@@ -10,18 +10,25 @@ import java.util.Arrays;
 import java.util.List;
 import org.htmlunit.html.DomNode;
 import org.htmlunit.html.HtmlPage;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class ImagePortletTest {
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+@WithJenkins
+class ImagePortletTest {
+
+    private JenkinsRule j;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        j = rule;
+    }
 
     @Test
     @Issue("SECURITY-2233")
-    public void imagePortletValidation() throws Exception {
+    void imagePortletValidation() throws Exception {
         j.createFreeStyleProject("p1");
 
         Dashboard dashboard = new Dashboard("dash1");

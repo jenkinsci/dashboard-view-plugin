@@ -3,22 +3,30 @@ package hudson.plugins.view.dashboard.test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import hudson.Functions;
 import hudson.maven.MavenModuleSet;
 import hudson.maven.MavenModuleSetBuild;
 import hudson.model.Result;
 import java.util.Collections;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.ExtractResourceSCM;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.ToolInstallations;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class TestSummaryForMavenJobs {
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+@WithJenkins
+class TestSummaryForMavenJobs {
+
+    private JenkinsRule j;
+
+    @BeforeEach
+    void setUp(JenkinsRule rule) {
+        j = rule;
+    }
 
     @Test
-    public void summaryIncludesMavenJob() throws Exception {
+    void summaryIncludesMavenJob() throws Exception {
         ToolInstallations.configureMaven35();
 
         MavenModuleSet project = j.jenkins.createProject(MavenModuleSet.class, "maven");
@@ -27,8 +35,18 @@ public class TestSummaryForMavenJobs {
         MavenModuleSetBuild build =
                 j.assertBuildStatus(Result.UNSTABLE, project.scheduleBuild2(0).get());
 
+        if (Functions.isWindows()) {
+            // Allow some time for files to close, reduce test failures
+            Thread.sleep(3307);
+        }
+
         TestResultSummary testSummary = TestUtil.getTestResultSummary(Collections.singleton(project), false);
         assertThat(testSummary.getFailed(), is(2));
         assertThat(testSummary.getSuccess(), is(2));
+
+        if (Functions.isWindows()) {
+            // Allow some time for files to close, reduce test failures
+            Thread.sleep(3307);
+        }
     }
 }
