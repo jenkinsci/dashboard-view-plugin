@@ -8,7 +8,6 @@ import hudson.plugins.view.dashboard.Messages;
 import hudson.util.FormValidation;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
@@ -76,7 +75,7 @@ public class ImagePortlet extends DashboardPortlet {
      */
     @CheckForNull
     private static final String getUrlError(String url) {
-        if (StringUtils.isBlank(url)) {
+        if (url == null || url.isBlank()) {
             return Messages.Dashboard_ImageUrlEmpty();
         }
         try {

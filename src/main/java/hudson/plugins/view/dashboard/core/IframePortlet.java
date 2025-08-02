@@ -11,7 +11,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
 import jenkins.util.SystemProperties;
-import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
@@ -113,7 +112,7 @@ public class IframePortlet extends DashboardPortlet {
      */
     @CheckForNull
     protected static final String getUrlError(String url) {
-        if (StringUtils.isBlank(url)) {
+        if (url == null || url.isBlank()) {
             return Messages.Dashboard_UrlEmpty();
         }
         try {
