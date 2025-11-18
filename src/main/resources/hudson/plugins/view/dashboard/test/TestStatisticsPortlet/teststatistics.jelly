@@ -5,82 +5,87 @@
   </j:new>
   <j:set var="summary" value="${it.getTestResultSummary(jobs)}"/>
 
+  <style>
+  .dbv-portlet > .jenkins-table > tbody > tr > .portlet-num {
+    text-align: right;
+  }
+  .dbv-portlet > .jenkins-table > tbody > tr > .portlet-success {
+    background: #${it.successColor};
+  }
+  .dbv-portlet > .jenkins-table > tbody > tr > .portlet-failure {
+    background: #${it.failureColor};
+  }
+  .dbv-portlet > .jenkins-table > tbody > tr > .portlet-skipped {
+    background: #${it.skippedColor};
+  }
+  </style>
   <thead>
     <tr>
-      <th align="left" initialSortDir="down">${%Job}</th>
-      <th align="right">${%Success} #</th>
-      <th align="right">%</th>
-      <th align="right">${%Failed} #</th>
-      <th align="right">%</th>
-      <th align="right">${%Skipped} #</th>
-      <th align="right">%</th>
-      <th align="right">${%Total} #</th>
+      <th initialSortDir="down">${%Job}</th>
+      <th class="portlet-num">${%Success} #</th>
+      <th class="portlet-num">%</th>
+      <th class="portlet-num">${%Failed} #</th>
+      <th class="portlet-num">%</th>
+      <th class="portlet-num">${%Skipped} #</th>
+      <th class="portlet-num">%</th>
+      <th class="portlet-num">${%Total} #</th>
     </tr>
   </thead>
   <j:if test="${it.useBackgroundColors}">
     <j:forEach var="tr" items="${summary.testResults}">
       <tr>
-        <td align="left"
-          bgcolor="#${it.getRowColor(tr)}">
+        <td class="${it.getRowClass(tr)}">
           <div class="dbv-cell">
             <t:jobLink job="${tr.job}"/>
           </div>
         </td>
-        <td align="right" bgcolor="#${it.successColor}">
+        <td class="portlet-num portlet-success">
           ${tr.success}
         </td>
-        <td align="right" bgcolor="#${it.successColor}">
+        <td class="portlet-num portlet-success">
           ${it.format(format, tr.successPct)}
         </td>
-        <td align="right" bgcolor="#${it.failureColor}">
+        <td class="portlet-num portlet-failure">
           ${tr.failed}
         </td>
-        <td align="right" bgcolor="#${it.failureColor}">
+        <td class="portlet-num portlet-failure">
           ${it.format(format, tr.failedPct)}
         </td>
-        <td align="right" bgcolor="#${it.skippedColor}">
+        <td class="portlet-num portlet-skipped">
           ${tr.skipped}
         </td>
-        <td align="right" bgcolor="#${it.skippedColor}">
+        <td class="portlet-num portlet-skipped">
           ${it.format(format, tr.skippedPct)}
         </td>
-        <td align="right" bgcolor="#${it.getRowColor(tr)}">
+        <td class="portlet-num ${it.getRowClass(tr)}">
           ${tr.tests}
         </td>
       </tr>
     </j:forEach>
 
     <tr class="sortbottom">
-      <th align="left" class="dbv-table__bottom--left"
-        bgcolor="#${it.getTotalRowColor(summary.testResults)}">
+      <th class="dbv-table__bottom--left ${it.getTotalRowClass(summary.testResults)}">
         ${%Total}
       </th>
-      <th align="right"
-        bgcolor="#${it.successColor}">
+      <th class="portlet-num portlet-success">
         ${summary.success}
       </th>
-      <th align="right"
-        bgcolor="#${it.successColor}">
+      <th class="portlet-num portlet-success">
         ${it.format(format, summary.successPct)}
       </th>
-      <th align="right"
-        bgcolor="#${it.failureColor}">
+      <th class="portlet-num portlet-failure">
         ${summary.failed}
       </th>
-      <th align="right"
-        bgcolor="#${it.failureColor}">
+      <th class="portlet-num portlet-failure">
         ${it.format(format, summary.failedPct)}
       </th>
-      <th align="right"
-        bgcolor="#${it.skippedColor}">
+      <th class="portlet-num portlet-skipped">
         ${summary.skipped}
       </th>
-      <th align="right"
-        bgcolor="#${it.skippedColor}">
+      <th class="portlet-num portlet-skipped">
         ${it.format(format, summary.skippedPct)}
       </th>
-      <th align="right"
-        bgcolor="#${it.getTotalRowColor(summary.testResults)}">
+      <th class="portlet-num ${it.getTotalRowClass(summary.testResults)}">
         ${summary.tests}
       </th>
     </tr>
@@ -88,30 +93,30 @@
   <j:if test="${!it.useBackgroundColors}">
     <j:forEach var="tr" items="${summary.testResults}">
       <tr>
-        <td align="left">
+        <td>
           <div class="dbv-cell">
             <t:jobLink job="${tr.job}"/>
           </div>
         </td>
-        <td align="right">${tr.success}</td>
-        <td align="right">${it.format(format, tr.successPct)}</td>
-        <td align="right">${tr.failed}</td>
-        <td align="right">${it.format(format, tr.failedPct)}</td>
-        <td align="right">${tr.skipped}</td>
-        <td align="right">${it.format(format, tr.skippedPct)}</td>
-        <td align="right">${tr.tests}</td>
+        <td class="portlet-num">${tr.success}</td>
+        <td class="portlet-num">${it.format(format, tr.successPct)}</td>
+        <td class="portlet-num">${tr.failed}</td>
+        <td class="portlet-num">${it.format(format, tr.failedPct)}</td>
+        <td class="portlet-num">${tr.skipped}</td>
+        <td class="portlet-num">${it.format(format, tr.skippedPct)}</td>
+        <td class="portlet-num">${tr.tests}</td>
       </tr>
     </j:forEach>
 
     <tr class="sortbottom">
       <th>${%Total}</th>
-      <th align="right">${summary.success}</th>
-      <th align="right">${it.format(format, summary.successPct)}</th>
-      <th align="right">${summary.failed}</th>
-      <th align="right">${it.format(format, summary.failedPct)}</th>
-      <th align="right">${summary.skipped}</th>
-      <th align="right">${it.format(format, summary.skippedPct)}</th>
-      <th align="right">${summary.tests}</th>
+      <th class="portlet-num">${summary.success}</th>
+      <th class="portlet-num">${it.format(format, summary.successPct)}</th>
+      <th class="portlet-num">${summary.failed}</th>
+      <th class="portlet-num">${it.format(format, summary.failedPct)}</th>
+      <th class="portlet-num">${summary.skipped}</th>
+      <th class="portlet-num">${it.format(format, summary.skippedPct)}</th>
+      <th class="portlet-num">${summary.tests}</th>
     </tr>
   </j:if>
 
