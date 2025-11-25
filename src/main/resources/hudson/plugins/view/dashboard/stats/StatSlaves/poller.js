@@ -24,7 +24,7 @@ function repeat() {
     }
 
     if (err < 5) {
-      setTimeout('repeat()', 2500);
+      setTimeout(repeat, 2500);
     }
   });
 }
