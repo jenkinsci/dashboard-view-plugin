@@ -91,30 +91,33 @@ class TestStatisticsPortletTest {
     @Test
     void testRowColor() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
-        assertEquals("green", instance.getRowColor(new TestResult(null, 3, 0, 0)));
-        assertEquals("red", instance.getRowColor(new TestResult(null, 1, 1, 0)));
-        assertEquals("orange", instance.getRowColor(new TestResult(null, 1, 0, 1)));
+        assertEquals("portlet-success", instance.getRowClass(new TestResult(null, 3, 0, 0)));
+        assertEquals("portlet-failure", instance.getRowClass(new TestResult(null, 1, 1, 0)));
+        assertEquals("portlet-skipped", instance.getRowClass(new TestResult(null, 1, 0, 1)));
     }
 
     @Test
     void testSummaryRowColorWithOneRow() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
-        assertEquals("green", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 3, 0, 0))));
-        assertEquals("red", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 1, 0))));
-        assertEquals("orange", instance.getTotalRowColor(Collections.singletonList(new TestResult(null, 1, 0, 1))));
+        assertEquals(
+                "portlet-success", instance.getTotalRowClass(Collections.singletonList(new TestResult(null, 3, 0, 0))));
+        assertEquals(
+                "portlet-failure", instance.getTotalRowClass(Collections.singletonList(new TestResult(null, 1, 1, 0))));
+        assertEquals(
+                "portlet-skipped", instance.getTotalRowClass(Collections.singletonList(new TestResult(null, 1, 0, 1))));
     }
 
     @Test
     void testSummaryRowColorWithMultipleRows() {
         TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, "green", "red", "orange", false);
         assertEquals(
-                "green",
-                instance.getTotalRowColor(Arrays.asList(new TestResult(null, 2, 0, 0), new TestResult(null, 2, 0, 0))));
+                "portlet-success",
+                instance.getTotalRowClass(Arrays.asList(new TestResult(null, 2, 0, 0), new TestResult(null, 2, 0, 0))));
         assertEquals(
-                "red",
-                instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 1, 0))));
+                "portlet-failure",
+                instance.getTotalRowClass(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 1, 0))));
         assertEquals(
-                "orange",
-                instance.getTotalRowColor(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 0, 1))));
+                "portlet-skipped",
+                instance.getTotalRowClass(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 0, 1))));
     }
 }
