@@ -83,25 +83,25 @@ public class TestStatisticsPortlet extends DashboardPortlet {
         return useAlternatePercentagesOnLimits;
     }
 
-    public String getRowColor(TestResult testResult) {
+    public String getRowClass(TestResult testResult) {
         if (testResult.failed > 0) {
-            return failureColor;
+            return "portlet-failure";
         } else if (testResult.skipped > 0) {
-            return skippedColor;
+            return "portlet-skipped";
         } else {
-            return successColor;
+            return "portlet-success";
         }
     }
 
-    public String getTotalRowColor(List<TestResult> testResults) {
+    public String getTotalRowClass(List<TestResult> testResults) {
         for (TestResult testResult : testResults) {
             if (testResult.failed > 0) {
-                return failureColor;
+                return "portlet-failure";
             } else if (testResult.skipped > 0) {
-                return skippedColor;
+                return "portlet-skipped";
             }
         }
-        return successColor;
+        return "portlet-success";
     }
 
     public void setUseBackgroundColors(boolean useBackgroundColors) {
