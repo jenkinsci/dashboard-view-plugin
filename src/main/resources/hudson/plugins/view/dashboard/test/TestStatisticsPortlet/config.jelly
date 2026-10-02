@@ -35,14 +35,14 @@ THE SOFTWARE.
   </f:entry>
 
   <f:optionalBlock name="useBackgroundColors" title="${%Background Colors}" checked="${instance.isUseBackgroundColors()}" inline="true">
-      <f:entry title="${%Success Color} (${%in hex})">
-	    <f:textbox name="successColor" field="successColor" default="71E66D" />
+      <f:entry title="${%Success Color}" description="${%A CSS color value, e.g. a hex code or} var(--success-color) ${%to match the active theme}">
+	    <f:textbox name="successColor" field="successColor" default="var(--success-color)" />
 	  </f:entry>
-	  <f:entry title="${%Failure Color} (${%in hex})">
-	    <f:textbox name="failureColor" field="failureColor" default="E86850" />
+	  <f:entry title="${%Failure Color}" description="${%A CSS color value, e.g. a hex code or} var(--error-color) ${%to match the active theme}">
+	    <f:textbox name="failureColor" field="failureColor" default="var(--error-color)" />
 	  </f:entry>
-	  <f:entry title="${%Skipped Color} (${%in hex})">
-	    <f:textbox name="skippedColor" field="skippedColor" default="FDB813" />
+	  <f:entry title="${%Skipped Color}" description="${%A CSS color value, e.g. a hex code or} var(--warning-color) ${%to match the active theme}">
+	    <f:textbox name="skippedColor" field="skippedColor" default="var(--warning-color)" />
 	  </f:entry>
   </f:optionalBlock>
 </j:jelly>

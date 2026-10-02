@@ -120,4 +120,45 @@ class TestStatisticsPortletTest {
                 "portlet-skipped",
                 instance.getTotalRowClass(Arrays.asList(new TestResult(null, 1, 0, 0), new TestResult(null, 1, 0, 1))));
     }
+
+    /** Legacy configurations stored a bare hex triplet/quad without a leading '#'. */
+    @Test
+    void testToCssColorPrefixesLegacyHexValue() {
+        assertEquals("#71E66D", TestStatisticsPortlet.toCssColor("71E66D", "var(--success-color)"));
+        assertEquals("#fff", TestStatisticsPortlet.toCssColor("fff", "var(--success-color)"));
+        assertEquals("#ffffffaa", TestStatisticsPortlet.toCssColor("ffffffaa", "var(--success-color)"));
+    }
+
+    /** An unset color falls back to the theme-aware default so the portlet adapts to the active theme. */
+    @Test
+    void testToCssColorFallsBackToThemeDefaultWhenBlank() {
+        assertEquals("var(--success-color)", TestStatisticsPortlet.toCssColor(null, "var(--success-color)"));
+        assertEquals("var(--error-color)", TestStatisticsPortlet.toCssColor("", "var(--error-color)"));
+        assertEquals("var(--warning-color)", TestStatisticsPortlet.toCssColor("   ", "var(--warning-color)"));
+    }
+
+    /** Anything that isn't a bare hex value, such as a Jenkins theme variable, is passed through unchanged. */
+    @Test
+    void testToCssColorPassesThroughCssValues() {
+        assertEquals("var(--success-color)", TestStatisticsPortlet.toCssColor("var(--success-color)", "unused"));
+        assertEquals("#71E66D", TestStatisticsPortlet.toCssColor("#71E66D", "unused"));
+        assertEquals("green", TestStatisticsPortlet.toCssColor("green", "unused"));
+    }
+
+    @Test
+    void testColorCssGettersUseThemeDefaultsWhenNotConfigured() {
+        TestStatisticsPortlet instance = new TestStatisticsPortlet("test", false, null, null, null, true);
+        assertEquals("var(--success-color)", instance.getSuccessColorCss());
+        assertEquals("var(--error-color)", instance.getFailureColorCss());
+        assertEquals("var(--warning-color)", instance.getSkippedColorCss());
+    }
+
+    @Test
+    void testColorCssGettersHonorConfiguredValues() {
+        TestStatisticsPortlet instance =
+                new TestStatisticsPortlet("test", false, "71E66D", "var(--error-color)", "orange", true);
+        assertEquals("#71E66D", instance.getSuccessColorCss());
+        assertEquals("var(--error-color)", instance.getFailureColorCss());
+        assertEquals("orange", instance.getSkippedColorCss());
+    }
 }

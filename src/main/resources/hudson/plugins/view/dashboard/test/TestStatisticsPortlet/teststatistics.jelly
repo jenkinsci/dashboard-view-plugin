@@ -10,13 +10,13 @@
     text-align: right;
   }
   .dbv-portlet > .jenkins-table > tbody > tr > .portlet-success {
-    background: #${it.successColor};
+    background: ${it.successColorCss};
   }
   .dbv-portlet > .jenkins-table > tbody > tr > .portlet-failure {
-    background: #${it.failureColor};
+    background: ${it.failureColorCss};
   }
   .dbv-portlet > .jenkins-table > tbody > tr > .portlet-skipped {
-    background: #${it.skippedColor};
+    background: ${it.skippedColorCss};
   }
   </style>
   <thead>
